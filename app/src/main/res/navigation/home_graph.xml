@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.lukaarmen.gamezone.ui.tabs.home.homefragment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_liveMatchesListFragment"
+            app:destination="@id/liveMatchesListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/liveMatchDetailsFragment"
+        android:name="com.lukaarmen.gamezone.ui.tabs.home.livematchdetails.LiveMatchDetailsFragment"
+        android:label="fragment_live_match_details"
+        tools:layout="@layout/fragment_live_match_details" />
+    <fragment
+        android:id="@+id/liveMatchesListFragment"
+        android:name="com.lukaarmen.gamezone.ui.tabs.home.livematcheslist.LiveMatchesListFragment"
+        android:label="fragment_live_matches_list"
+        tools:layout="@layout/fragment_live_matches_list" >
+        <action
+            android:id="@+id/action_liveMatchesListFragment_to_liveMatchDetailsFragment"
+            app:destination="@id/liveMatchDetailsFragment" />
+    </fragment>
+</navigation>

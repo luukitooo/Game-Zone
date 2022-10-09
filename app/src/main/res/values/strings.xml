@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Game Zone</string>
+    <string name="double_backpress">Press back again to leave the app</string>
+    <string name="home">Home</string>
+    <string name="favorites">Favorites</string>
+    <string name="leagues">Leagues</string>
+    <string name="chat">Chat</string>
 </resources>

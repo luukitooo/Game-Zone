@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.GameZone" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/app_background_light</item>
+        <item name="colorPrimary">@color/app_yellow</item>
         <item name="colorPrimaryVariant">@color/app_background</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -12,5 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 </resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/favorites_graph"
+    app:startDestination="@id/favoritesFragmentFragment">
+
+    <fragment
+        android:id="@+id/favoritesFragmentFragment"
+        android:name="com.lukaarmen.gamezone.ui.tabs.favorites.favoritesfragment.FavoritesFragmentFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" />
+</navigation>
