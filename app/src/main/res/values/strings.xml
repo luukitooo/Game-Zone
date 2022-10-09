@@ -5,4 +5,19 @@
     <string name="favorites">Favorites</string>
     <string name="leagues">Leagues</string>
     <string name="chat">Chat</string>
+    <string name="intro_1">Latest Feature in Streaming Your Favorite Channel</string>
+    <string name="next">Next</string>
+    <string name="gamezone">GameZone</string>
+    <string name="create_an_account">Create an Account</string>
+    <string name="username">Username</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="create_account">Create Account</string>
+    <string name="login_now">Login Now</string>
+    <string name="login_welcome">Welcome back to PlayZone! Enter your email address and your password to enjoy the latest features of PlayZone</string>
+    <string name="forgot_password">Forgot password</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="don_t_have_account">Don’t have account? <font color="#f4d144">Create one</font></string>
+    <string name="my_profile">My Profile</string>
 </resources>

@@ -12,9 +12,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
     }
 
     override fun listeners() {
-        binding.btnBack.setOnClickListener {
-            findNavController().popBackStack()
-        }
+
     }
 
     override fun observers() {
