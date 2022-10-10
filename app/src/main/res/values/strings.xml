@@ -20,4 +20,6 @@
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="don_t_have_account">Don’t have account? <font color="#f4d144">Create one</font></string>
     <string name="my_profile">My Profile</string>
+    <string name="popular_event">Popular Event</string>
+    <string name="show_all">Show all</string>
 </resources>

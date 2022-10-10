@@ -46,4 +46,11 @@
         <item name="android:clipToOutline" tools:targetApi="s">true</item>
     </style>
 
+    <style name="btnPlay">
+        <item name="fabCustomSize">60dp</item>
+        <item name="tint">@color/app_grey_light</item>
+        <item name="backgroundTint">@color/app_background_light</item>
+        <item name="rippleColor">@color/app_grey_light</item>
+    </style>
+
 </resources>

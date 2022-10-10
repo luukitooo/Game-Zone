@@ -1,15 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
+    android:background="@color/app_background"
+    android:padding="24dp"
     tools:context=".ui.tabs.home.homefragment.HomeFragment">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnNavigateToProfileFragment"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivUserImage"
+        style="@style/RoundedImageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="34dp"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnNotifications"
+        style="@style/btnPlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Navigate to profile fragment"/>
+        android:src="@drawable/ic_notification"
+        app:layout_constraintBottom_toBottomOf="@+id/ivUserImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivUserImage" />
 
-</FrameLayout>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvGreeting"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:fontFamily="@font/sk_modernist_regular"
+        android:text="Morning"
+        android:textColor="@color/app_grey_light"
+        app:layout_constraintBottom_toTopOf="@id/tvUsername"
+        app:layout_constraintEnd_toStartOf="@+id/btnNotifications"
+        app:layout_constraintStart_toEndOf="@+id/ivUserImage"
+        app:layout_constraintTop_toTopOf="@+id/ivUserImage" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvUsername"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:fontFamily="@font/sk_modernist_bold"
+        android:text="Username"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivUserImage"
+        app:layout_constraintEnd_toStartOf="@+id/btnNotifications"
+        app:layout_constraintStart_toEndOf="@+id/ivUserImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvGreeting" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/shape_rounded_corners_outlined"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="52dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivUserImage">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sk_modernist_regular"
+            android:text="Streamed"
+            android:textColor="@color/app_grey_light"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLivesCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/sk_modernist_bold"
+            android:text="6"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivNewestLive"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/shape_rounded_corners"
+        android:clipToOutline="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_csgo_bg"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayoutCompat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/linearLayoutCompat"
+        app:layout_constraintTop_toTopOf="@+id/linearLayoutCompat"
+        tools:targetApi="s" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/btnPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_play"
+        app:backgroundTint="@color/app_white_transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/ivNewestLive"
+        app:layout_constraintEnd_toEndOf="@+id/ivNewestLive"
+        app:layout_constraintStart_toStartOf="@+id/ivNewestLive"
+        app:layout_constraintTop_toTopOf="@+id/ivNewestLive"
+        app:tint="@color/white" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCsGo"
+        style="@style/RoundedMaterialButton"
+        android:layout_width="70dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="28dp"
+        app:icon="@drawable/img_csgo_icon"
+        app:iconSize="36dp"
+        app:iconTint="@null"
+        app:layout_constraintEnd_toStartOf="@+id/btnDota"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnDota"
+        style="@style/RoundedMaterialButton"
+        android:layout_width="70dp"
+        android:layout_height="80dp"
+        app:icon="@drawable/img_dota2_icon"
+        app:iconSize="36dp"
+        app:iconTint="@null"
+        app:layout_constraintEnd_toStartOf="@+id/btnRainbowSix"
+        app:layout_constraintStart_toEndOf="@+id/btnCsGo"
+        app:layout_constraintTop_toTopOf="@+id/btnCsGo" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRainbowSix"
+        style="@style/RoundedMaterialButton"
+        android:layout_width="70dp"
+        android:layout_height="80dp"
+        app:icon="@drawable/img_rainbow_six_icon"
+        app:iconSize="36dp"
+        app:iconTint="@null"
+        app:layout_constraintEnd_toStartOf="@+id/btnOverwatch"
+        app:layout_constraintStart_toEndOf="@+id/btnDota"
+        app:layout_constraintTop_toTopOf="@+id/btnDota" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnOverwatch"
+        style="@style/RoundedMaterialButton"
+        android:layout_width="70dp"
+        android:layout_height="80dp"
+        app:icon="@drawable/img_overwatch_icon"
+        app:iconSize="36dp"
+        app:iconTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnRainbowSix"
+        app:layout_constraintTop_toTopOf="@+id/btnRainbowSix" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/appCompatTextView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:fontFamily="@font/sk_modernist_bold"
+        android:text="@string/popular_event"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCsGo" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvShowAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/sk_modernist_regular"
+        android:text="@string/show_all"
+        android:textColor="@color/app_grey_light"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/appCompatTextView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/appCompatTextView2" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvLives"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

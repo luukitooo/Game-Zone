@@ -14,9 +14,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
     }
 
     override fun listeners() {
-        binding.btnNavigateToProfileFragment.setOnClickListener {
-            findTopNavController().navigate(R.id.profileFragment)
-        }
+
     }
 
     override fun observers() {

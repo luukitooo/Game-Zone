@@ -13,6 +13,7 @@
     <color name="app_background_light">#1f2430</color>
     <color name="app_grey">#696c75</color>
     <color name="app_grey_light">#a8adb7</color>
+    <color name="app_white_transparent">#66FFFFFF</color>
     <color name="app_yellow">#f4d144</color>
     <color name="app_red">#f42525</color>
     <color name="app_pink">#f42e60</color>
