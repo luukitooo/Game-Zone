@@ -18,18 +18,15 @@
         <action
             android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
             app:destination="@id/forgotPasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.lukaarmen.gamezone.ui.auth.registration.RegistrationFragment"
         android:label="fragment_registration"
-        tools:layout="@layout/fragment_registration" >
-        <action
-            android:id="@+id/action_registrationFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:popUpTo="@id/registrationFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        tools:layout="@layout/fragment_registration" />
     <fragment
         android:id="@+id/tabsFragment"
         android:name="com.lukaarmen.gamezone.ui.tabs.tabsfragment.TabsFragment"
@@ -45,9 +42,6 @@
         android:label="fragment_welcome"
         tools:layout="@layout/fragment_welcome" >
         <action
-            android:id="@+id/action_welcomeFragment_to_registrationFragment"
-            app:destination="@id/registrationFragment" />
-        <action
             android:id="@+id/action_welcomeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
@@ -60,7 +54,13 @@
         android:id="@+id/forgotPasswordFragment"
         android:name="com.lukaarmen.gamezone.ui.auth.forgotpassword.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
-        tools:layout="@layout/fragment_forgot_password" />
+        tools:layout="@layout/fragment_forgot_password" >
+        <action
+            android:id="@+id/action_forgotPasswordFragment_to_newPasswordFragment"
+            app:destination="@id/newPasswordFragment"
+            app:popUpTo="@id/forgotPasswordFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.lukaarmen.gamezone.ui.profile.profilefragment.ProfileFragment"
@@ -75,4 +75,9 @@
         android:name="com.lukaarmen.gamezone.ui.profile.settingsfragment.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/newPasswordFragment"
+        android:name="com.lukaarmen.gamezone.ui.auth.newpassword.NewPasswordFragment"
+        android:label="fragment_new_password"
+        tools:layout="@layout/fragment_new_password" />
 </navigation>

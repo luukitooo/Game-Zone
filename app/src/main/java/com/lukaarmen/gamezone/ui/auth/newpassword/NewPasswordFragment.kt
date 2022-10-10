@@ -1,18 +1,18 @@
-package com.lukaarmen.gamezone.ui.auth.registration
+package com.lukaarmen.gamezone.ui.auth.newpassword
 
 import androidx.navigation.fragment.findNavController
 import com.lukaarmen.gamezone.common.base.BaseFragment
-import com.lukaarmen.gamezone.databinding.FragmentRegistrationBinding
+import com.lukaarmen.gamezone.databinding.FragmentNewPasswordBinding
 
-class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(
-    FragmentRegistrationBinding::inflate
+class NewPasswordFragment : BaseFragment<FragmentNewPasswordBinding>(
+    FragmentNewPasswordBinding::inflate
 ) {
     override fun init() {
         return
     }
 
     override fun listeners() = with(binding) {
-        btnCreate.setOnClickListener {
+        btnConfirmPassword.setOnClickListener {
             findNavController().popBackStack()
         }
     }
@@ -20,5 +20,6 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(
     override fun observers() {
         return
     }
+
 
 }

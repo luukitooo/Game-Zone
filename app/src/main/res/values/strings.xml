@@ -16,10 +16,14 @@
     <string name="create_account">Create Account</string>
     <string name="login_now">Login Now</string>
     <string name="login_welcome">Welcome back to PlayZone! Enter your email address and your password to enjoy the latest features of PlayZone</string>
-    <string name="forgot_password">Forgot password</string>
     <string name="sign_in_with_google">Sign in with Google</string>
-    <string name="don_t_have_account">Don’t have account? <font color="#f4d144">Create one</font></string>
+    <string name="don_t_have_account">Don’t have account? Create one</string>
     <string name="my_profile">My Profile</string>
     <string name="popular_event">Popular Event</string>
     <string name="show_all">Show all</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="send_link">Send Link</string>
+    <string name="forgot_password_description">Enter email address associated with your account and we’ll send an email with instructions to reset your password</string>
+    <string name="create_new_password">Create New Password</string>
+    <string name="confirm_password">Confirm Password</string>
 </resources>

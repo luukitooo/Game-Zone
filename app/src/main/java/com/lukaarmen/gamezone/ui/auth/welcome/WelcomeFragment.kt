@@ -9,11 +9,13 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(
 ) {
     override fun init() {
         // TODO: AuthenticationManager.isLoggedIn() instead of static boolean
-        checkSession(true)
+        checkSession(false)
     }
 
-    override fun listeners() {
-        return
+    override fun listeners() = with(binding) {
+        btnNext.setOnClickListener {
+            findNavController().navigate(WelcomeFragmentDirections.actionWelcomeFragmentToLoginFragment())
+        }
     }
 
     override fun observers() {
