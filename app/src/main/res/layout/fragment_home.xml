@@ -20,7 +20,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnNotifications"
-        style="@style/btnPlay"
+        style="@style/PrimaryFloatingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_notification"
@@ -104,7 +104,7 @@
         tools:targetApi="s" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        style="@style/btnPlay"
+        style="@style/PrimaryFloatingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_play"
@@ -115,66 +115,30 @@
         app:layout_constraintTop_toTopOf="@+id/ivNewestLive"
         app:tint="@color/white" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCsGo"
-        style="@style/RoundedMaterialButton"
-        android:layout_width="70dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="28dp"
-        app:icon="@drawable/img_csgo_icon"
-        app:iconSize="36dp"
-        app:iconTint="@null"
-        app:layout_constraintEnd_toStartOf="@+id/btnDota"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnDota"
-        style="@style/RoundedMaterialButton"
-        android:layout_width="70dp"
-        android:layout_height="80dp"
-        app:icon="@drawable/img_dota2_icon"
-        app:iconSize="36dp"
-        app:iconTint="@null"
-        app:layout_constraintEnd_toStartOf="@+id/btnRainbowSix"
-        app:layout_constraintStart_toEndOf="@+id/btnCsGo"
-        app:layout_constraintTop_toTopOf="@+id/btnCsGo" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnRainbowSix"
-        style="@style/RoundedMaterialButton"
-        android:layout_width="70dp"
-        android:layout_height="80dp"
-        app:icon="@drawable/img_rainbow_six_icon"
-        app:iconSize="36dp"
-        app:iconTint="@null"
-        app:layout_constraintEnd_toStartOf="@+id/btnOverwatch"
-        app:layout_constraintStart_toEndOf="@+id/btnDota"
-        app:layout_constraintTop_toTopOf="@+id/btnDota" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnOverwatch"
-        style="@style/RoundedMaterialButton"
-        android:layout_width="70dp"
-        android:layout_height="80dp"
-        app:icon="@drawable/img_overwatch_icon"
-        app:iconSize="36dp"
-        app:iconTint="@null"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvGames"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnRainbowSix"
-        app:layout_constraintTop_toTopOf="@+id/btnRainbowSix" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat"
+        tools:itemCount="4"
+        tools:listitem="@layout/item_game" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/appCompatTextView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/sk_modernist_bold"
         android:text="@string/popular_event"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCsGo" />
+        app:layout_constraintTop_toBottomOf="@+id/rvGames" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvShowAll"
@@ -193,9 +157,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2" />
+        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2"
+        tools:listitem="@layout/item_live_home" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

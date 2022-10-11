@@ -26,4 +26,8 @@
     <string name="forgot_password_description">Enter email address associated with your account and we’ll send an email with instructions to reset your password</string>
     <string name="create_new_password">Create New Password</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="live_events">Live Events</string>
+    <string name="running">Running</string>
+    <string name="past">Past</string>
+    <string name="upcoming">Upcoming</string>
 </resources>

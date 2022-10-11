@@ -46,7 +46,7 @@
         <item name="android:clipToOutline" tools:targetApi="s">true</item>
     </style>
 
-    <style name="btnPlay">
+    <style name="PrimaryFloatingButton">
         <item name="fabCustomSize">60dp</item>
         <item name="tint">@color/app_grey_light</item>
         <item name="backgroundTint">@color/app_background_light</item>
