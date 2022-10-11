@@ -5,7 +5,7 @@
     android:layout_width="280dp"
     android:layout_height="wrap_content"
     android:layout_marginVertical="8dp"
-    android:layout_marginEnd="8dp"
+    android:layout_marginEnd="16dp"
     app:rippleColor="@color/app_grey_light"
     android:clickable="true"
     android:focusable="true"
