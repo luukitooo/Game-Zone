@@ -30,4 +30,7 @@
     <string name="running">Running</string>
     <string name="past">Past</string>
     <string name="upcoming">Upcoming</string>
+    <string name="series">Series</string>
+    <string name="tournaments">Tournaments</string>
+    <string name="matches">Matches</string>
 </resources>
