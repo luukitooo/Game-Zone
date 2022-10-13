@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@color/app_background">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivPlayerFirst"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/shape_circular"
+        android:clipToOutline="true"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="s" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvPlayerFirstUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/sk_modernist_regular"
+        android:text="Username"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivPlayerFirst"
+        app:layout_constraintStart_toEndOf="@+id/ivPlayerFirst"
+        app:layout_constraintTop_toTopOf="@+id/ivPlayerFirst" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivPlayerSecond"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/shape_circular"
+        android:clipToOutline="true"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="s" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvPlayerSecondUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/sk_modernist_regular"
+        android:text="Username"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivPlayerSecond"
+        app:layout_constraintEnd_toStartOf="@+id/ivPlayerSecond"
+        app:layout_constraintTop_toTopOf="@+id/ivPlayerSecond" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

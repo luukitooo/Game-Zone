@@ -1,13 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_background"
     tools:context=".ui.tabs.home.livematchdetails.LiveMatchDetailsFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="livematchdetails" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/ic_arrow_back"
+        app:backgroundTint="@color/app_white_transparent"
+        app:fabCustomSize="70dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
 
-</FrameLayout>
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivLive"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_csgo_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="-30dp"
+        android:background="@drawable/shape_rounded_corners_top"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivLive">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"
+            android:text="Live title goes here..."
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:fontFamily="@font/sk_modernist_bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStartTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="live start time..."
+            android:textColor="@color/app_grey_light"
+            android:textSize="16sp"
+            app:fontFamily="@font/sk_modernist_regular"
+            app:layout_constraintEnd_toEndOf="@+id/tvTitle"
+            app:layout_constraintStart_toStartOf="@+id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLike"
+            style="@style/SecondaryMaterialButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/sk_modernist_regular"
+            android:text="Like"
+            app:cornerRadius="50dp"
+            app:icon="@drawable/ic_like_filled"
+            app:iconGravity="textStart"
+            app:layout_constraintEnd_toStartOf="@+id/btnShare"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvStartTime" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnShare"
+            style="@style/SecondaryMaterialButton"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sk_modernist_regular"
+            android:text="Share"
+            app:cornerRadius="50dp"
+            app:icon="@drawable/ic_share"
+            app:iconGravity="textStart"
+            app:layout_constraintBottom_toBottomOf="@+id/btnLike"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btnLike"
+            app:layout_constraintTop_toTopOf="@+id/btnLike" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/app_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnLike"
+            app:tabIndicatorAnimationMode="elastic"
+            app:tabIndicatorHeight="1dp"
+            app:tabSelectedTextColor="@color/app_yellow"
+            app:tabTextColor="@color/app_grey_light">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Score" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabTeams"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Teams" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnWatch"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnWatch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:fontFamily="@font/sk_modernist_bold"
+            android:paddingVertical="18dp"
+            android:text="Watch"
+            android:textAllCaps="false"
+            android:textColor="@color/app_background"
+            android:textSize="20sp"
+            app:cornerRadius="14dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:rippleColor="@color/app_background_light" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
