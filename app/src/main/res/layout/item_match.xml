@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginBottom="16dp"
-    android:clickable="true"
-    android:focusable="true"
-    app:cardBackgroundColor="@color/app_background_light"
+    android:layout_marginBottom="20dp"
+    app:cardBackgroundColor="@color/app_background"
     app:cardCornerRadius="18dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:padding="15dp"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.Guideline
@@ -22,105 +18,124 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
-
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvFirstTeamName"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/sk_modernist_regular"
-            android:text="Kirikou"
-            android:gravity="start"
-            android:textColor="@color/white"
-            android:layout_margin="10dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/shape_rounded_corners"
+            android:backgroundTint="@color/app_background_light"
+            android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSecondTeamName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:fontFamily="@font/sk_modernist_regular"
-            android:gravity="end"
-            android:text="Lemondogs"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline3" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvFirstTeamName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:fontFamily="@font/sk_modernist_regular"
+                android:gravity="start"
+                android:text="Kirikou"
+                android:textColor="@color/white"
+                app:fontFamily="@font/sk_modernist_mono"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/tmgFirstTeamLogo"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_circular"
+                android:src="@drawable/ic_launcher_background"
+                app:layout_constraintBottom_toTopOf="@+id/tvFirstTeamName"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintStart_toStartOf="@+id/tvFirstTeamName"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvFirstTeamScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tmgFirstTeamLogo"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/appCompatTextView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="VS"
-            android:textSize="25sp"
+            android:background="@drawable/shape_circular_border"
+            android:elevation="1dp"
+            android:padding="15dp"
+            android:text="@string/versus"
             android:textColor="@color/white"
+            android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/tmgFirstTeamLogo"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
-            android:layout_height="70dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/shape_circular"
-            android:src="@drawable/ic_launcher_background"
-            app:layout_constraintBottom_toTopOf="@+id/tvFirstTeamName"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintStart_toStartOf="@+id/tvFirstTeamName"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/tmgSecondTeamLogo"
-            android:layout_width="0dp"
-            android:layout_height="70dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/shape_circular"
-            android:src="@drawable/ic_launcher_background"
-            app:layout_constraintBottom_toTopOf="@+id/tvFirstTeamName"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toEndOf="@+id/tvSecondTeamName"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="02.02.2022\n18:00"
-            android:gravity="center"
-            android:textColor="@color/white"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/shape_rounded_corners"
+            android:backgroundTint="@color/app_background_light"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvFirstTeamScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:textColor="@color/white"
-            android:textSize="25sp"
-            app:layout_constraintBottom_toBottomOf="@+id/appCompatTextView4"
-            app:layout_constraintEnd_toStartOf="@+id/appCompatTextView4"
-            app:layout_constraintStart_toEndOf="@+id/tmgFirstTeamLogo"
-            app:layout_constraintTop_toTopOf="@+id/appCompatTextView4" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSecondTeamName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:fontFamily="@font/sk_modernist_regular"
+                android:gravity="end"
+                android:text="Lemondogs"
+                android:textColor="@color/white"
+                app:fontFamily="@font/sk_modernist_mono"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSecondTeamScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3"
-            android:textColor="@color/white"
-            android:textSize="25sp"
-            app:layout_constraintBottom_toBottomOf="@+id/appCompatTextView4"
-            app:layout_constraintEnd_toStartOf="@+id/tmgSecondTeamLogo"
-            app:layout_constraintStart_toEndOf="@+id/appCompatTextView4"
-            app:layout_constraintTop_toTopOf="@+id/appCompatTextView4" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/tmgSecondTeamLogo"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:background="@drawable/shape_circular"
+                android:src="@drawable/ic_launcher_background"
+                app:layout_constraintBottom_toTopOf="@+id/tvSecondTeamName"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintEnd_toEndOf="@+id/tvSecondTeamName"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSecondTeamScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tmgSecondTeamLogo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>
