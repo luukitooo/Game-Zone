@@ -26,7 +26,11 @@
         android:id="@+id/registrationFragment"
         android:name="com.lukaarmen.gamezone.ui.auth.registration.RegistrationFragment"
         android:label="fragment_registration"
-        tools:layout="@layout/fragment_registration" />
+        tools:layout="@layout/fragment_registration" >
+        <action
+            android:id="@+id/action_registrationFragment_to_tabsFragment"
+            app:destination="@id/tabsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/tabsFragment"
         android:name="com.lukaarmen.gamezone.ui.tabs.tabsfragment.TabsFragment"

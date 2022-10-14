@@ -8,8 +8,7 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(
     FragmentWelcomeBinding::inflate
 ) {
     override fun init() {
-        // TODO: AuthenticationManager.isLoggedIn() instead of static boolean
-        checkSession(true)
+        checkSession(false)
     }
 
     override fun listeners() = with(binding) {

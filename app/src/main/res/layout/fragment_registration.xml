@@ -33,6 +33,7 @@
             android:fontFamily="@font/sk_modernist_regular"
             android:maxLines="1"
             android:paddingVertical="22dp"
+            android:textColor="@color/white"
             android:textSize="18sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -52,6 +53,7 @@
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:paddingVertical="22dp"
+            android:textColor="@color/white"
             android:textSize="18sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -73,6 +75,7 @@
             android:inputType="textPassword"
             android:maxLines="1"
             android:paddingVertical="22dp"
+            android:textColor="@color/white"
             android:textSize="18sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -94,6 +97,7 @@
             android:inputType="textPassword"
             android:maxLines="1"
             android:paddingVertical="22dp"
+            android:textColor="@color/white"
             android:textSize="18sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
