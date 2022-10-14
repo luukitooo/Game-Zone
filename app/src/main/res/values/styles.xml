@@ -16,6 +16,7 @@
         <item name="textAllCaps">false</item>
         <item name="android:textColor">@color/app_background</item>
         <item name="android:textSize">18sp</item>
+        <item name="android:gravity">center</item>
         <item name="cornerRadius">12dp</item>
         <item name="backgroundTint">@color/app_yellow</item>
         <item name="rippleColor">@color/app_background_light</item>
@@ -24,6 +25,7 @@
     <style name="SecondaryMaterialButton">
         <item name="android:paddingVertical" tools:targetApi="o">18dp</item>
         <item name="textAllCaps">false</item>
+        <item name="android:gravity">center</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">18sp</item>
         <item name="cornerRadius">12dp</item>
