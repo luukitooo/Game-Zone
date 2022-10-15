@@ -1,4 +1,4 @@
-package com.lukaarmen.data.utils
+package com.lukaarmen.data.common
 
 enum class GameType(val type: String) {
     CSGO("csgo"),

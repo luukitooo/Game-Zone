@@ -4,15 +4,16 @@ import com.lukaarmen.data.remote.dto.TournamentDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface TournamentsService {
 
-    @GET("{gameType}/tournaments/running")
-    suspend fun getRunningTournaments(@Path("gameType") gameType: String): Response<List<TournamentDto>>
-
-    @GET("{gameType}/tournaments/past")
-    suspend fun getPastTournaments(@Path("gameType") gameType: String): Response<List<TournamentDto>>
-
-    @GET("{gameType}/tournaments/upcoming")
-    suspend fun getUpcomingTournaments(@Path("gameType") gameType: String): Response<List<TournamentDto>>
+    @GET("{gameType}/tournaments/{timeFrame}")
+    suspend fun getTournamentsBySerieId(
+        @Path("gameType") gameType: String,
+        @Path("timeFrame") timeFrame: String,
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int,
+        @Query("filter[serie_id]") leagueId: Int,
+    ): Response<List<TournamentDto>>
 }

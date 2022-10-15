@@ -32,7 +32,6 @@ class NetworkModule {
                     "authorization",
                     "Bearer wUtbrgpo0yhWgQaLWWPKH8CDUQ4jrJNm68fgubRtj2x5mjOlC8Y"
                 )
-            //.addHeader("X-RapidAPI-Host", "the-cocktail-db.p.rapidapi.com")
             val actualRequest = request.build()
             it.proceed(actualRequest)
         }
