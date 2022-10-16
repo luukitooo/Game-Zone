@@ -37,4 +37,42 @@ class MatchesRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getAllRunningMatches(
+        page: Int,
+        perPage: Int,
+        sort: String
+    ): Flow<Resource<List<MatchDomain>>> {
+        return baseRepository.safeApiCall {
+            matchesService.getAllRunningMatches(
+                page = page,
+                perPage = perPage,
+                sort = sort
+            )
+        }.map {
+            it.mapSuccess { matchDto ->
+                matchDto.toMatchDomain()
+            }
+        }
+    }
+
+    override suspend fun getRunningMatchesByGame(
+        gameType: String,
+        page: Int,
+        perPage: Int,
+        sort: String
+    ): Flow<Resource<List<MatchDomain>>> {
+        return baseRepository.safeApiCall {
+            matchesService.getRunningMatchesByGame(
+                gameType = gameType,
+                page = page,
+                perPage = perPage,
+                sort = sort
+            )
+        }.map {
+            it.mapSuccess { matchDto ->
+                matchDto.toMatchDomain()
+            }
+        }
+    }
+
 }

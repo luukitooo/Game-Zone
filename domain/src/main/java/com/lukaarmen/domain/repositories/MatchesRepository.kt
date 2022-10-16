@@ -15,4 +15,17 @@ interface MatchesRepository {
         sort: String
     ): Flow<Resource<List<MatchDomain>>>
 
+    suspend fun getAllRunningMatches(
+        page: Int,
+        perPage: Int,
+        sort: String
+    ): Flow<Resource<List<MatchDomain>>>
+
+    suspend fun getRunningMatchesByGame(
+        gameType: String,
+        page: Int,
+        perPage: Int,
+        sort: String
+    ): Flow<Resource<List<MatchDomain>>>
+
 }

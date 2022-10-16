@@ -7,4 +7,4 @@
     android:layout_margin="8dp"
     android:src="@drawable/img_dota2_icon"
     app:fabCustomSize="70dp"
-    app:tint="@null" />
+    app:tint="@null"/>

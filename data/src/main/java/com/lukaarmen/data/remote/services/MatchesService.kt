@@ -17,4 +17,19 @@ interface MatchesService {
         @Query("filter[tournament_id]") leagueId: Int,
         @Query("sort") sort: String
     ): Response<List<MatchDto>>
+
+    @GET("matches/running")
+    suspend fun getAllRunningMatches(
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int,
+        @Query("sort") sort: String
+    ): Response<List<MatchDto>>
+
+    @GET("{gameType}/matches/running")
+    suspend fun getRunningMatchesByGame(
+        @Path("gameType") gameType: String,
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int,
+        @Query("sort") sort: String
+    ): Response<List<MatchDto>>
 }

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_liveMatchesListFragment"
             app:destination="@id/liveMatchesListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_liveMatchDetailsFragment"
+            app:destination="@id/liveMatchDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/liveMatchDetailsFragment"
