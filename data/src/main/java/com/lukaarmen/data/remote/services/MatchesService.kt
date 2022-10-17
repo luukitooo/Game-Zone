@@ -20,9 +20,10 @@ interface MatchesService {
 
     @GET("matches/running")
     suspend fun getAllRunningMatches(
-        @Query("page") page: Int,
-        @Query("per_page") perPage: Int,
-        @Query("sort") sort: String
+        @Query("page") page: Int?,
+        @Query("per_page") perPage: Int?,
+        @Query("sort") sort: String,
+        @Query("filter[videogame]") filter: String,
     ): Response<List<MatchDto>>
 
     @GET("{gameType}/matches/running")

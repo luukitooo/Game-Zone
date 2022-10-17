@@ -16,9 +16,10 @@ interface MatchesRepository {
     ): Flow<Resource<List<MatchDomain>>>
 
     suspend fun getAllRunningMatches(
-        page: Int,
-        perPage: Int,
-        sort: String
+        page: Int?,
+        perPage: Int?,
+        sort: String,
+        filter: String
     ): Flow<Resource<List<MatchDomain>>>
 
     suspend fun getRunningMatchesByGame(

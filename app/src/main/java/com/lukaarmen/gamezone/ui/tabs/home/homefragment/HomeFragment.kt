@@ -1,11 +1,14 @@
 package com.lukaarmen.gamezone.ui.tabs.home.homefragment
 
 import android.util.Log.d
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
+import com.lukaarmen.gamezone.common.extentions.getStreamPreview
 import com.lukaarmen.gamezone.common.utils.CategoryIndicator
 import com.lukaarmen.gamezone.common.utils.GameType
 import com.lukaarmen.gamezone.databinding.FragmentHomeBinding
@@ -41,11 +44,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToLiveMatchesListFragment())
         }
 
-        gamesAdapter.onClickListener = {gameType ->
-            doInBackground{
-                if(gameType.title == "all"){
+        gamesAdapter.onClickListener = { gameType ->
+            doInBackground {
+                if (gameType.title == GameType.ALL.title) {
                     viewModel.getAllRunningMatches()
-                }else{
+                } else {
                     viewModel.getLivesByGame(gameType.title)
                 }
             }
@@ -57,25 +60,35 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
             viewModel.viewState.collect {
                 if (it.isLoading!!) {
                     d("homeFragment_loading", it.isLoading.toString())
+                    livesAdapter.submitList(emptyList())
+                    binding.livesRecyclerProgressBar.visibility = View.VISIBLE
                 }
                 if (it.data != null) {
+                    if (it.data.isNotEmpty()) {
+                        Glide.with(requireContext())
+                            .load(it.data[0].streamsList?.last()?.embedUrl?.getStreamPreview())
+                            .into(binding.ivNewestLive)
+                    }
+
                     livesAdapter.submitList(it.data)
                     binding.tvLivesCount.text = it.data.size.toString()
+                    binding.livesRecyclerProgressBar.visibility = View.GONE
                     d("homeFragment_success", it.data.toString())
                 }
-                if (it.error != null) {
+                if (it.error != "") {
+                    binding.livesRecyclerProgressBar.visibility = View.GONE
                     d("homeFragment_error", it.error.toString())
                 }
             }
         }
     }
 
-    private fun initGamesRecycler() = with(binding.rvGames){
+    private fun initGamesRecycler() = with(binding.rvGames) {
         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         adapter = gamesAdapter
     }
 
-    private fun initLivesRecycler() = with(binding.rvLives){
+    private fun initLivesRecycler() = with(binding.rvLives) {
         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         adapter = livesAdapter
     }

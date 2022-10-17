@@ -38,15 +38,17 @@ class MatchesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllRunningMatches(
-        page: Int,
-        perPage: Int,
-        sort: String
+        page: Int?,
+        perPage: Int?,
+        sort: String,
+        filter: String
     ): Flow<Resource<List<MatchDomain>>> {
         return baseRepository.safeApiCall {
             matchesService.getAllRunningMatches(
                 page = page,
                 perPage = perPage,
-                sort = sort
+                sort = sort,
+                filter = filter
             )
         }.map {
             it.mapSuccess { matchDto ->
