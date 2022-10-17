@@ -1,21 +1,32 @@
 package com.lukaarmen.gamezone.ui.auth.login
 
+import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DatabaseReference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
+    @Named("Users") private val usersReference: DatabaseReference
 ) : ViewModel() {
 
     private val _loginSuccessFlow = MutableSharedFlow<Boolean>()
     val loginSuccessFlow get() = _loginSuccessFlow.asSharedFlow()
+
+    private val _googleSignInSuccessFlow = MutableSharedFlow<Boolean>()
+    val googleSignInSuccessFlow get() = _googleSignInSuccessFlow.asSharedFlow()
 
     suspend fun loginWith(email: String, password: String) {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
@@ -28,6 +39,35 @@ class LoginViewModel @Inject constructor(
                     _loginSuccessFlow.emit(false)
                 }
             }
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        firebaseAuth.signInWithCredential(credential).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                viewModelScope.launch {
+                    _googleSignInSuccessFlow.emit(true)
+                }
+            } else {
+                viewModelScope.launch {
+                    _googleSignInSuccessFlow.emit(false)
+                }
+            }
+        }
+    }
+
+    fun handleGoogleSignInTask(data: Intent?) {
+        val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+        if (task.isSuccessful) {
+            try {
+                val account = task.getResult(ApiException::class.java)
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: ApiException) {
+                Log.e("MyLog", e.message ?: "Error Without Body...")
+            }
+        } else {
+            Log.e("MyLog", task.exception?.message ?: "Error Without Body...")
         }
     }
 

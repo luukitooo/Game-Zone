@@ -3,6 +3,7 @@ package com.lukaarmen.gamezone.ui.auth.registration
 import android.util.Patterns
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.material.snackbar.Snackbar
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
@@ -11,11 +12,13 @@ import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.databinding.FragmentRegistrationBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(
     FragmentRegistrationBinding::inflate
 ) {
+
     private val viewModel: RegistrationViewModel by viewModels()
 
     override fun init() {
@@ -26,6 +29,7 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(
         btnCreate.setOnClickListener {
             handleRegistrationRequest()
         }
+
     }
 
     override fun observers() {

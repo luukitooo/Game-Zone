@@ -1,23 +1,37 @@
 package com.lukaarmen.gamezone.ui.auth.login
 
+import android.content.Intent
+import android.util.Log.e
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.common.api.ApiException
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.areLinesEmpty
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.extentions.makeLink
 import com.lukaarmen.gamezone.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>(
     FragmentLoginBinding::inflate
 ) {
 
+    companion object {
+        const val GOOGLE_SIGN_IN = 10
+    }
+
     private val viewModel: LoginViewModel by viewModels()
+
+    @Inject
+    lateinit var googleSignInClient: GoogleSignInClient
 
     override fun init() {
         return
@@ -25,14 +39,21 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     override fun listeners() = with(binding) {
         btnForgotPassword.setOnClickListener {
-            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment())
+            findNavController().navigate(
+                LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment()
+            )
         }
         btnLogin.setOnClickListener {
             handleLoginRequest()
         }
+        btnSignInWithGoogle.setOnClickListener {
+            signInWithGoogle()
+        }
         tvCreateAccount.makeLink(
             Pair("Create one", View.OnClickListener {
-                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
+                findNavController().navigate(
+                    LoginFragmentDirections.actionLoginFragmentToRegistrationFragment()
+                )
             })
         )
     }
@@ -41,6 +62,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         doInBackground {
             viewModel.loginSuccessFlow.collect { isSuccessful ->
                 handleLoginResponse(isSuccessful)
+            }
+        }
+        doInBackground {
+            viewModel.googleSignInSuccessFlow.collect { isSuccessful ->
+                handleGoogleSignInResponse(isSuccessful)
             }
         }
     }
@@ -65,6 +91,29 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
             )
         } else {
             Snackbar.make(binding.root, "Invalid user...", Snackbar.LENGTH_LONG).show()
+        }
+    }
+
+    private fun handleGoogleSignInResponse(isSuccessful: Boolean) {
+        if (isSuccessful) {
+            findNavController().navigate(
+                LoginFragmentDirections.actionLoginFragmentToEnterUsernameFragment()
+            )
+        } else {
+            Snackbar.make(binding.root, "Can't sign in with google...", Snackbar.LENGTH_LONG).show()
+        }
+    }
+
+    private fun signInWithGoogle() {
+        val googleSignInIntent = googleSignInClient.signInIntent
+        startActivityForResult(googleSignInIntent, GOOGLE_SIGN_IN)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == GOOGLE_SIGN_IN) {
+            viewModel.handleGoogleSignInTask(data)
         }
     }
 

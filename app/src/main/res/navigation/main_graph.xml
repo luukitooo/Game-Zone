@@ -21,6 +21,15 @@
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_enterUsernameFragment"
+            app:destination="@id/enterUsernameFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/main_graph"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -84,4 +93,15 @@
         android:name="com.lukaarmen.gamezone.ui.auth.newpassword.NewPasswordFragment"
         android:label="fragment_new_password"
         tools:layout="@layout/fragment_new_password" />
+    <fragment
+        android:id="@+id/enterUsernameFragment"
+        tools:layout="@layout/fragment_enter_username"
+        android:name="com.lukaarmen.gamezone.ui.auth.login.EnterUsernameFragment"
+        android:label="EnterUsernameFragment" >
+        <action
+            android:id="@+id/action_enterUsernameFragment_to_tabsFragment"
+            app:destination="@id/tabsFragment"
+            app:popUpTo="@id/main_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

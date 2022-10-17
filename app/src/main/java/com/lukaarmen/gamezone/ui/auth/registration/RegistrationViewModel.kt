@@ -2,6 +2,7 @@ package com.lukaarmen.gamezone.ui.auth.registration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.lukaarmen.gamezone.model.User
@@ -15,7 +16,7 @@ import javax.inject.Named
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
-    @Named("Users") private val usersReference: DatabaseReference
+    @Named("Users") private val usersReference: DatabaseReference,
 ) : ViewModel() {
 
     private val _registrationSuccessFlow = MutableSharedFlow<Boolean>()
