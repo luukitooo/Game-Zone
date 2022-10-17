@@ -98,8 +98,10 @@
         android:src="@drawable/img_csgo_bg"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayoutCompat"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/linearLayoutCompat"
         app:layout_constraintTop_toTopOf="@+id/linearLayoutCompat"
+        app:layout_constraintVertical_bias="0.0"
         tools:targetApi="s" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -107,6 +109,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_play"
+        android:id="@+id/btnPlay"
+        android:visibility="gone"
         app:backgroundTint="@color/app_white_transparent"
         app:layout_constraintBottom_toBottomOf="@+id/ivNewestLive"
         app:layout_constraintEnd_toEndOf="@+id/ivNewestLive"
@@ -169,9 +173,47 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        android:indeterminateDrawable="@drawable/progressbar_bg"
         app:layout_constraintBottom_toBottomOf="@+id/rvLives"
         app:layout_constraintEnd_toEndOf="@+id/rvLives"
         app:layout_constraintStart_toStartOf="@+id/rvLives"
         app:layout_constraintTop_toTopOf="@+id/rvLives" />
+
+    <ProgressBar
+        android:id="@+id/latestStreamProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:indeterminateDrawable="@drawable/progressbar_bg"
+        app:layout_constraintBottom_toBottomOf="@+id/ivNewestLive"
+        app:layout_constraintEnd_toEndOf="@+id/ivNewestLive"
+        app:layout_constraintStart_toStartOf="@+id/ivNewestLive"
+        app:layout_constraintTop_toTopOf="@+id/ivNewestLive" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgRvErrorImg"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:src="@drawable/ic_error"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/tvMessage"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toEndOf="@+id/rvLives"
+        app:layout_constraintStart_toStartOf="@+id/rvLives"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/sk_modernist_bold"
+        android:text="@string/popular_event"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

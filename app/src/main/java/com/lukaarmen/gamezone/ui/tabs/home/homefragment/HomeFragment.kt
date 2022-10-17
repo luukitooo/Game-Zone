@@ -2,16 +2,19 @@ package com.lukaarmen.gamezone.ui.tabs.home.homefragment
 
 import android.util.Log.d
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.extentions.getStreamPreview
 import com.lukaarmen.gamezone.common.utils.CategoryIndicator
 import com.lukaarmen.gamezone.common.utils.GameType
 import com.lukaarmen.gamezone.databinding.FragmentHomeBinding
+import com.lukaarmen.gamezone.models.Match
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,7 +25,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
     private val gamesAdapter: GamesAdapter by lazy { GamesAdapter() }
     private val livesAdapter: LivesHomeAdapter by lazy { LivesHomeAdapter() }
 
-    private val gamesList = listOf(
+    private val gamesList = mutableListOf(
         CategoryIndicator(GameType.ALL, false),
         CategoryIndicator(GameType.CSGO, false),
         CategoryIndicator(GameType.DOTA2, false),
@@ -32,7 +35,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
 
     override fun init() {
         initGamesRecycler()
-        initLivesRecycler()
         gamesAdapter.submitList(gamesList)
         doInBackground {
             viewModel.getAllRunningMatches()
@@ -46,10 +48,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
 
         gamesAdapter.onClickListener = { gameType ->
             doInBackground {
-                if (gameType.title == GameType.ALL.title) {
-                    viewModel.getAllRunningMatches()
-                } else {
-                    viewModel.getLivesByGame(gameType.title)
+                when (gameType.title) {
+                    GameType.ALL.title -> viewModel.getAllRunningMatches()
+                    else -> viewModel.getLivesByGame(gameType.title)
                 }
             }
         }
@@ -59,28 +60,83 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         doInBackground {
             viewModel.viewState.collect {
                 if (it.isLoading!!) {
+                    loadingState()
                     d("homeFragment_loading", it.isLoading.toString())
-                    livesAdapter.submitList(emptyList())
-                    binding.livesRecyclerProgressBar.visibility = View.VISIBLE
                 }
                 if (it.data != null) {
-                    if (it.data.isNotEmpty()) {
-                        Glide.with(requireContext())
-                            .load(it.data[0].streamsList?.last()?.embedUrl?.getStreamPreview())
-                            .into(binding.ivNewestLive)
-                    }
-
-                    livesAdapter.submitList(it.data)
-                    binding.tvLivesCount.text = it.data.size.toString()
-                    binding.livesRecyclerProgressBar.visibility = View.GONE
+                    successfulState(it.data)
                     d("homeFragment_success", it.data.toString())
                 }
                 if (it.error != "") {
-                    binding.livesRecyclerProgressBar.visibility = View.GONE
+                    errorState()
                     d("homeFragment_error", it.error.toString())
                 }
             }
         }
+
+        doInBackground {
+            viewModel.streamsCountState.collect {
+                binding.tvLivesCount.text = it.toString()
+            }
+        }
+
+    }
+
+    private fun successfulState(data: List<Match>) = with(binding) {
+        val list = data.take(6).toMutableList()
+        initLivesRecycler()
+        when (data.size) {
+            0 -> {
+                ivNewestLive.setImageResource(R.drawable.ic_error)
+                imgRvErrorImg.visibility = View.VISIBLE
+                tvMessage.isVisible = true
+                tvMessage.text = "No Data"
+            }
+            1 -> {
+                Glide.with(requireContext())
+                    .load(data[0].streamsList?.last()?.embedUrl?.getStreamPreview())
+                    .into(ivNewestLive)
+                btnPlay.visibility = View.VISIBLE
+            }
+            else -> {
+                Glide.with(requireContext())
+                    .load(data[0].streamsList?.last()?.embedUrl?.getStreamPreview())
+                    .into(ivNewestLive)
+                list.removeAt(0)
+                btnPlay.visibility = View.VISIBLE
+            }
+        }
+
+
+        livesAdapter.submitList(list)
+        livesRecyclerProgressBar.visibility = View.GONE
+        latestStreamProgressBar.visibility = View.GONE
+    }
+
+    private fun errorState() = with(binding) {
+        //recyclerview
+        livesAdapter.submitList(emptyList())
+        livesRecyclerProgressBar.visibility = View.GONE
+        imgRvErrorImg.visibility = View.VISIBLE
+        tvMessage.visibility = View.VISIBLE
+        tvMessage.text = "Something went wrong"
+        //latest live
+        ivNewestLive.setImageResource(R.drawable.ic_error)
+        btnPlay.visibility = View.GONE
+        tvLivesCount.text = "N\\A"
+        latestStreamProgressBar.visibility = View.GONE
+    }
+
+    private fun loadingState() = with(binding) {
+        //recyclerview
+        livesAdapter.submitList(emptyList())
+        livesRecyclerProgressBar.visibility = View.VISIBLE
+        imgRvErrorImg.visibility = View.GONE
+        tvMessage.visibility = View.GONE
+        //latest live
+        btnPlay.visibility = View.GONE
+        ivNewestLive.setImageDrawable(null)
+        latestStreamProgressBar.visibility = View.VISIBLE
     }
 
     private fun initGamesRecycler() = with(binding.rvGames) {

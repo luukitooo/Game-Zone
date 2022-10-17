@@ -13,6 +13,8 @@ class GamesAdapter : BaseAdapter<CategoryIndicator, ItemGameBinding>(ItemGameBin
     override fun onBind(binding: ItemGameBinding, position: Int) = with(binding) {
         val item = getItem(position).inner
         root.setImageDrawable(ContextCompat.getDrawable(root.context, item.gameType.image))
-        root.setOnClickListener { onClickListener?.invoke(item.gameType) }
+        root.setOnClickListener {
+            onClickListener?.invoke(item.gameType)
+        }
     }
 }
