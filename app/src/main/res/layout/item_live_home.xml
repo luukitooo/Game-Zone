@@ -19,6 +19,7 @@
         android:padding="12dp">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgPreview"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:background="@drawable/shape_rounded_corners"
@@ -28,16 +29,19 @@
             tools:targetApi="s" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/sk_modernist_bold"
             android:text="Title"
+            android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:fontFamily="@font/sk_modernist_bold" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLeague"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -46,7 +50,6 @@
             android:drawableTint="@color/app_grey_light"
             android:text="League"
             android:textColor="@color/app_grey_light"
-            app:drawableStartCompat="@drawable/ic_calendar"
             app:fontFamily="@font/sk_modernist_regular" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
