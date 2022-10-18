@@ -3,16 +3,12 @@ package com.lukaarmen.gamezone.ui.auth.registration
 import android.util.Patterns
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.material.snackbar.Snackbar
-import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.areLinesEmpty
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.databinding.FragmentRegistrationBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(
@@ -42,7 +38,8 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(
 
     private fun handleRegistrationRequest(): Unit = with(binding) {
         if (!areLinesEmpty(etUsername, etEmail, etPassword, etRepeatPassword) &&
-            isEmailCorrect() && passwordRepeatedCorrectly())
+            isEmailCorrect() && passwordRepeatedCorrectly()
+        )
             doInBackground {
                 viewModel.createUser(
                     email = etEmail.text.toString(),
@@ -64,8 +61,7 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(
             findNavController().navigate(
                 RegistrationFragmentDirections.actionRegistrationFragmentToTabsFragment()
             )
-        }
-        else {
+        } else {
             Snackbar.make(binding.root, "Account already exists...", Snackbar.LENGTH_LONG).show()
         }
     }
