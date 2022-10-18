@@ -2,7 +2,7 @@ package com.lukaarmen.gamezone.common.utils
 
 data class CategoryIndicator(
     val gameType: GameType,
-    var isSelected: Boolean,
+    val isSelected: Boolean,
 ): Recyclable<CategoryIndicator>(){
 
     override val uniqueValue: Any = gameType.title
@@ -13,3 +13,11 @@ data class CategoryIndicator(
     }
 
 }
+
+val gamesList = mutableListOf(
+    CategoryIndicator(GameType.ALL, true),
+    CategoryIndicator(GameType.CSGO, false),
+    CategoryIndicator(GameType.DOTA2, false),
+    CategoryIndicator(GameType.OWERWATCH, false),
+    CategoryIndicator(GameType.RAINBOW_SIX, false),
+)

@@ -35,4 +35,7 @@
     <string name="matches">Matches</string>
     <string name="versus">VS</string>
     <string name="streamed">Streamed</string>
+    <string name="no_data">Currently unavailable</string>
+    <string name="error">Something went wrong</string>
+    <string name="not_available">N\\A</string>
 </resources>

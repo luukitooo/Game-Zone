@@ -20,6 +20,5 @@ class BaseRepository @Inject constructor(){
         } catch (t: Throwable) {
             emit(Resource.Failure(error = t.message))
         }
-        emit(Resource.Loader(isLoading = false))
     }
 }

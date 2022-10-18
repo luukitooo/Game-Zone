@@ -12,13 +12,13 @@ abstract class BaseViewModel : ViewModel() {
         state.collect { value ->
             value.apply {
                 onSuccess { matchesList ->
-                    emit(currentState.copy(data = matchesList, isLoading = false, error = ""))
+                    emit(currentState.copy(data = matchesList, isLoading = null, error = null))
                 }
                 onFailure { errorMsg ->
-                    emit(currentState.copy(error = errorMsg, data = null, isLoading = false))
+                    emit(currentState.copy(error = errorMsg, data = null, isLoading = null))
                 }
                 onLoader { isLoading ->
-                    emit(currentState.copy(isLoading = isLoading, data = null, error = ""))
+                    emit(currentState.copy(isLoading = isLoading, data = null, error = null))
                 }
             }
         }

@@ -1,9 +1,8 @@
 package com.lukaarmen.gamezone.ui.tabs.home.homefragment
 
-import android.util.Log.d
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -13,9 +12,12 @@ import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.extentions.getStreamPreview
 import com.lukaarmen.gamezone.common.utils.CategoryIndicator
 import com.lukaarmen.gamezone.common.utils.GameType
+import com.lukaarmen.gamezone.common.utils.gamesList
 import com.lukaarmen.gamezone.databinding.FragmentHomeBinding
 import com.lukaarmen.gamezone.models.Match
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(
@@ -25,20 +27,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
     private val gamesAdapter: GamesAdapter by lazy { GamesAdapter() }
     private val livesAdapter: LivesHomeAdapter by lazy { LivesHomeAdapter() }
 
-    private val gamesList = mutableListOf(
-        CategoryIndicator(GameType.ALL, false),
-        CategoryIndicator(GameType.CSGO, false),
-        CategoryIndicator(GameType.DOTA2, false),
-        CategoryIndicator(GameType.OWERWATCH, false),
-        CategoryIndicator(GameType.RAINBOW_SIX, false),
-    )
-
     override fun init() {
         initGamesRecycler()
         gamesAdapter.submitList(gamesList)
-        doInBackground {
-            viewModel.getAllRunningMatches()
-        }
     }
 
     override fun listeners() {
@@ -47,10 +38,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         }
 
         gamesAdapter.onClickListener = { gameType ->
-            doInBackground {
-                when (gameType.title) {
-                    GameType.ALL.title -> viewModel.getAllRunningMatches()
-                    else -> viewModel.getLivesByGame(gameType.title)
+            updateGamesList(gameType)
+            when (gameType.title) {
+                GameType.ALL.title -> {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewModel.getAllRunningMatches()
+                    }
+                }
+                else -> {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewModel.getLivesByGame(gameType.title)
+                    }
                 }
             }
         }
@@ -58,28 +56,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
 
     override fun observers() {
         doInBackground {
-            viewModel.viewState.collect {
-                if (it.isLoading!!) {
-                    loadingState()
-                    d("homeFragment_loading", it.isLoading.toString())
-                }
-                if (it.data != null) {
-                    successfulState(it.data)
-                    d("homeFragment_success", it.data.toString())
-                }
-                if (it.error != "") {
-                    errorState()
-                    d("homeFragment_error", it.error.toString())
-                }
+            viewModel.viewState.collectLatest {
+                it.data?.let { matches -> successfulState(matches) }
+                it.error?.let { error -> errorState() }
+                it.isLoading?.let { loadingState() }
             }
         }
-
-        doInBackground {
-            viewModel.streamsCountState.collect {
-                binding.tvLivesCount.text = it.toString()
-            }
-        }
-
     }
 
     private fun successfulState(data: List<Match>) = with(binding) {
@@ -87,27 +69,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         initLivesRecycler()
         when (data.size) {
             0 -> {
-                ivNewestLive.setImageResource(R.drawable.ic_error)
-                imgRvErrorImg.visibility = View.VISIBLE
-                tvMessage.isVisible = true
-                tvMessage.text = "No Data"
-            }
-            1 -> {
-                Glide.with(requireContext())
-                    .load(data[0].streamsList?.last()?.embedUrl?.getStreamPreview())
-                    .into(ivNewestLive)
-                btnPlay.visibility = View.VISIBLE
+                latestLiveErrorState()
+                tvMessage.text = requireContext().getString(R.string.no_data)
             }
             else -> {
+                if (data.size == 1) list.removeAt(0)
                 Glide.with(requireContext())
                     .load(data[0].streamsList?.last()?.embedUrl?.getStreamPreview())
                     .into(ivNewestLive)
-                list.removeAt(0)
                 btnPlay.visibility = View.VISIBLE
             }
         }
 
-
+        binding.tvLivesCount.text = data.size.toString()
         livesAdapter.submitList(list)
         livesRecyclerProgressBar.visibility = View.GONE
         latestStreamProgressBar.visibility = View.GONE
@@ -117,14 +91,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         //recyclerview
         livesAdapter.submitList(emptyList())
         livesRecyclerProgressBar.visibility = View.GONE
-        imgRvErrorImg.visibility = View.VISIBLE
-        tvMessage.visibility = View.VISIBLE
-        tvMessage.text = "Something went wrong"
+        tvMessage.text = requireContext().getString(R.string.error)
         //latest live
+        latestLiveErrorState()
+        tvLivesCount.text = requireContext().getString(R.string.not_available)
+    }
+
+    private fun latestLiveErrorState() = with(binding) {
         ivNewestLive.setImageResource(R.drawable.ic_error)
         btnPlay.visibility = View.GONE
-        tvLivesCount.text = "N\\A"
         latestStreamProgressBar.visibility = View.GONE
+        imgRvErrorImg.visibility = View.VISIBLE
+        tvMessage.visibility = View.VISIBLE
     }
 
     private fun loadingState() = with(binding) {
@@ -149,4 +127,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         adapter = livesAdapter
     }
 
+    private fun updateGamesList(gameType: GameType) {
+        var position = 0
+        val newList = mutableListOf<CategoryIndicator>()
+        newList.addAll(gamesList)
+
+        newList.forEach {
+            if (it.gameType == gameType) position = newList.indexOf(it)
+            if (it.isSelected) {
+                newList[newList.indexOf(it)] =
+                    CategoryIndicator(gameType = it.gameType, isSelected = false)
+            }
+        }
+        newList[position] =
+            CategoryIndicator(gameType = gamesList[position].gameType, isSelected = true)
+        gamesAdapter.submitList(newList)
+    }
 }

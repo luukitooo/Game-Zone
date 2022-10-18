@@ -1,5 +1,6 @@
 package com.lukaarmen.gamezone.ui.tabs.home.homefragment
 
+import androidx.lifecycle.viewModelScope
 import com.lukaarmen.domain.common.mapSuccess
 import com.lukaarmen.domain.usecases.GetAllRunningMatchesUseCase
 import com.lukaarmen.domain.usecases.GetLivesByGameUseCase
@@ -11,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,14 +27,17 @@ class HomeViewModel @Inject constructor(
     private val _streamsCountState = MutableStateFlow(0)
     val streamsCountState = _streamsCountState.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            getAllRunningMatches()
+        }
+    }
+
     suspend fun getAllRunningMatches() {
         stateHandler(
             getAllRunningMatchesUseCase().map {
-                it.onSuccess {list ->
+                it.onSuccess { list ->
                     _streamsCountState.emit(list.size)
-                }
-                it.onFailure { list ->
-                    _streamsCountState.emit(0)
                 }
                 it.mapSuccess { domain ->
                     domain.toMatch()
@@ -40,7 +45,7 @@ class HomeViewModel @Inject constructor(
             },
             _viewState.value
         ).collect {
-            _viewState.emit(it)
+            _viewState.value = it
         }
     }
 
@@ -51,7 +56,7 @@ class HomeViewModel @Inject constructor(
             },
             _viewState.value
         ).collect {
-            _viewState.emit(it)
+            _viewState.value = it
         }
     }
 }
