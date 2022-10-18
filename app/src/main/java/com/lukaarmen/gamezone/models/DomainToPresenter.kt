@@ -1,5 +1,6 @@
 package com.lukaarmen.gamezone.models
 
+import com.lukaarmen.domain.models.LeaguesDomain
 import com.lukaarmen.domain.models.MatchDomain
 import com.lukaarmen.domain.models.TeamDomain
 import com.lukaarmen.domain.models.VideoGameDomain
@@ -79,4 +80,11 @@ fun TeamDomain.PlayerDomain.toPlayer() = Team.Player(
     nationality = nationality,
     role = role,
     slug = slug
+)
+
+fun LeaguesDomain.toLeague() = League(
+    id = id,
+    imageUrl = imageUrl,
+    name = name,
+    url = url
 )

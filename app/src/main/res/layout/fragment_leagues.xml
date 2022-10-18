@@ -14,7 +14,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="34dp"
+        android:clickable="false"
+        android:focusable="false"
         android:src="@drawable/ic_arrow_back"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,12 +32,12 @@
         android:textSize="18sp"
         app:fontFamily="@font/sk_modernist_bold"
         app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
-        app:layout_constraintEnd_toStartOf="@+id/floatingActionButton2"
+        app:layout_constraintEnd_toStartOf="@+id/btnSearch"
         app:layout_constraintStart_toEndOf="@+id/floatingActionButton"
         app:layout_constraintTop_toTopOf="@+id/floatingActionButton" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton2"
+        android:id="@+id/btnSearch"
         style="@style/PrimaryFloatingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,10 +66,22 @@
         android:layout_marginTop="8dp"
         android:clipToPadding="false"
         android:paddingTop="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvGames"
         tools:listitem="@layout/item_league" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateDrawable="@drawable/progressbar_bg"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/rvLeagues"
+        app:layout_constraintEnd_toEndOf="@+id/rvLeagues"
+        app:layout_constraintStart_toStartOf="@+id/rvLeagues"
+        app:layout_constraintTop_toTopOf="@+id/rvLeagues" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
