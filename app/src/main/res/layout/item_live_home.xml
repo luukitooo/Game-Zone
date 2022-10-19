@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="280dp"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_marginVertical="8dp"
     android:layout_marginEnd="16dp"
     app:rippleColor="@color/app_grey_light"
@@ -12,46 +12,62 @@
     app:cardBackgroundColor="@color/app_background_light"
     app:cardCornerRadius="20dp">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="13dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgPreview"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="0dp"
             android:background="@drawable/shape_rounded_corners"
             android:clipToOutline="true"
             android:scaleType="centerCrop"
             android:src="@drawable/img_csgo_bg"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/tvTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="10dp"
             tools:targetApi="s" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:fontFamily="@font/sk_modernist_bold"
-            android:text="Title"
             android:maxLines="1"
+            android:layout_marginBottom="10dp"
+            android:text="Title"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:fontFamily="@font/sk_modernist_bold" />
+            app:fontFamily="@font/sk_modernist_bold"
+            app:layout_constraintBottom_toTopOf="@+id/tvLeague"
+            tools:layout_editor_absoluteX="10dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvLeague"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="20dp"
             android:drawablePadding="8dp"
             android:drawableTint="@color/app_grey_light"
             android:text="League"
             android:textColor="@color/app_grey_light"
-            app:fontFamily="@font/sk_modernist_regular" />
+            app:fontFamily="@font/sk_modernist_regular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="10dp" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateDrawable="@drawable/progressbar_bg"
+            app:layout_constraintBottom_toBottomOf="@+id/imgPreview"
+            app:layout_constraintEnd_toEndOf="@+id/imgPreview"
+            app:layout_constraintStart_toStartOf="@+id/imgPreview"
+            app:layout_constraintTop_toTopOf="@+id/imgPreview" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

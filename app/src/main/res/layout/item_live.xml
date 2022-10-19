@@ -17,30 +17,47 @@
         android:orientation="vertical"
         android:padding="12dp">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@drawable/shape_rounded_corners"
-            android:clipToOutline="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/img_csgo_bg"
-            tools:targetApi="s" />
+            android:layout_height="wrap_content">
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgPreview"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@drawable/shape_rounded_corners"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_csgo_bg"
+                tools:targetApi="s" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminateDrawable="@drawable/progressbar_bg" />
+
+        </FrameLayout>
+
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/sk_modernist_bold"
             android:text="Title"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="20sp"
             app:fontFamily="@font/sk_modernist_bold" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLeague"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
             android:drawablePadding="8dp"
             android:drawableTint="@color/app_grey_light"
             android:text="League"

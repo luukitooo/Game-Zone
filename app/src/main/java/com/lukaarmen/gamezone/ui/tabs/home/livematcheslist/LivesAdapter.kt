@@ -1,4 +1,4 @@
-package com.lukaarmen.gamezone.ui.tabs.home.homefragment
+package com.lukaarmen.gamezone.ui.tabs.home.livematcheslist
 
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
@@ -12,18 +12,18 @@ import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseAdapter
 import com.lukaarmen.gamezone.common.extentions.getStreamPreview
 import com.lukaarmen.gamezone.common.utils.Quality
-import com.lukaarmen.gamezone.databinding.ItemLiveHomeBinding
+import com.lukaarmen.gamezone.databinding.ItemLiveBinding
 import com.lukaarmen.gamezone.models.Match
 
-class LivesHomeAdapter: BaseAdapter<Match, ItemLiveHomeBinding>(ItemLiveHomeBinding::inflate) {
+class LivesAdapter : BaseAdapter<Match, ItemLiveBinding>(ItemLiveBinding::inflate) {
 
-    override fun onBind(binding: ItemLiveHomeBinding, position: Int) = with(binding) {
+    override fun onBind(binding: ItemLiveBinding, position: Int) = with(binding) {
         val item = getItem(position).inner
 
-        if(item.streamsList != null && item.streamsList.isNotEmpty()){
+        if (item.streamsList != null && item.streamsList.isNotEmpty()) {
             Glide.with(this.root)
                 .load(item.streamsList.last()?.embedUrl?.getStreamPreview(Quality.LOW))
-                .listener(object: RequestListener<Drawable> {
+                .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
                         e: GlideException?,
                         model: Any?,
@@ -47,9 +47,13 @@ class LivesHomeAdapter: BaseAdapter<Match, ItemLiveHomeBinding>(ItemLiveHomeBind
 
                 })
                 .into(imgPreview)
-        }else {
+
+        } else {
             imgPreview.setImageDrawable(
-                ContextCompat.getDrawable(imgPreview.context, R.drawable.img_stream_error)
+                ContextCompat.getDrawable(
+                    imgPreview.context,
+                    R.drawable.img_stream_error
+                )
             )
             progressBar.isVisible = false
         }

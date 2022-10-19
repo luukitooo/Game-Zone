@@ -9,7 +9,7 @@
     tools:context=".ui.tabs.home.livematcheslist.LiveMatchesListFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/btnBack"
         style="@style/PrimaryFloatingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,10 +27,10 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         app:fontFamily="@font/sk_modernist_bold"
-        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
         app:layout_constraintEnd_toStartOf="@+id/floatingActionButton2"
-        app:layout_constraintStart_toEndOf="@+id/floatingActionButton"
-        app:layout_constraintTop_toTopOf="@+id/floatingActionButton" />
+        app:layout_constraintStart_toEndOf="@+id/btnBack"
+        app:layout_constraintTop_toTopOf="@+id/btnBack" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton2"
@@ -38,11 +38,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_search"
-        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/floatingActionButton" />
+        app:layout_constraintTop_toTopOf="@+id/btnBack" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/livesRecycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
@@ -50,7 +51,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/floatingActionButton"
+        app:layout_constraintTop_toBottomOf="@+id/btnBack"
         tools:listitem="@layout/item_live" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:indeterminateDrawable="@drawable/progressbar_bg"
+        app:layout_constraintBottom_toBottomOf="@+id/livesRecycler"
+        app:layout_constraintEnd_toEndOf="@+id/livesRecycler"
+        app:layout_constraintStart_toStartOf="@+id/livesRecycler"
+        app:layout_constraintTop_toTopOf="@+id/livesRecycler" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

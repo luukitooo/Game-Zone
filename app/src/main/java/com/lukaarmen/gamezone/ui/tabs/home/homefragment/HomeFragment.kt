@@ -12,11 +12,11 @@ import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.extentions.getStreamPreview
 import com.lukaarmen.gamezone.common.utils.CategoryIndicator
 import com.lukaarmen.gamezone.common.utils.GameType
+import com.lukaarmen.gamezone.common.utils.Quality
 import com.lukaarmen.gamezone.common.utils.gamesList
 import com.lukaarmen.gamezone.databinding.FragmentHomeBinding
 import com.lukaarmen.gamezone.models.Match
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -26,6 +26,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
     private val viewModel by viewModels<HomeViewModel>()
     private val gamesAdapter: GamesAdapter by lazy { GamesAdapter() }
     private val livesAdapter: LivesHomeAdapter by lazy { LivesHomeAdapter() }
+    private var currentGameType = GameType.ALL
 
     override fun init() {
         initGamesRecycler()
@@ -34,10 +35,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
 
     override fun listeners() {
         binding.tvShowAll.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToLiveMatchesListFragment())
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToLiveMatchesListFragment(
+                    currentGameType.title
+                )
+            )
         }
 
         gamesAdapter.onClickListener = { gameType ->
+            currentGameType = gameType
             updateGamesList(gameType)
             when (gameType.title) {
                 GameType.ALL.title -> {
@@ -56,7 +62,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
 
     override fun observers() {
         doInBackground {
-            viewModel.viewState.collectLatest {
+            viewModel.viewState.collect {
                 it.data?.let { matches -> successfulState(matches) }
                 it.error?.let { error -> errorState() }
                 it.isLoading?.let { loadingState() }
@@ -73,9 +79,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
                 tvMessage.text = requireContext().getString(R.string.no_data)
             }
             else -> {
-                if (data.size == 1) list.removeAt(0)
+                if (data.size != 1) list.removeAt(0)
                 Glide.with(requireContext())
-                    .load(data[0].streamsList?.last()?.embedUrl?.getStreamPreview())
+                    .load(
+                        data[0].streamsList?.last()?.embedUrl?.getStreamPreview(Quality.LOW)
+                            .toString()
+                    )
                     .into(ivNewestLive)
                 btnPlay.visibility = View.VISIBLE
             }
@@ -98,7 +107,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
     }
 
     private fun latestLiveErrorState() = with(binding) {
-        ivNewestLive.setImageResource(R.drawable.ic_error)
+        ivNewestLive.setImageResource(R.drawable.img_stream_error)
         btnPlay.visibility = View.GONE
         latestStreamProgressBar.visibility = View.GONE
         imgRvErrorImg.visibility = View.VISIBLE

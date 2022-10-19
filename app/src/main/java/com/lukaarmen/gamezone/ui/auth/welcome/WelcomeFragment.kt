@@ -8,7 +8,7 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(
     FragmentWelcomeBinding::inflate
 ) {
     override fun init() {
-        checkSession(false)
+        checkSession(true)
     }
 
     override fun listeners() = with(binding) {

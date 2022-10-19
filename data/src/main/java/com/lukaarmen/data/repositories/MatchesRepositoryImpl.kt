@@ -1,6 +1,6 @@
 package com.lukaarmen.data.repositories
 
-import com.lukaarmen.data.common.BaseRepository
+import com.lukaarmen.data.common.RequestHandler
 import com.lukaarmen.data.remote.mappers.toMatchDomain
 import com.lukaarmen.data.remote.services.MatchesService
 import com.lukaarmen.domain.common.Resource
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class MatchesRepositoryImpl @Inject constructor(
     private val matchesService: MatchesService,
-    private val baseRepository: BaseRepository
+    private val requestHandler: RequestHandler
 ) : MatchesRepository {
     override suspend fun getMatchesByTournamentId(
         gameType: String,
@@ -23,7 +23,7 @@ class MatchesRepositoryImpl @Inject constructor(
         tournamentId: Int,
         sort: String
     ): Flow<Resource<List<MatchDomain>>> {
-        return baseRepository.safeApiCall {
+        return requestHandler.safeApiCall {
             matchesService.getMatchesByTournamentId(
                 gameType = gameType,
                 timeFrame = timeFrame,
@@ -43,7 +43,7 @@ class MatchesRepositoryImpl @Inject constructor(
         sort: String,
         filter: String
     ): Flow<Resource<List<MatchDomain>>> {
-        return baseRepository.safeApiCall {
+        return requestHandler.safeApiCall {
             matchesService.getAllRunningMatches(
                 page = page,
                 perPage = perPage,
@@ -63,7 +63,7 @@ class MatchesRepositoryImpl @Inject constructor(
         perPage: Int,
         sort: String
     ): Flow<Resource<List<MatchDomain>>> {
-        return baseRepository.safeApiCall {
+        return requestHandler.safeApiCall {
             matchesService.getRunningMatchesByGame(
                 gameType = gameType,
                 page = page,

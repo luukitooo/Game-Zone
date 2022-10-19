@@ -5,6 +5,8 @@ import com.lukaarmen.domain.common.mapSuccess
 import com.lukaarmen.domain.usecases.GetAllRunningMatchesUseCase
 import com.lukaarmen.domain.usecases.GetLivesByGameUseCase
 import com.lukaarmen.gamezone.common.base.BaseViewModel
+import com.lukaarmen.gamezone.common.utils.CategoryIndicator
+import com.lukaarmen.gamezone.common.utils.GameType
 import com.lukaarmen.gamezone.common.utils.ViewState
 import com.lukaarmen.gamezone.models.Match
 import com.lukaarmen.gamezone.models.toMatch
@@ -26,6 +28,14 @@ class HomeViewModel @Inject constructor(
 
     private val _streamsCountState = MutableStateFlow(0)
     val streamsCountState = _streamsCountState.asStateFlow()
+
+    val gamesList = mutableListOf(
+        CategoryIndicator(GameType.ALL, true),
+        CategoryIndicator(GameType.CSGO, false),
+        CategoryIndicator(GameType.DOTA2, false),
+        CategoryIndicator(GameType.OWERWATCH, false),
+        CategoryIndicator(GameType.RAINBOW_SIX, false),
+    )
 
     init {
         viewModelScope.launch {

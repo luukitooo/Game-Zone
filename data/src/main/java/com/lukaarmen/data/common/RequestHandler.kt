@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class BaseRepository @Inject constructor(){
+class RequestHandler @Inject constructor(){
 
     fun <T> safeApiCall(apiCall: suspend () -> Response<T>) = flow {
         emit(Resource.Loader(isLoading = true))
