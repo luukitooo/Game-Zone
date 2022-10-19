@@ -7,9 +7,12 @@ import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.utils.CategoryIndicator
 import com.lukaarmen.gamezone.common.utils.GameType
+import com.lukaarmen.gamezone.common.utils.ViewState
 import com.lukaarmen.gamezone.databinding.FragmentLeaguesBinding
+import com.lukaarmen.gamezone.models.League
 import com.lukaarmen.gamezone.ui.tabs.home.homefragment.GamesAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBinding::inflate) {
@@ -22,7 +25,6 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
     override fun init() = with(binding) {
         rvLeagues.adapter = leagueAdapter
         rvGames.adapter = gamesAdapter
-        gamesAdapter.submitList(gameIndicators)
     }
 
     override fun listeners() {
@@ -30,7 +32,7 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
             doInBackground {
                 leagueAdapter.submitList(emptyList())
                 viewModel.getLeagues(gameIndicator.title)
-                updateGamesRecycler(gameIndicator)
+                viewModel.updateIndicators(gameIndicator)
             }
         }
     }
@@ -38,50 +40,30 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
     override fun observers() {
         doInBackground {
             viewModel.leaguesFlow.collect { state ->
-                state.apply {
-                    data?.let { leagues ->
-                        leagueAdapter.submitList(leagues)
-                        binding.progressBar.isVisible = false
-                    }
-                    error?.let { errorMessage ->
-                        Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
-                        binding.progressBar.isVisible = false
-                    }
-                    isLoading?.let { isLoading ->
-                        binding.progressBar.isVisible = true
-                    }
-                }
+                handleState(state)
+            }
+        }
+        doInBackground {
+            viewModel.indicatorsFlow.collect { updatedIndicators ->
+                gamesAdapter.submitList(updatedIndicators)
             }
         }
     }
 
-    private fun updateGamesRecycler(selectedIndicator: GameType) {
-        val updatedGameIndicators = mutableListOf<CategoryIndicator>()
-        gameIndicators.forEach { gameIndicator ->
-            if (gameIndicator.gameType.title == selectedIndicator.title) {
-                updatedGameIndicators.add(
-                    CategoryIndicator(
-                        gameType = gameIndicator.gameType,
-                        isSelected = true
-                    )
-                )
-            } else {
-                updatedGameIndicators.add(
-                    CategoryIndicator(
-                        gameType = gameIndicator.gameType,
-                        isSelected = false
-                    )
-                )
+    private fun handleState(state: ViewState<List<League>>) {
+        state.apply {
+            data?.let { leagues ->
+                leagueAdapter.submitList(leagues)
+                binding.progressBar.isVisible = false
+            }
+            error?.let { errorMessage ->
+                Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
+                binding.progressBar.isVisible = false
+            }
+            isLoading?.let { isLoading ->
+                binding.progressBar.isVisible = true
             }
         }
-        gamesAdapter.submitList(updatedGameIndicators)
     }
-
-    private val gameIndicators = mutableListOf(
-        CategoryIndicator(GameType.CSGO, true),
-        CategoryIndicator(GameType.DOTA2, false),
-        CategoryIndicator(GameType.OWERWATCH, false),
-        CategoryIndicator(GameType.RAINBOW_SIX, false),
-    )
 
 }

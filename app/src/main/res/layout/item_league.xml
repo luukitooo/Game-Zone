@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
@@ -16,21 +17,24 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivLeague"
-            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="100dp"
+            android:padding="16dp"
             android:src="@drawable/imp_rainbow_six_bg" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="22dp"
-            android:text="League Title"
-            android:textColor="@color/white"
             android:textSize="18sp"
-            app:fontFamily="@font/sk_modernist_bold" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="12dp"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            app:fontFamily="@font/sk_modernist_bold"
+            tools:text="League Title" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -14,13 +14,11 @@ import kotlin.coroutines.EmptyCoroutineContext
 fun LifecycleOwner.doInBackground(
     context: CoroutineContext = EmptyCoroutineContext,
     action: suspend (CoroutineScope) -> Unit
-) : Job {
+): Job {
     return when (this) {
         is Fragment -> {
             viewLifecycleOwner.lifecycleScope.launch(context) {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    action(this@launch)
-                }
+                action(this@launch)
             }
         }
         else -> {

@@ -73,7 +73,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
                 tvMessage.text = requireContext().getString(R.string.no_data)
             }
             else -> {
-                if (data.size == 1) list.removeAt(0)
+                if (data.size != 1) list.removeAt(0)
                 Glide.with(requireContext())
                     .load(data[0].streamsList?.last()?.embedUrl?.getStreamPreview())
                     .into(ivNewestLive)

@@ -25,8 +25,18 @@ class LeaguesViewModel @Inject constructor(
         }
     }
 
+    private val gameIndicators = mutableListOf(
+        CategoryIndicator(GameType.CSGO, true),
+        CategoryIndicator(GameType.DOTA2, false),
+        CategoryIndicator(GameType.OWERWATCH, false),
+        CategoryIndicator(GameType.RAINBOW_SIX, false),
+    )
+
     private val _leaguesFlow = MutableStateFlow(ViewState<List<League>>())
     val leaguesFlow get() = _leaguesFlow.asStateFlow()
+
+    private val _indicatorsFlow = MutableStateFlow(gameIndicators)
+    val indicatorsFlow get() = _indicatorsFlow.asStateFlow()
 
     suspend fun getLeagues(
         gameType: String,
@@ -40,6 +50,28 @@ class LeaguesViewModel @Inject constructor(
         }, _leaguesFlow.value).collect { state ->
             _leaguesFlow.emit(state)
         }
+    }
+
+    suspend fun updateIndicators(selectedIndicator: GameType) {
+        val updatedGameIndicators = mutableListOf<CategoryIndicator>()
+        gameIndicators.forEach { gameIndicator ->
+            if (gameIndicator.gameType.title == selectedIndicator.title) {
+                updatedGameIndicators.add(
+                    CategoryIndicator(
+                        gameType = gameIndicator.gameType,
+                        isSelected = true
+                    )
+                )
+            } else {
+                updatedGameIndicators.add(
+                    CategoryIndicator(
+                        gameType = gameIndicator.gameType,
+                        isSelected = false
+                    )
+                )
+            }
+        }
+        _indicatorsFlow.emit(updatedGameIndicators)
     }
 
 }
