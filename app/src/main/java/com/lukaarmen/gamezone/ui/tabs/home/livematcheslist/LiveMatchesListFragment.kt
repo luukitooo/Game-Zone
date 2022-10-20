@@ -31,9 +31,9 @@ class LiveMatchesListFragment : BaseFragment<FragmentLiveMatchesListBinding>(
     override fun observers() {
         doInBackground {
             viewModel.viewState.collect {
-                it.data?.let { matchList ->
+                it.data?.let { matchesList ->
                     initLivesRecycler()
-                    livesAdapter.submitList(matchList)
+                    livesAdapter.submitList(matchesList)
                     binding.progressBar.isVisible = false
                 }
                 it.error?.let { error ->
