@@ -23,13 +23,7 @@ class HomeViewModel @Inject constructor(
     private val getLivesByGameUseCase: GetLivesByGameUseCase
 ) : BaseViewModel() {
 
-    private val _viewState = MutableStateFlow(ViewState<List<Match>>())
-    val viewState = _viewState.asStateFlow()
-
-    private val _streamsCountState = MutableStateFlow(0)
-    val streamsCountState = _streamsCountState.asStateFlow()
-
-    val gamesList = mutableListOf(
+    private val gamesList = mutableListOf(
         CategoryIndicator(GameType.ALL, true),
         CategoryIndicator(GameType.CSGO, false),
         CategoryIndicator(GameType.DOTA2, false),
@@ -43,28 +37,54 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    suspend fun getAllRunningMatches() {
+    private val _viewState = MutableStateFlow(ViewState<List<Match>>())
+    val viewState = _viewState.asStateFlow()
+
+    private val _streamsCountState = MutableStateFlow(0)
+    val streamsCountState = _streamsCountState.asStateFlow()
+
+    private val _gamesListState = MutableStateFlow<List<CategoryIndicator>>(gamesList)
+    val gamesListState = _gamesListState.asStateFlow()
+
+    suspend fun updateGamesList(selectedGame: GameType) {
+        var position = 0
+        val updatedGameList = mutableListOf<CategoryIndicator>()
+        updatedGameList.addAll(gamesList)
+        gamesList.forEach {
+            if (it.gameType == selectedGame) position = updatedGameList.indexOf(it)
+            if (it.isSelected) {
+                updatedGameList[updatedGameList.indexOf(it)] =
+                    CategoryIndicator(gameType = it.gameType, isSelected = false)
+            }
+        }
+        updatedGameList[position] =
+            CategoryIndicator(gameType = gamesList[position].gameType, isSelected = true)
+
+        _gamesListState.emit(updatedGameList)
+
+        when (selectedGame.title) {
+            GameType.ALL.title -> getAllRunningMatches()
+            else -> getLivesByGame(selectedGame.title)
+        }
+    }
+
+    private suspend fun getAllRunningMatches() {
         stateHandler(
             getAllRunningMatchesUseCase().map {
-                it.onSuccess { list ->
-                    _streamsCountState.emit(list.size)
-                }
-                it.mapSuccess { domain ->
-                    domain.toMatch()
-                }
-            },
-            _viewState.value
+                it.onSuccess { matchesList -> _streamsCountState.emit(matchesList.size) }
+                it.mapSuccess { matchDomain -> matchDomain.toMatch() }
+            }, _viewState.value
         ).collect {
             _viewState.value = it
         }
     }
 
-    suspend fun getLivesByGame(gameType: String) {
+    private suspend fun getLivesByGame(gameType: String) {
         stateHandler(
             getLivesByGameUseCase(gameType).map {
-                it.mapSuccess { domain -> domain.toMatch() }
-            },
-            _viewState.value
+                it.onSuccess { matchesList -> _streamsCountState.emit(matchesList.size) }
+                it.mapSuccess { matchDomain -> matchDomain.toMatch() }
+            }, _viewState.value
         ).collect {
             _viewState.value = it
         }

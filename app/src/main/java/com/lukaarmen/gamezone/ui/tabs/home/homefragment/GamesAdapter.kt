@@ -24,10 +24,7 @@ class GamesAdapter : BaseAdapter<CategoryIndicator, ItemGameBinding>(ItemGameBin
             false -> {
                 root.isEnabled = true
                 root.backgroundTintList = ColorStateList.valueOf(
-                    ContextCompat.getColor(
-                        root.context,
-                        R.color.app_background_light
-                    )
+                    ContextCompat.getColor(root.context, R.color.app_background_light)
                 )
             }
         }
