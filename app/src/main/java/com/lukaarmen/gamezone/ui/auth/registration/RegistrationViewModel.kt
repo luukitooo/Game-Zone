@@ -2,7 +2,6 @@ package com.lukaarmen.gamezone.ui.auth.registration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.lukaarmen.gamezone.model.User

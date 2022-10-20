@@ -44,7 +44,8 @@
         android:src="@drawable/ic_search"
         app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/floatingActionButton" />
+        app:layout_constraintTop_toTopOf="@+id/floatingActionButton"
+        app:tint="@color/app_grey_light" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvGames"
@@ -66,12 +67,12 @@
         android:layout_marginTop="8dp"
         android:clipToPadding="false"
         android:paddingTop="8dp"
-        app:spanCount="2"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvGames"
+        app:spanCount="2"
         tools:listitem="@layout/item_league" />
 
     <ProgressBar
@@ -84,5 +85,22 @@
         app:layout_constraintEnd_toEndOf="@+id/rvLeagues"
         app:layout_constraintStart_toStartOf="@+id/rvLeagues"
         app:layout_constraintTop_toTopOf="@+id/rvLeagues" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etSearch"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/shape_rounded_corners"
+        android:backgroundTint="@color/app_background_light"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="16dp"
+        android:hint="@string/title"
+        android:paddingHorizontal="16dp"
+        android:textColorHint="@color/app_grey"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSearch"
+        app:layout_constraintEnd_toEndOf="@+id/appCompatTextView3"
+        app:layout_constraintStart_toStartOf="@+id/floatingActionButton"
+        app:layout_constraintTop_toTopOf="@+id/btnSearch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

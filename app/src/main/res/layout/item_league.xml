@@ -20,19 +20,19 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:padding="16dp"
-            android:src="@drawable/imp_rainbow_six_bg" />
+            android:src="@drawable/img_overwatch_icon" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
             android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="16dp"
             android:layout_marginVertical="12dp"
             android:gravity="center"
             android:maxLines="1"
             android:textColor="@color/white"
+            android:textSize="18sp"
             app:fontFamily="@font/sk_modernist_bold"
             tools:text="League Title" />
 

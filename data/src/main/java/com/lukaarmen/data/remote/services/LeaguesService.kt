@@ -13,5 +13,6 @@ interface LeaguesService {
         @Path("gameType") gameType: String,
         @Query("page") page: Int,
         @Query("per_page") perPage: Int,
+        @Query("search[name]") name: String? = null
     ): Response<List<LeaguesDto>>
 }
