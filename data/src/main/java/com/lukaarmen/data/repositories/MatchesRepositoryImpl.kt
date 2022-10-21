@@ -41,14 +41,16 @@ class MatchesRepositoryImpl @Inject constructor(
         page: Int?,
         perPage: Int?,
         sort: String,
-        filter: String
+        filter: String,
+        name: String?
     ): Flow<Resource<List<MatchDomain>>> {
         return requestHandler.safeApiCall {
             matchesService.getAllRunningMatches(
                 page = page,
                 perPage = perPage,
                 sort = sort,
-                filter = filter
+                filter = filter,
+                name = name
             )
         }.map {
             it.mapSuccess { matchDto ->
@@ -61,14 +63,16 @@ class MatchesRepositoryImpl @Inject constructor(
         gameType: String,
         page: Int,
         perPage: Int,
-        sort: String
+        sort: String,
+        name: String?
     ): Flow<Resource<List<MatchDomain>>> {
         return requestHandler.safeApiCall {
             matchesService.getRunningMatchesByGame(
                 gameType = gameType,
                 page = page,
                 perPage = perPage,
-                sort = sort
+                sort = sort,
+                name = name
             )
         }.map {
             it.mapSuccess { matchDto ->

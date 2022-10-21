@@ -17,6 +17,7 @@ class TabsFragment : BaseFragment<FragmentTabsBinding>(
     override fun init() {
         initNavigation()
         onBackPressed()
+
     }
 
     override fun listeners() {

@@ -24,6 +24,7 @@ interface MatchesService {
         @Query("per_page") perPage: Int?,
         @Query("sort") sort: String,
         @Query("filter[videogame]") filter: String,
+        @Query("search[name]") name: String? = null
     ): Response<List<MatchDto>>
 
     @GET("{gameType}/matches/running")
@@ -31,6 +32,7 @@ interface MatchesService {
         @Path("gameType") gameType: String,
         @Query("page") page: Int,
         @Query("per_page") perPage: Int,
-        @Query("sort") sort: String
+        @Query("sort") sort: String,
+        @Query("search[name]") name: String? = null
     ): Response<List<MatchDto>>
 }

@@ -70,7 +70,7 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun getAllRunningMatches() {
         stateHandler(
-            getAllRunningMatchesUseCase().map {
+            getAllRunningMatchesUseCase(null).map {
                 it.onSuccess { matchesList -> _streamsCountState.emit(matchesList.size) }
                 it.mapSuccess { matchDomain -> matchDomain.toMatch() }
             }, _viewState.value
@@ -81,7 +81,7 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun getLivesByGame(gameType: String) {
         stateHandler(
-            getLivesByGameUseCase(gameType).map {
+            getLivesByGameUseCase(gameType, null).map {
                 it.onSuccess { matchesList -> _streamsCountState.emit(matchesList.size) }
                 it.mapSuccess { matchDomain -> matchDomain.toMatch() }
             }, _viewState.value
