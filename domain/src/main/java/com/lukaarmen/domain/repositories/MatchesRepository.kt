@@ -6,13 +6,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface MatchesRepository {
 
-    suspend fun getMatchesByTournamentId(
+    suspend fun getMatchesByLeagueId(
         gameType: String,
         timeFrame: String,
         page: Int,
         perPage: Int,
-        tournamentId: Int,
-        sort: String
+        leagueId: Int,
+        sort: String,
+        title: String
     ): Flow<Resource<List<MatchDomain>>>
 
     suspend fun getAllRunningMatches(

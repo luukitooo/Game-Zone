@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:layout_marginBottom="20dp"
@@ -23,7 +24,7 @@
             android:id="@+id/constraintLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="10dp"
             android:background="@drawable/shape_rounded_corners"
             android:backgroundTint="@color/app_background_light"
             android:padding="10dp"
@@ -41,7 +42,7 @@
                 android:gravity="start"
                 android:text="Kirikou"
                 android:textColor="@color/white"
-                app:fontFamily="@font/sk_modernist_mono"
+                app:fontFamily="@font/sk_modernist_regular"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -50,13 +51,24 @@
                 android:id="@+id/tmgFirstTeamLogo"
                 android:layout_width="0dp"
                 android:layout_height="70dp"
-                android:layout_marginBottom="5dp"
                 android:background="@drawable/shape_circular"
+                android:padding="8dp"
                 android:src="@drawable/ic_launcher_background"
-                app:layout_constraintBottom_toTopOf="@+id/tvFirstTeamName"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/tvFirstTeamScore"
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintStart_toStartOf="@+id/tvFirstTeamName"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/pbFirst"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateDrawable="@drawable/progressbar_bg"
+                app:layout_constraintBottom_toBottomOf="@+id/tmgFirstTeamLogo"
+                app:layout_constraintEnd_toEndOf="@+id/tmgFirstTeamLogo"
+                app:layout_constraintStart_toStartOf="@+id/tmgFirstTeamLogo"
+                app:layout_constraintTop_toTopOf="@+id/tmgFirstTeamLogo" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvFirstTeamScore"
@@ -65,8 +77,9 @@
                 android:text="1"
                 android:textColor="@color/white"
                 android:textSize="25sp"
+                app:fontFamily="@font/sk_modernist_bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/tvFirstTeamName"
                 app:layout_constraintStart_toEndOf="@+id/tmgFirstTeamLogo"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,7 +94,8 @@
             android:padding="15dp"
             android:text="@string/versus"
             android:textColor="@color/white"
-            android:textSize="25sp"
+            android:textSize="20sp"
+            app:fontFamily="@font/sk_modernist_bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -90,7 +104,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:background="@drawable/shape_rounded_corners"
             android:backgroundTint="@color/app_background_light"
             android:padding="10dp"
@@ -108,7 +122,7 @@
                 android:gravity="end"
                 android:text="Lemondogs"
                 android:textColor="@color/white"
-                app:fontFamily="@font/sk_modernist_mono"
+                app:fontFamily="@font/sk_modernist_regular"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -118,22 +132,35 @@
                 android:layout_width="0dp"
                 android:layout_height="70dp"
                 android:background="@drawable/shape_circular"
+                android:padding="8dp"
                 android:src="@drawable/ic_launcher_background"
-                app:layout_constraintBottom_toTopOf="@+id/tvSecondTeamName"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/tvSecondTeamScore"
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toEndOf="@+id/tvSecondTeamName"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/pbSecond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateDrawable="@drawable/progressbar_bg"
+                app:layout_constraintBottom_toBottomOf="@+id/tmgSecondTeamLogo"
+                app:layout_constraintEnd_toEndOf="@+id/tmgSecondTeamLogo"
+                app:layout_constraintStart_toStartOf="@+id/tmgSecondTeamLogo"
+                app:layout_constraintTop_toTopOf="@+id/tmgSecondTeamLogo" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvSecondTeamScore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/sk_modernist_bold"
                 android:text="3"
                 android:textColor="@color/white"
                 android:textSize="25sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tmgSecondTeamLogo"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvSecondTeamName"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,30 +11,23 @@
         android:label="fragment_leagues"
         tools:layout="@layout/fragment_leagues" >
         <action
-            android:id="@+id/action_leaguesFragment_to_seriesFragment"
-            app:destination="@id/seriesFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/seriesFragment"
-        android:name="com.lukaarmen.gamezone.ui.tabs.leagues.seriesfragment.SeriesFragment"
-        android:label="fragment_series"
-        tools:layout="@layout/fragment_series" >
-        <action
-            android:id="@+id/action_seriesFragment_to_tournamentsFragment"
-            app:destination="@id/tournamentsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/tournamentsFragment"
-        android:name="com.lukaarmen.gamezone.ui.tabs.leagues.tournamentsfragment.TournamentsFragment"
-        android:label="fragment_tournaments"
-        tools:layout="@layout/fragment_tournaments" >
-        <action
-            android:id="@+id/action_tournamentsFragment_to_matchesFragment"
-            app:destination="@id/matchesFragment" />
+            android:id="@+id/action_leaguesFragment_to_matchesFragment"
+            app:destination="@id/matchesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/matchesFragment"
         android:name="com.lukaarmen.gamezone.ui.tabs.leagues.matchesfragment.MatchesFragment"
         android:label="fragment_matches"
-        tools:layout="@layout/fragment_matches" />
+        tools:layout="@layout/fragment_matches" >
+        <argument
+            android:name="leagueId"
+            app:argType="integer" />
+        <argument
+            android:name="gameType"
+            app:argType="string" />
+    </fragment>
 </navigation>

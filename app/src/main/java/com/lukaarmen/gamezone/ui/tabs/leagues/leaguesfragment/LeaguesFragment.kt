@@ -1,8 +1,10 @@
 package com.lukaarmen.gamezone.ui.tabs.leagues.leaguesfragment
 
+import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
@@ -40,6 +42,14 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
                 viewModel.getLeagues(gameIndicator.title)
                 viewModel.updateIndicators(gameIndicator)
             }
+        }
+        leagueAdapter.onItemClickListener = { league ->
+            findNavController().navigate(
+                LeaguesFragmentDirections.actionLeaguesFragmentToMatchesFragment(
+                    leagueId = league.id!!,
+                    gameType = gamesAdapter.currentList.find { it.isSelected }!!.gameType.title
+                )
+            )
         }
         binding.btnSearch.setOnClickListener {
             isSearching = !isSearching
@@ -93,7 +103,7 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
 
     private fun searchFor(leagueTitle: String) {
         searchJob?.cancel()
-        searchJob = doInBackground(Dispatchers.Main) {
+        searchJob = doInBackground {
             delay(500L)
             viewModel.getLeagues(
                 gameType = gamesAdapter.currentList.find { it.isSelected }!!.gameType.title,

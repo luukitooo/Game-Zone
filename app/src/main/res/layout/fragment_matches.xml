@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background"
@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="34dp"
         android:src="@drawable/ic_arrow_back"
+        app:elevation="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="24dp" />
@@ -40,6 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_search"
+        app:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnBack" />
@@ -49,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:checkedButton="@id/btnRunning"
+        android:checkedButton="@id/btnPast"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/btnBack"
         tools:layout_editor_absoluteX="24dp">
@@ -61,6 +63,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_switch_item_bg"
             android:button="@null"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:text="@string/past"
             android:textColor="@drawable/selector_switch_text" />
@@ -74,17 +77,19 @@
             android:layout_weight="1"
             android:background="@drawable/selector_switch_item_bg"
             android:button="@null"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:text="@string/running"
             android:textColor="@drawable/selector_switch_text" />
 
         <RadioButton
-            android:id="@+id/btnUpcomming"
+            android:id="@+id/btnUpcoming"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/selector_switch_item_bg"
             android:button="@null"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:text="@string/upcoming"
             android:textColor="@drawable/selector_switch_text" />
@@ -96,9 +101,67 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup"
-        tools:listitem="@layout/item_match"
-        tools:layout_editor_absoluteX="24dp" />
+        tools:listitem="@layout/item_match" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateDrawable="@drawable/progressbar_bg"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/rvMatches"
+        app:layout_constraintEnd_toEndOf="@+id/rvMatches"
+        app:layout_constraintStart_toStartOf="@+id/rvMatches"
+        app:layout_constraintTop_toTopOf="@+id/rvMatches" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layoutError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/rvMatches"
+        app:layout_constraintEnd_toEndOf="@+id/rvMatches"
+        app:layout_constraintStart_toStartOf="@+id/rvMatches"
+        app:layout_constraintTop_toTopOf="@+id/rvMatches">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_error" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/nothing_was_found"
+            android:textColor="@color/app_grey_light"
+            app:fontFamily="@font/sk_modernist_regular" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etSearch"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/shape_rounded_corners"
+        android:backgroundTint="@color/app_background_light"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="16dp"
+        android:hint="@string/title"
+        android:paddingHorizontal="16dp"
+        android:textColorHint="@color/app_grey"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSearch"
+        app:layout_constraintEnd_toEndOf="@+id/appCompatTextView3"
+        app:layout_constraintStart_toStartOf="@+id/btnBack"
+        app:layout_constraintTop_toTopOf="@+id/btnSearch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

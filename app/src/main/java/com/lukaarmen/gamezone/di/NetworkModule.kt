@@ -32,6 +32,14 @@ class NetworkModule {
                     "authorization",
                     "Bearer wUtbrgpo0yhWgQaLWWPKH8CDUQ4jrJNm68fgubRtj2x5mjOlC8Y"
                 )
+                .addHeader(
+                    "Content-Type",
+                    "application/json"
+                )
+                .addHeader(
+                    "accept",
+                    "application/json"
+                )
             val actualRequest = request.build()
             it.proceed(actualRequest)
         }

@@ -15,22 +15,25 @@ class MatchesRepositoryImpl @Inject constructor(
     private val matchesService: MatchesService,
     private val baseRepository: BaseRepository
 ) : MatchesRepository {
-    override suspend fun getMatchesByTournamentId(
+
+    override suspend fun getMatchesByLeagueId(
         gameType: String,
         timeFrame: String,
         page: Int,
         perPage: Int,
-        tournamentId: Int,
-        sort: String
+        leagueId: Int,
+        sort: String,
+        title: String
     ): Flow<Resource<List<MatchDomain>>> {
         return baseRepository.safeApiCall {
-            matchesService.getMatchesByTournamentId(
+            matchesService.getMatchesByLeagueId(
                 gameType = gameType,
                 timeFrame = timeFrame,
                 page = page,
                 perPage = perPage,
-                leagueId = tournamentId,
-                sort = sort
+                leagueId = leagueId,
+                sort = sort,
+                title = title
             )
         }.map {
             it.mapSuccess { matchDto -> matchDto.toMatchDomain() }

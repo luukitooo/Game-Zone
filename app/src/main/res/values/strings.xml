@@ -42,4 +42,5 @@
     <string name="error">Something went wrong</string>
     <string name="not_available">N\\A</string>
     <string name="title">Title</string>
+    <string name="nothing_was_found">Nothing was found</string>
 </resources>

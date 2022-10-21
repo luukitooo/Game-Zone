@@ -9,13 +9,14 @@ import retrofit2.http.Query
 interface MatchesService {
 
     @GET("{gameType}/matches/{timeFrame}")
-    suspend fun getMatchesByTournamentId(
+    suspend fun getMatchesByLeagueId(
         @Path("gameType") gameType: String,
         @Path("timeFrame") timeFrame: String,
-        @Query("page") page: Int,
-        @Query("per_page") perPage: Int,
-        @Query("filter[tournament_id]") leagueId: Int,
-        @Query("sort") sort: String
+        @Query("page") page: Int? = null,
+        @Query("per_page") perPage: Int? = null,
+        @Query("filter[league_id]") leagueId: Int,
+        @Query("sort") sort: String,
+        @Query("search[name]") title: String = ""
     ): Response<List<MatchDto>>
 
     @GET("matches/running")
