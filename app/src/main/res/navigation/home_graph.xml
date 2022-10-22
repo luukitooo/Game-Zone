@@ -21,7 +21,11 @@
         android:id="@+id/liveMatchDetailsFragment"
         android:name="com.lukaarmen.gamezone.ui.tabs.home.livematchdetails.LiveMatchDetailsFragment"
         android:label="fragment_live_match_details"
-        tools:layout="@layout/fragment_live_match_details" />
+        tools:layout="@layout/fragment_live_match_details" >
+        <argument
+            android:name="matchId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/liveMatchesListFragment"
         android:name="com.lukaarmen.gamezone.ui.tabs.home.livematcheslist.LiveMatchesListFragment"

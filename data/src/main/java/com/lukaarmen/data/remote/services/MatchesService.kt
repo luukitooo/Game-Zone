@@ -35,4 +35,8 @@ interface MatchesService {
         @Query("sort") sort: String,
         @Query("search[name]") name: String? = null
     ): Response<List<MatchDto>>
+
+    @GET("matches/{matchId}")
+    suspend fun getMatchById(@Path("matchId") matchId: Int): Response<MatchDto>
+
 }

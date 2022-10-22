@@ -7,6 +7,6 @@ import retrofit2.http.Path
 
 interface TeamsService {
 
-    @GET("{gameType}/teams")
-    suspend fun getAllTeams(@Path("gameType") gameType: String): Response<List<TeamDto>>
+    @GET("teams/{teamId}")
+    suspend fun getTeamById(@Path("teamId") teamId: Int): Response<TeamDto>
 }

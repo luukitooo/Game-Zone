@@ -47,3 +47,13 @@ fun ImageView.setLivePreview(preview: List<Match.Stream?>?, progressBar: Progres
         progressBar?.let { it.isVisible = false }
     }
 }
+
+fun ImageView.setPlayerPhoto(url: String?, errorImg: Int){
+    if(url != null){
+        Glide.with(this.context)
+            .load(url)
+            .into(this)
+    }else{
+        this.setImageDrawable(ContextCompat.getDrawable(this.context, errorImg))
+    }
+}

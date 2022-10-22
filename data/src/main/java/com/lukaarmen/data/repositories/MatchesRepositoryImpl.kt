@@ -5,6 +5,7 @@ import com.lukaarmen.data.remote.mappers.toMatchDomain
 import com.lukaarmen.data.remote.services.MatchesService
 import com.lukaarmen.domain.common.Resource
 import com.lukaarmen.domain.common.mapSuccess
+import com.lukaarmen.domain.common.success
 import com.lukaarmen.domain.models.MatchDomain
 import com.lukaarmen.domain.repositories.MatchesRepository
 import kotlinx.coroutines.flow.Flow
@@ -78,6 +79,14 @@ class MatchesRepositoryImpl @Inject constructor(
             it.mapSuccess { matchDto ->
                 matchDto.toMatchDomain()
             }
+        }
+    }
+
+    override suspend fun getMatchById(matchId: Int): Flow<Resource<MatchDomain>> {
+        return requestHandler.safeApiCall {
+            matchesService.getMatchById(matchId)
+        }.map { matchDto ->
+            matchDto.success { it.toMatchDomain() }
         }
     }
 

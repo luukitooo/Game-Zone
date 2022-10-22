@@ -3,7 +3,7 @@ package com.lukaarmen.domain.models
 data class TeamDomain(
     val acronym: Any?,
     val currentVideoGame: VideoGameDomain?,
-    val id: Int?,
+    var id: Int?,
     val imageUrl: String?,
     val location: String?,
     val modifiedAt: String?,
@@ -17,7 +17,7 @@ data class TeamDomain(
         val birthday: Any?,
         val firstName: String?,
         val id: Int?,
-        val imageUrl: Any?,
+        val imageUrl: String?,
         val lastName: String?,
         val name: String?,
         val nationality: String?,

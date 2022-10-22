@@ -6,8 +6,7 @@ fun String.getStreamPreview(quality: String): String {
     return link
 }
 
-fun String.filterDate(): String {
-    val list = this.split("T")
-    return list.first()
-}
+fun String.filterDate() = this.dropLast(4).replace("T", " ")
+
+
 

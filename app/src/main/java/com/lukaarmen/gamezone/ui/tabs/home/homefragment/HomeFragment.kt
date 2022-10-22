@@ -47,6 +47,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
                 viewModel.updateGamesList(gameType)
             }
         }
+
+        livesAdapter.onCLickListener = {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToLiveMatchDetailsFragment(
+                    it
+                )
+            )
+        }
     }
 
     override fun observers() {

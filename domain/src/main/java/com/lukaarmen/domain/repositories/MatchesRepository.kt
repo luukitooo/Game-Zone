@@ -31,4 +31,6 @@ interface MatchesRepository {
         name: String?
     ): Flow<Resource<List<MatchDomain>>>
 
+    suspend fun getMatchById(matchId: Int): Flow<Resource<MatchDomain>>
+
 }

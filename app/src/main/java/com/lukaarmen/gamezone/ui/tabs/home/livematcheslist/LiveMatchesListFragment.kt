@@ -43,6 +43,14 @@ class LiveMatchesListFragment : BaseFragment<FragmentLiveMatchesListBinding>(
                 searchFor(matchName.toString())
             }
         }
+
+        livesAdapter.onClickListener = {
+            findNavController().navigate(
+                LiveMatchesListFragmentDirections.actionLiveMatchesListFragmentToLiveMatchDetailsFragment(
+                    it
+                )
+            )
+        }
     }
 
     private fun searchFor(matchName: String) {

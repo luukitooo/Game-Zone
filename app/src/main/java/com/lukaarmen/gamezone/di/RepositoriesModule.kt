@@ -1,13 +1,7 @@
 package com.lukaarmen.gamezone.di
 
-import com.lukaarmen.data.repositories.LeaguesRepositoryImpl
-import com.lukaarmen.data.repositories.MatchesRepositoryImpl
-import com.lukaarmen.data.repositories.SeriesRepositoryImpl
-import com.lukaarmen.data.repositories.TournamentRepositoryImpl
-import com.lukaarmen.domain.repositories.LeaguesRepository
-import com.lukaarmen.domain.repositories.MatchesRepository
-import com.lukaarmen.domain.repositories.SeriesRepository
-import com.lukaarmen.domain.repositories.TournamentRepository
+import com.lukaarmen.data.repositories.*
+import com.lukaarmen.domain.repositories.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -33,5 +27,9 @@ abstract class RepositoriesModule {
     @Singleton
     @Binds
     abstract fun bindMatchesRepositoryImpl(repositoryImpl: MatchesRepositoryImpl): MatchesRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindTeamsRepositoryImpl(repositoryImpl: TeamsRepositoryImpl): TeamsRepository
 
 }
