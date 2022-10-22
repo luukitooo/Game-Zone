@@ -2,11 +2,15 @@ package com.lukaarmen.gamezone.ui.tabs.leagues.leaguesfragment
 
 import androidx.lifecycle.viewModelScope
 import com.lukaarmen.domain.common.mapSuccess
+import com.lukaarmen.domain.models.FavoriteLeagueDomain
 import com.lukaarmen.domain.usecases.GetLeaguesUseCase
+import com.lukaarmen.domain.usecases.favorite_leagues.AddFavoriteLeagueUseCase
+import com.lukaarmen.domain.usecases.favorite_leagues.GetAllFavoriteLeaguesUseCase
 import com.lukaarmen.gamezone.common.base.BaseViewModel
 import com.lukaarmen.gamezone.common.utils.CategoryIndicator
 import com.lukaarmen.gamezone.common.utils.GameType
 import com.lukaarmen.gamezone.common.utils.ViewState
+import com.lukaarmen.gamezone.models.FavoriteLeague
 import com.lukaarmen.gamezone.models.League
 import com.lukaarmen.gamezone.models.toLeague
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +20,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LeaguesViewModel @Inject constructor(
-    private val getLeaguesUseCase: GetLeaguesUseCase
+    private val getLeaguesUseCase: GetLeaguesUseCase,
+    private val gatAllFavoriteLeaguesUseCase: GetAllFavoriteLeaguesUseCase,
+    private val addFavoriteLeaguesUseCase: AddFavoriteLeagueUseCase
 ) : BaseViewModel() {
 
     init {
@@ -37,6 +43,9 @@ class LeaguesViewModel @Inject constructor(
 
     private val _indicatorsFlow = MutableStateFlow(gameIndicators)
     val indicatorsFlow get() = _indicatorsFlow.asStateFlow()
+
+    private val _isLeagueAlreadySavedFlow = MutableSharedFlow<FavoriteLeague?>()
+    val isLeagueAlreadySavedFlow get() = _isLeagueAlreadySavedFlow.asSharedFlow()
 
     suspend fun getLeagues(
         gameType: String,
@@ -73,6 +82,18 @@ class LeaguesViewModel @Inject constructor(
             }
         }
         _indicatorsFlow.emit(updatedGameIndicators)
+    }
+
+    suspend fun checkLeagueSaved(league: FavoriteLeague) {
+        if (gatAllFavoriteLeaguesUseCase().contains(league.toFavoriteLeagueDomain())) {
+            _isLeagueAlreadySavedFlow.emit(null)
+        } else {
+            _isLeagueAlreadySavedFlow.emit(league)
+        }
+    }
+
+    suspend fun addLeagueToFavorites(league: FavoriteLeague) {
+        addFavoriteLeaguesUseCase(league.toFavoriteLeagueDomain())
     }
 
 }

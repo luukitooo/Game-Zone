@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background"
-    android:padding="24dp"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="24dp"
     tools:context=".ui.tabs.leagues.leaguesfragment.LeaguesFragment">
 
     <ProgressBar
@@ -102,5 +103,12 @@
         app:layout_constraintEnd_toEndOf="@+id/appCompatTextView3"
         app:layout_constraintStart_toStartOf="@+id/floatingActionButton"
         app:layout_constraintTop_toTopOf="@+id/btnSearch" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glLayoutBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,8 @@ class LeagueAdapter : BaseAdapter<League, ItemLeagueBinding>(ItemLeagueBinding::
 
     var onItemClickListener: ((League) -> Unit)? = null
 
+    var onItemLongClickListener: ((League) -> Unit)? = null
+
     override fun onBind(binding: ItemLeagueBinding, position: Int) {
         val league = getItem(position).inner
         Glide.with(binding.ivLeague)
@@ -20,6 +22,10 @@ class LeagueAdapter : BaseAdapter<League, ItemLeagueBinding>(ItemLeagueBinding::
             tvTitle.text = league.name
             root.setOnClickListener {
                 onItemClickListener?.invoke(league)
+            }
+            root.setOnLongClickListener {
+                onItemLongClickListener?.invoke(league)
+                true
             }
         }
     }

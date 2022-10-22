@@ -1,11 +1,11 @@
 package com.lukaarmen.gamezone.ui.tabs.leagues.leaguesfragment
 
-import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
@@ -13,22 +13,28 @@ import com.lukaarmen.gamezone.common.extentions.hide
 import com.lukaarmen.gamezone.common.extentions.show
 import com.lukaarmen.gamezone.common.utils.ViewState
 import com.lukaarmen.gamezone.databinding.FragmentLeaguesBinding
+import com.lukaarmen.gamezone.models.FavoriteLeague
 import com.lukaarmen.gamezone.models.League
 import com.lukaarmen.gamezone.ui.tabs.home.homefragment.GamesAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBinding::inflate) {
 
     private val viewModel: LeaguesViewModel by viewModels()
 
+    @Inject
+    lateinit var auth: FirebaseAuth
+
     private val leagueAdapter = LeagueAdapter()
     private val gamesAdapter = GamesAdapter()
 
     private var isSearching = false
-
     private var searchJob: Job? = null
+    private var saveSnackBar: Snackbar? = null
 
     override fun init() = with(binding) {
         rvLeagues.adapter = leagueAdapter
@@ -51,6 +57,16 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
                 )
             )
         }
+        leagueAdapter.onItemLongClickListener = { league ->
+            doInBackground {
+                viewModel.checkLeagueSaved(
+                    league.toFavoriteLeague(
+                        uid = auth.currentUser!!.uid,
+                        gameType = gamesAdapter.currentList.find { it.isSelected }!!.gameType.title
+                    )
+                )
+            }
+        }
         binding.btnSearch.setOnClickListener {
             isSearching = !isSearching
             setSearching(isSearching)
@@ -72,6 +88,28 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
             viewModel.indicatorsFlow.collect { updatedIndicators ->
                 gamesAdapter.submitList(updatedIndicators)
             }
+        }
+        doInBackground {
+            viewModel.isLeagueAlreadySavedFlow.collect { favoriteLeague ->
+                handleSavedLeagueCheck(favoriteLeague)
+            }
+        }
+    }
+
+    private fun handleSavedLeagueCheck(league: FavoriteLeague?) {
+        league?.let {
+            saveSnackBar = Snackbar.make(binding.root, "You really want to save this league?", Snackbar.LENGTH_LONG)
+                .setAnchorView(binding.glLayoutBottom)
+                .setAction("Yes") {
+                    doInBackground {
+                        viewModel.addLeagueToFavorites(league)
+                    }
+                }
+            saveSnackBar?.show()
+        } ?: run {
+            Snackbar.make(binding.root, "League is already saved...", Snackbar.LENGTH_SHORT)
+                .setAnchorView(binding.glLayoutBottom)
+                .show()
         }
     }
 
@@ -110,6 +148,11 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
                 name = leagueTitle
             )
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        saveSnackBar?.dismiss()
     }
 
 }

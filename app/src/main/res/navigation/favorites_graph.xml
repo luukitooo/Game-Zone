@@ -9,5 +9,21 @@
         android:id="@+id/favoritesFragmentFragment"
         android:name="com.lukaarmen.gamezone.ui.tabs.favorites.favoritesfragment.FavoritesFragmentFragment"
         android:label="fragment_favorites"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/action_favoritesFragmentFragment_to_matchesFragment2"
+            app:destination="@id/matchesFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/matchesFragment2"
+        android:name="com.lukaarmen.gamezone.ui.tabs.leagues.matchesfragment.MatchesFragment"
+        android:label="fragment_matches"
+        tools:layout="@layout/fragment_matches">
+        <argument
+            android:name="leagueId"
+            app:argType="integer" />
+        <argument
+            android:name="gameType"
+            app:argType="string" />
+    </fragment>
 </navigation>

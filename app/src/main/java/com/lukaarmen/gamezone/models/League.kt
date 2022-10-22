@@ -1,5 +1,6 @@
 package com.lukaarmen.gamezone.models
 
+import com.lukaarmen.domain.models.FavoriteLeagueDomain
 import com.lukaarmen.gamezone.common.utils.Recyclable
 
 data class League(
@@ -18,4 +19,15 @@ data class League(
     override fun compareTo(other: Any?): Boolean {
         return other is League && this == other
     }
+
+    fun toFavoriteLeague(uid: String, gameType: String) = FavoriteLeague(
+        leagueId = this.id!!,
+        userId = uid,
+        title = this.name!!,
+        imageUrl = try {
+            this.imageUrl as String
+        } catch (t: Throwable) { "" },
+        gameType = gameType
+    )
+
 }
