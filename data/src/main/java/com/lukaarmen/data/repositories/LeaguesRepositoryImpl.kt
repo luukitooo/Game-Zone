@@ -1,6 +1,6 @@
 package com.lukaarmen.data.repositories
 
-import com.lukaarmen.data.common.BaseRepository
+import com.lukaarmen.data.common.RequestHandler
 import com.lukaarmen.data.remote.mappers.toLeaguesDomain
 import com.lukaarmen.data.remote.services.LeaguesService
 import com.lukaarmen.domain.common.Resource
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class LeaguesRepositoryImpl @Inject constructor(
     private val leaguesService: LeaguesService,
-    private val baseRepository: BaseRepository
+    private val baseRepository: RequestHandler
 ) : LeaguesRepository {
     override suspend fun getAllLeagues(
         gameType: String,
@@ -21,7 +21,14 @@ class LeaguesRepositoryImpl @Inject constructor(
         perPage: Int,
         name: String?
     ): Flow<Resource<List<LeaguesDomain>>> {
-        return baseRepository.safeApiCall { leaguesService.getAllLeagues(gameType, page, perPage, name) }
+        return baseRepository.safeApiCall {
+            leaguesService.getAllLeagues(
+                gameType,
+                page,
+                perPage,
+                name
+            )
+        }
             .map { it.mapSuccess { leaguesDto -> leaguesDto.toLeaguesDomain() } }
     }
 
