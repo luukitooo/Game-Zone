@@ -31,3 +31,5 @@ fun TextView.makeLink(link: Pair<String, View.OnClickListener>) {
     this.movementMethod = LinkMovementMethod.getInstance()
     this.setText(spannableString, TextView.BufferType.SPANNABLE)
 }
+
+fun TextView.checkPlayerName(name: String?) = if(name == null) this.text = "Player" else this.text = name

@@ -1,6 +1,6 @@
 package com.lukaarmen.data.repositories
 
-import com.lukaarmen.data.common.BaseRepository
+import com.lukaarmen.data.common.RequestHandler
 import com.lukaarmen.data.remote.mappers.toSeriesDomain
 import com.lukaarmen.data.remote.services.SeriesService
 import com.lukaarmen.domain.common.Resource
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class SeriesRepositoryImpl @Inject constructor(
     private val seriesService: SeriesService,
-    private val baseRepository: BaseRepository
+    private val requestHandler: RequestHandler
 ) : SeriesRepository {
 
     override suspend fun getRunningSeries(
@@ -23,7 +23,7 @@ class SeriesRepositoryImpl @Inject constructor(
         perPage: Int,
         leagueId: Int
     ): Flow<Resource<List<SeriesDomain>>> {
-        return baseRepository.safeApiCall {
+        return requestHandler.safeApiCall {
             seriesService.getSeriesByLeagueId(gameType, timeFrame, page, perPage, leagueId)
         }.map { seriesDto ->
             seriesDto.mapSuccess { seriesDto -> seriesDto.toSeriesDomain() }

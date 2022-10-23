@@ -1,6 +1,6 @@
 package com.lukaarmen.data.repositories
 
-import com.lukaarmen.data.common.BaseRepository
+import com.lukaarmen.data.common.RequestHandler
 import com.lukaarmen.data.remote.mappers.toTournamentsDomain
 import com.lukaarmen.data.remote.services.TournamentsService
 import com.lukaarmen.domain.common.Resource
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class TournamentRepositoryImpl @Inject constructor(
     private val tournamentsService: TournamentsService,
-    private val baseRepository: BaseRepository
+    private val requestHandler: RequestHandler
 ) : TournamentRepository {
 
     override suspend fun getTournamentBySerieId(
@@ -23,7 +23,7 @@ class TournamentRepositoryImpl @Inject constructor(
         perPage: Int,
         serieId: Int
     ): Flow<Resource<List<TournamentsDomain>>> {
-        return baseRepository.safeApiCall {
+        return requestHandler.safeApiCall {
             tournamentsService.getTournamentsBySerieId(
                 gameType = gameType,
                 timeFrame = timeFrame,

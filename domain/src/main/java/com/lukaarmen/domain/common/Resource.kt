@@ -43,3 +43,12 @@ fun <T, R> Resource<List<T>>.mapSuccess(transform: (T) -> R): Resource<List<R>> 
         is Resource.Loader -> Resource.Loader(isLoading = this.isLoading)
     }
 }
+
+
+fun <T, R> Resource<T>.success(transform: (T) -> R): Resource<R> {
+    return when (this) {
+        is Resource.Success -> Resource.Success(success = transform(success!!))
+        is Resource.Failure -> Resource.Failure(error = this.error)
+        is Resource.Loader -> Resource.Loader(isLoading = this.isLoading)
+    }
+}

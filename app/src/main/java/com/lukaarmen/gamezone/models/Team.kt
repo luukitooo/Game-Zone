@@ -17,7 +17,7 @@ data class Team(
         val birthday: Any?,
         val firstName: String?,
         val id: Int?,
-        val imageUrl: Any?,
+        val imageUrl: String?,
         val lastName: String?,
         val name: String?,
         val nationality: String?,

@@ -13,11 +13,3 @@ data class CategoryIndicator(
     }
 
 }
-
-val gamesList = mutableListOf(
-    CategoryIndicator(GameType.ALL, true),
-    CategoryIndicator(GameType.CSGO, false),
-    CategoryIndicator(GameType.DOTA2, false),
-    CategoryIndicator(GameType.OWERWATCH, false),
-    CategoryIndicator(GameType.RAINBOW_SIX, false),
-)

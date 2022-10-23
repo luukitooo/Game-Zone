@@ -1,32 +1,89 @@
 package com.lukaarmen.gamezone.ui.tabs.home.livematcheslist
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.lukaarmen.gamezone.R
+import com.lukaarmen.gamezone.common.base.BaseFragment
+import com.lukaarmen.gamezone.common.extentions.doInBackground
+import com.lukaarmen.gamezone.databinding.FragmentLiveMatchesListBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 
-class LiveMatchesListFragment : Fragment() {
+@AndroidEntryPoint
+class LiveMatchesListFragment : BaseFragment<FragmentLiveMatchesListBinding>(
+    FragmentLiveMatchesListBinding::inflate
+) {
 
-    companion object {
-        fun newInstance() = LiveMatchesListFragment()
+    private val viewModel by viewModels<LiveMatchesListViewModel>()
+    private val livesAdapter: LivesAdapter by lazy { LivesAdapter() }
+
+    private var isSearching = false
+
+    override fun init() {
+        return
     }
 
-    private lateinit var viewModel: LiveMatchesListViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_live_matches_list, container, false)
+    override fun listeners() {
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+        binding.btnSearch.setOnClickListener {
+            isSearching = !isSearching
+            setSearching(isSearching)
+        }
+        binding.etSearch.doAfterTextChanged { matchName->
+            doInBackground {
+                viewModel.setSearchInput(matchName.toString())
+            }
+        }
+        livesAdapter.onClickListener = {
+            findNavController().navigate(
+                LiveMatchesListFragmentDirections.actionLiveMatchesListFragmentToLiveMatchDetailsFragment(
+                    it
+                )
+            )
+        }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LiveMatchesListViewModel::class.java)
-        // TODO: Use the ViewModel
+    private fun setSearching(isSearching: Boolean): Unit = with(binding) {
+        if (isSearching) {
+            btnSearch.setImageResource(R.drawable.ic_cross)
+            etSearch.isVisible = true
+        } else {
+            btnSearch.setImageResource(R.drawable.ic_search)
+            etSearch.isVisible = false
+            etSearch.setText("")
+        }
     }
 
+    override fun observers() {
+        doInBackground {
+            viewModel.livesState.collect { viewState ->
+                viewState.data?.let { matchesList ->
+                    initLivesRecycler()
+                    livesAdapter.submitList(matchesList)
+                    binding.progressBar.isVisible = false
+                }
+                viewState.error?.let { error ->
+                    Snackbar.make(binding.root, error, Snackbar.LENGTH_LONG).setAction("Reload") {
+                        doInBackground { viewModel.fetchMatches() }
+                    }.show()
+                    binding.progressBar.isVisible = false
+                }
+                viewState.isLoading?.let { isLoading ->
+                    binding.progressBar.isVisible = isLoading
+                }
+            }
+        }
+    }
+
+    private fun initLivesRecycler() = with(binding.livesRecycler) {
+        layoutManager = LinearLayoutManager(requireContext())
+        adapter = livesAdapter
+    }
 }

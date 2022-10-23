@@ -10,7 +10,7 @@ data class MatchDomain(
     val modifiedAt: String?,
     val name: String?,
     val numberOfGames: Int?,
-    val opponents: List<TeamDomain?>?,
+    var opponents: List<TeamDomain?>?,
     val results: List<ResultDomain?>?,
     val slug: String?,
     val status: String?,

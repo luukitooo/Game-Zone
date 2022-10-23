@@ -25,7 +25,7 @@ data class TeamDto(
         val firstName: String?,
         val id: Int?,
         @SerializedName("image_url")
-        val imageUrl: Any?,
+        val imageUrl: String?,
         @SerializedName("last_name")
         val lastName: String?,
         val name: String?,

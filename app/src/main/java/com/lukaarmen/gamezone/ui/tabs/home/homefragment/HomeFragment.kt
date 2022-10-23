@@ -5,18 +5,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
-import com.lukaarmen.gamezone.common.extentions.getStreamPreview
-import com.lukaarmen.gamezone.common.utils.CategoryIndicator
+import com.lukaarmen.gamezone.common.extentions.setLivePreview
 import com.lukaarmen.gamezone.common.utils.GameType
-import com.lukaarmen.gamezone.common.utils.gamesList
 import com.lukaarmen.gamezone.databinding.FragmentHomeBinding
 import com.lukaarmen.gamezone.models.Match
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -26,68 +23,101 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
     private val viewModel by viewModels<HomeViewModel>()
     private val gamesAdapter: GamesAdapter by lazy { GamesAdapter() }
     private val livesAdapter: LivesHomeAdapter by lazy { LivesHomeAdapter() }
+    private var currentGameType = GameType.ALL
+    private var streamsCount = 0
+    private var firstLiveId = 0
 
     override fun init() {
         initGamesRecycler()
-        gamesAdapter.submitList(gamesList)
+        initLivesRecycler()
     }
 
     override fun listeners() {
         binding.tvShowAll.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToLiveMatchesListFragment())
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToLiveMatchesListFragment(
+                    currentGameType.title
+                )
+            )
         }
 
         gamesAdapter.onClickListener = { gameType ->
-            updateGamesList(gameType)
-            when (gameType.title) {
-                GameType.ALL.title -> {
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.getAllRunningMatches()
-                    }
-                }
-                else -> {
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.getLivesByGame(gameType.title)
-                    }
-                }
+            currentGameType = gameType
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.updateGamesList(gameType)
             }
+        }
+
+        livesAdapter.onCLickListener = {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToLiveMatchDetailsFragment(
+                    it
+                )
+            )
+        }
+        binding.btnPlay.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToLiveMatchDetailsFragment(firstLiveId)
+            )
         }
     }
 
     override fun observers() {
         doInBackground {
-            viewModel.viewState.collectLatest {
-                it.data?.let { matches -> successfulState(matches) }
-                it.error?.let { error -> errorState() }
+            viewModel.viewState.collect {
+                it.data?.let { matchesList -> successfulState(matchesList) }
+                it.error?.let { error -> errorState(error) }
                 it.isLoading?.let { loadingState() }
+            }
+        }
+
+        doInBackground {
+            viewModel.gamesListState.collect {
+                gamesAdapter.submitList(it)
+            }
+        }
+
+        doInBackground {
+            viewModel.streamsCountState.collect {
+                streamsCount = it
             }
         }
     }
 
     private fun successfulState(data: List<Match>) = with(binding) {
-        val list = data.take(6).toMutableList()
-        initLivesRecycler()
+        val list = data.take(5).toMutableList()
         when (data.size) {
             0 -> {
                 latestLiveErrorState()
                 tvMessage.text = requireContext().getString(R.string.no_data)
             }
             else -> {
-                if (data.size != 1) list.removeAt(0)
-                Glide.with(requireContext())
-                    .load(data[0].streamsList?.last()?.embedUrl?.getStreamPreview())
-                    .into(ivNewestLive)
+                firstLiveId = data.first().id!!
+                if (data.size != 1) list.removeFirst()
+                ivNewestLive.setLivePreview(data[0].streamsList, null)
                 btnPlay.visibility = View.VISIBLE
             }
         }
 
-        binding.tvLivesCount.text = data.size.toString()
+        when (streamsCount) {
+            in 0..2 -> {
+                tvShowAll.setTextColor(requireContext().getColor(R.color.app_grey_light))
+                tvShowAll.isEnabled = false
+            }
+            else -> {
+                tvShowAll.setTextColor(requireContext().getColor(R.color.app_yellow))
+                tvShowAll.isEnabled = true
+            }
+        }
+
+        binding.tvLivesCount.text = streamsCount.toString()
         livesAdapter.submitList(list)
         livesRecyclerProgressBar.visibility = View.GONE
         latestStreamProgressBar.visibility = View.GONE
     }
 
-    private fun errorState() = with(binding) {
+    private fun errorState(error: String) = with(binding) {
         //recyclerview
         livesAdapter.submitList(emptyList())
         livesRecyclerProgressBar.visibility = View.GONE
@@ -95,10 +125,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         //latest live
         latestLiveErrorState()
         tvLivesCount.text = requireContext().getString(R.string.not_available)
+
+        tvShowAll.setTextColor(requireContext().getColor(R.color.app_grey_light))
+        tvShowAll.isEnabled = false
+
+        Snackbar.make(binding.root, error, Snackbar.LENGTH_LONG).setAction("Reload") {
+            doInBackground { viewModel.updateGamesList(currentGameType) }
+        }.show()
     }
 
     private fun latestLiveErrorState() = with(binding) {
-        ivNewestLive.setImageResource(R.drawable.ic_error)
+        ivNewestLive.setImageResource(R.drawable.img_stream_error)
         btnPlay.visibility = View.GONE
         latestStreamProgressBar.visibility = View.GONE
         imgRvErrorImg.visibility = View.VISIBLE
@@ -115,6 +152,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         btnPlay.visibility = View.GONE
         ivNewestLive.setImageDrawable(null)
         latestStreamProgressBar.visibility = View.VISIBLE
+
+        tvShowAll.setTextColor(requireContext().getColor(R.color.app_grey_light))
+        tvShowAll.isEnabled = false
     }
 
     private fun initGamesRecycler() = with(binding.rvGames) {
@@ -125,22 +165,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
     private fun initLivesRecycler() = with(binding.rvLives) {
         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         adapter = livesAdapter
-    }
-
-    private fun updateGamesList(gameType: GameType) {
-        var position = 0
-        val newList = mutableListOf<CategoryIndicator>()
-        newList.addAll(gamesList)
-
-        newList.forEach {
-            if (it.gameType == gameType) position = newList.indexOf(it)
-            if (it.isSelected) {
-                newList[newList.indexOf(it)] =
-                    CategoryIndicator(gameType = it.gameType, isSelected = false)
-            }
-        }
-        newList[position] =
-            CategoryIndicator(gameType = gamesList[position].gameType, isSelected = true)
-        gamesAdapter.submitList(newList)
     }
 }

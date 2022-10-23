@@ -32,4 +32,8 @@ abstract class RepositoriesModule {
     @Binds
     abstract fun bindFavoriteLeaguesRepositoryImpl(favoritesRepositoryImpl: FavoriteLeaguesRepositoryImpl): FavoriteLeaguesRepository
 
+    @Singleton
+    @Binds
+    abstract fun bindTeamsRepositoryImpl(repositoryImpl: TeamsRepositoryImpl): TeamsRepository
+
 }

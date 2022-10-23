@@ -5,11 +5,12 @@ import javax.inject.Inject
 
 class GetAllRunningMatchesUseCase @Inject constructor(private val matchesRepository: MatchesRepository) {
 
-    suspend operator fun invoke() = matchesRepository.getAllRunningMatches(
-        null,
-        null,
-        "begin_at",
-        "cs-go,dota-2,ow,r6-siege"
+    suspend operator fun invoke(name: String?) = matchesRepository.getAllRunningMatches(
+        page = null,
+        perPage = null,
+        sort = "-begin_at",
+        filter = "cs-go,dota-2,ow,r6-siege",
+        name = name
     )
 
 }

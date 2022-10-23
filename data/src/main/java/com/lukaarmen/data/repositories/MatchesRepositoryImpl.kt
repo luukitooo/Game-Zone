@@ -1,10 +1,11 @@
 package com.lukaarmen.data.repositories
 
-import com.lukaarmen.data.common.BaseRepository
+import com.lukaarmen.data.common.RequestHandler
 import com.lukaarmen.data.remote.mappers.toMatchDomain
 import com.lukaarmen.data.remote.services.MatchesService
 import com.lukaarmen.domain.common.Resource
 import com.lukaarmen.domain.common.mapSuccess
+import com.lukaarmen.domain.common.success
 import com.lukaarmen.domain.models.MatchDomain
 import com.lukaarmen.domain.repositories.MatchesRepository
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 class MatchesRepositoryImpl @Inject constructor(
     private val matchesService: MatchesService,
-    private val baseRepository: BaseRepository
+    private val requestHandler: RequestHandler
 ) : MatchesRepository {
 
     override suspend fun getMatchesByLeagueId(
@@ -25,7 +26,7 @@ class MatchesRepositoryImpl @Inject constructor(
         sort: String,
         title: String
     ): Flow<Resource<List<MatchDomain>>> {
-        return baseRepository.safeApiCall {
+        return requestHandler.safeApiCall {
             matchesService.getMatchesByLeagueId(
                 gameType = gameType,
                 timeFrame = timeFrame,
@@ -44,14 +45,16 @@ class MatchesRepositoryImpl @Inject constructor(
         page: Int?,
         perPage: Int?,
         sort: String,
-        filter: String
+        filter: String,
+        name: String?
     ): Flow<Resource<List<MatchDomain>>> {
-        return baseRepository.safeApiCall {
+        return requestHandler.safeApiCall {
             matchesService.getAllRunningMatches(
                 page = page,
                 perPage = perPage,
                 sort = sort,
-                filter = filter
+                filter = filter,
+                name = name
             )
         }.map {
             it.mapSuccess { matchDto ->
@@ -64,19 +67,29 @@ class MatchesRepositoryImpl @Inject constructor(
         gameType: String,
         page: Int,
         perPage: Int,
-        sort: String
+        sort: String,
+        name: String?
     ): Flow<Resource<List<MatchDomain>>> {
-        return baseRepository.safeApiCall {
+        return requestHandler.safeApiCall {
             matchesService.getRunningMatchesByGame(
                 gameType = gameType,
                 page = page,
                 perPage = perPage,
-                sort = sort
+                sort = sort,
+                name = name
             )
         }.map {
             it.mapSuccess { matchDto ->
                 matchDto.toMatchDomain()
             }
+        }
+    }
+
+    override suspend fun getMatchById(matchId: Int): Flow<Resource<MatchDomain>> {
+        return requestHandler.safeApiCall {
+            matchesService.getMatchById(matchId)
+        }.map { matchDto ->
+            matchDto.success { it.toMatchDomain() }
         }
     }
 
