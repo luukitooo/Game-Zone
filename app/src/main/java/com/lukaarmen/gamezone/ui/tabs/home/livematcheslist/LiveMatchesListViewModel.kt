@@ -11,6 +11,7 @@ import com.lukaarmen.gamezone.common.utils.ViewState
 import com.lukaarmen.gamezone.models.Match
 import com.lukaarmen.gamezone.models.toMatch
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
@@ -27,17 +28,27 @@ class LiveMatchesListViewModel @Inject constructor(
     private val _livesState = MutableStateFlow(ViewState<List<Match>>())
     val livesState = _livesState.asStateFlow()
 
+    private val _searchInput = MutableStateFlow("")
+    val searchInput = _searchInput.asStateFlow()
+
+    suspend fun setSearchInput(input: String){
+        _searchInput.emit(input)
+    }
+
     init {
         viewModelScope.launch {
-            fetchMatches(null)
+            fetchMatches()
         }
     }
 
-    suspend fun fetchMatches(name: String?){
-        if(savedStateHandle.get<String>("gameType")!! == GameType.ALL.title){
-            getAllLives(name)
-        }else{
-            getLivesByGame(savedStateHandle.get<String>("gameType")!!, name)
+    suspend fun fetchMatches(){
+        _searchInput.collect{searchInput ->
+            if(searchInput != "") delay(500)
+            if(savedStateHandle.get<String>("gameType")!! == GameType.ALL.title){
+                getAllLives(searchInput)
+            }else{
+                getLivesByGame(savedStateHandle.get<String>("gameType")!!, searchInput)
+            }
         }
     }
 
