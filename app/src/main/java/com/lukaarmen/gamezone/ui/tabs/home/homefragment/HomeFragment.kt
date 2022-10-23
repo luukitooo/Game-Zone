@@ -25,6 +25,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
     private val livesAdapter: LivesHomeAdapter by lazy { LivesHomeAdapter() }
     private var currentGameType = GameType.ALL
     private var streamsCount = 0
+    private var firstLiveId = 0
 
     override fun init() {
         initGamesRecycler()
@@ -53,6 +54,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
                 HomeFragmentDirections.actionHomeFragmentToLiveMatchDetailsFragment(
                     it
                 )
+            )
+        }
+        binding.btnPlay.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToLiveMatchDetailsFragment(firstLiveId)
             )
         }
     }
@@ -87,6 +93,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
                 tvMessage.text = requireContext().getString(R.string.no_data)
             }
             else -> {
+                firstLiveId = data.first().id!!
                 if (data.size != 1) list.removeFirst()
                 ivNewestLive.setLivePreview(data[0].streamsList, null)
                 btnPlay.visibility = View.VISIBLE
@@ -122,7 +129,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         tvShowAll.setTextColor(requireContext().getColor(R.color.app_grey_light))
         tvShowAll.isEnabled = false
 
-        Snackbar.make(binding.root, error, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(binding.root, error, Snackbar.LENGTH_LONG).setAction("Reload") {
+            doInBackground { viewModel.updateGamesList(currentGameType) }
+        }.show()
     }
 
     private fun latestLiveErrorState() = with(binding) {

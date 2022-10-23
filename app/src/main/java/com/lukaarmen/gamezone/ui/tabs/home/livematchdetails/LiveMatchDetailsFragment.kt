@@ -1,5 +1,7 @@
 package com.lukaarmen.gamezone.ui.tabs.home.livematchdetails
 
+import android.content.Intent
+import android.net.Uri
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -10,6 +12,7 @@ import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.extentions.filterDate
 import com.lukaarmen.gamezone.common.extentions.setPlayerPhoto
+import com.lukaarmen.gamezone.common.utils.GameType
 import com.lukaarmen.gamezone.databinding.FragmentLiveMatchDetailsBinding
 import com.lukaarmen.gamezone.models.Match
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,6 +24,8 @@ class LiveMatchDetailsFragment : BaseFragment<FragmentLiveMatchDetailsBinding>(
 
     private val viewModel by viewModels<LiveMatchDetailsViewModel>()
     private val playersAdapter: PlayersAdapter by lazy { PlayersAdapter() }
+    private var liveLink = ""
+
     override fun init() {
         return
     }
@@ -28,6 +33,11 @@ class LiveMatchDetailsFragment : BaseFragment<FragmentLiveMatchDetailsBinding>(
     override fun listeners() {
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
+        }
+        binding.btnWatch.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(liveLink)
+            startActivity(intent)
         }
     }
 
@@ -50,7 +60,12 @@ class LiveMatchDetailsFragment : BaseFragment<FragmentLiveMatchDetailsBinding>(
 
     private fun successState(match: Match) = with(binding) {
         initRecyclerView()
+        liveLink = match.streamsList?.last()?.rawUrl!!
         progressBar.isVisible = false
+
+        tvLiveNow.isVisible = match.status == "running"
+
+        ivLive.setImageDrawable(requireContext().getDrawable(setImage(match.videoGame?.name)))
 
         ivTeamFirst.setPlayerPhoto(match.opponents?.first()?.imageUrl, R.drawable.img_tabata)
         ivTeamSecond.setPlayerPhoto(match.opponents?.last()?.imageUrl, R.drawable.img_tabata)
@@ -65,7 +80,9 @@ class LiveMatchDetailsFragment : BaseFragment<FragmentLiveMatchDetailsBinding>(
 
     private fun errorState(error: String) = with(binding) {
         progressBar.isVisible = false
-        Snackbar.make(binding.root, error, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(binding.root, error, Snackbar.LENGTH_LONG).setAction("Reload") {
+            doInBackground { viewModel.getMatchById() }
+        }.show()
     }
 
     private fun loadingState() = with(binding) {
@@ -77,5 +94,14 @@ class LiveMatchDetailsFragment : BaseFragment<FragmentLiveMatchDetailsBinding>(
         adapter = playersAdapter
     }
 
+    private fun setImage(videoGame: String?): Int {
+        return when (videoGame) {
+            "CS:GO" -> GameType.CSGO.gameWallpaper
+            "Dota 2" -> GameType.DOTA2.gameWallpaper
+            "Overwatch" -> GameType.OWERWATCH.gameWallpaper
+            "Rainbow 6 Siege" -> GameType.RAINBOW_SIX.gameWallpaper
+            else -> R.drawable.ic_error
+        }
+    }
 
 }

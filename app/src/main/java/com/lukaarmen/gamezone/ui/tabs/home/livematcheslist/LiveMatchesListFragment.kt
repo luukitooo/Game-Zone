@@ -43,7 +43,6 @@ class LiveMatchesListFragment : BaseFragment<FragmentLiveMatchesListBinding>(
                 searchFor(matchName.toString())
             }
         }
-
         livesAdapter.onClickListener = {
             findNavController().navigate(
                 LiveMatchesListFragmentDirections.actionLiveMatchesListFragmentToLiveMatchDetailsFragment(
@@ -54,13 +53,13 @@ class LiveMatchesListFragment : BaseFragment<FragmentLiveMatchesListBinding>(
     }
 
     private fun searchFor(matchName: String) {
-        searchJob?.cancel()
-        searchJob = doInBackground(Dispatchers.Main) {
-            delay(500L)
-            viewModel.fetchMatches(
-                name = matchName
-            )
-        }
+//        searchJob?.cancel()
+//        searchJob = doInBackground(Dispatchers.Main) {
+//            delay(500L)
+//            viewModel.fetchMatches(
+//                name = matchName
+//            )
+//        }
     }
 
     private fun setSearching(isSearching: Boolean): Unit = with(binding) {
@@ -75,22 +74,25 @@ class LiveMatchesListFragment : BaseFragment<FragmentLiveMatchesListBinding>(
 
     override fun observers() {
         doInBackground {
-            viewModel.livesState.collect {
-                it.data?.let { matchesList ->
+            viewModel.livesState.collect { viewState ->
+                viewState.data?.let { matchesList ->
                     initLivesRecycler()
                     livesAdapter.submitList(matchesList)
                     binding.progressBar.isVisible = false
                 }
-                it.error?.let { error ->
-                    Snackbar.make(binding.root, error, Snackbar.LENGTH_SHORT).show()
+                viewState.error?.let { error ->
+                    Snackbar.make(binding.root, error, Snackbar.LENGTH_LONG).setAction("Reload") {
+                        doInBackground { viewModel.fetchMatches(binding.etSearch.text.toString()) }
+                    }.show()
                     binding.progressBar.isVisible = false
                 }
-                it.isLoading?.let { isLoading ->
+                viewState.isLoading?.let { isLoading ->
                     binding.progressBar.isVisible = isLoading
                 }
             }
         }
     }
+
 
     private fun initLivesRecycler() = with(binding.livesRecycler) {
         layoutManager = LinearLayoutManager(requireContext())

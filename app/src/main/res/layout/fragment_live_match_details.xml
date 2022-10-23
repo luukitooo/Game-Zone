@@ -25,7 +25,6 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/img_csgo_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,6 +39,7 @@
         android:paddingHorizontal="8dp"
         android:paddingVertical="2dp"
         android:text="Live Now"
+        android:visibility="gone"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintStart_toStartOf="parent" />
@@ -60,7 +60,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/shape_rounded_corners_outlined"
+            android:background="@drawable/shape_rounded_corners_outlined_light"
             android:padding="18dp"
             android:scaleType="centerInside"
             app:layout_constraintEnd_toStartOf="@+id/tvScoreFirst"
@@ -109,7 +109,7 @@
             android:id="@+id/ivTeamSecond"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:background="@drawable/shape_rounded_corners_outlined"
+            android:background="@drawable/shape_rounded_corners_outlined_light"
             android:padding="18dp"
             android:scaleType="centerInside"
             app:layout_constraintBottom_toBottomOf="@+id/tvScoreSecond"

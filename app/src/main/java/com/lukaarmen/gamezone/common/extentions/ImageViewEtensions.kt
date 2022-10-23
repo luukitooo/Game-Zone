@@ -14,7 +14,6 @@ import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.utils.Quality
 import com.lukaarmen.gamezone.models.Match
 
-
 fun ImageView.setLivePreview(preview: List<Match.Stream?>?, progressBar: ProgressBar?){
     if(preview != null && preview.isNotEmpty() && preview.last()?.embedUrl != null){
         Glide.with(this.context)
