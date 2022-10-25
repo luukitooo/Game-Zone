@@ -9,6 +9,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
+import com.lukaarmen.gamezone.common.extentions.findTopNavController
 import com.lukaarmen.gamezone.common.extentions.setLivePreview
 import com.lukaarmen.gamezone.common.utils.GameType
 import com.lukaarmen.gamezone.databinding.FragmentHomeBinding
@@ -60,6 +61,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToLiveMatchDetailsFragment(firstLiveId)
             )
+        }
+        binding.tvUsername.setOnClickListener {
+            findTopNavController().navigate(R.id.profileFragment)
         }
     }
 

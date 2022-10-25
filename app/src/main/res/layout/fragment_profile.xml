@@ -21,9 +21,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSettings"
+        android:id="@+id/btnSignOut"
         style="@style/RoundedMaterialButton"
-        app:icon="@drawable/ic_settings"
+        app:icon="@drawable/ic_signout"
         app:iconTint="@color/app_grey_light"
         app:layout_constraintBottom_toBottomOf="@+id/appCompatTextView"
         app:layout_constraintEnd_toEndOf="parent"
