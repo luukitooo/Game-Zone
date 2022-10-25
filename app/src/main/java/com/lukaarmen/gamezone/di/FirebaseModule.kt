@@ -7,6 +7,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.lukaarmen.gamezone.R
 import dagger.Module
 import dagger.Provides
@@ -43,6 +46,13 @@ object FirebaseModule {
             .requestEmail()
             .build()
         return GoogleSignIn.getClient(context, gso)
+    }
+
+    @Provides
+    @Singleton
+    @Named("ProfilePictures")
+    fun provideFirebaseStorageReference(): StorageReference {
+        return FirebaseStorage.getInstance().getReference("UserProfilePictures")
     }
 
 }

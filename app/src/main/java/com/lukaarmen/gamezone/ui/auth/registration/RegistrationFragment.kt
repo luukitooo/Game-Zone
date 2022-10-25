@@ -3,12 +3,15 @@ package com.lukaarmen.gamezone.ui.auth.registration
 import android.util.Patterns
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.room.Database
 import com.google.android.material.snackbar.Snackbar
+import com.lukaarmen.data.local.GameZoneDatabase
 import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.areLinesEmpty
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.databinding.FragmentRegistrationBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(

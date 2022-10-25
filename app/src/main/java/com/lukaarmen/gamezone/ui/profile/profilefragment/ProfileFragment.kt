@@ -1,15 +1,10 @@
 package com.lukaarmen.gamezone.ui.profile.profilefragment
 
-import android.Manifest
-import android.app.Activity
-import android.app.AlertDialog
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.provider.Settings
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts.*
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import androidx.activity.result.contract.ActivityResultContracts.GetContent
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
@@ -23,11 +18,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>(
     FragmentProfileBinding::inflate
 ) {
-
-    private val requestReadStorageLauncher = registerForActivityResult(
-        RequestPermission(),
-        ::onGotReadStoragePermissionResult
-    )
 
     private val viewModel by viewModels<ProfileViewModel>()
 
@@ -45,65 +35,36 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
         }
 
         binding.ivUser.setOnClickListener {
-            requestReadStorageLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            imagePickerResult.launch("image/*")
         }
     }
 
-    override fun observers() {
-        updateProfile()
-    }
-
-    private fun updateProfile() {
+    override fun observers(): Unit = with(binding) {
         doInBackground {
             viewModel.userSate.collect { user ->
-                binding.tvEmail.text = user?.email
-                binding.tvUserId.text = user?.uid
-                binding.tvUsername.text = user?.displayName
-                //binding.ivUser.setImageURI(user?.photoUrl)
-            }
-        }
-    }
-
-    private fun onGotReadStoragePermissionResult(granted: Boolean) {
-        if (granted) {
-            result.launch("image/*")
-            Toast.makeText(requireContext(), "granted", Toast.LENGTH_SHORT).show()
-        } else {
-            if (!shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                askUserForOpeningAppSettings()
-            } else {
-                Toast.makeText(requireContext(), "permission denied", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun askUserForOpeningAppSettings() {
-        val appSettingsIntent = Intent(
-            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-            Uri.fromParts("package", requireActivity().packageName, this.toString())
-        )
-        if (requireActivity().packageManager.resolveActivity(
-                appSettingsIntent,
-                PackageManager.MATCH_DEFAULT_ONLY
-            ) == null
-        ) {
-            Toast.makeText(requireContext(), "permission denied forever", Toast.LENGTH_SHORT).show()
-        } else {
-            AlertDialog.Builder(requireContext())
-                .setTitle("permission denied")
-                .setMessage("permission denied forever")
-                .setPositiveButton("Open") { _, _ ->
-                    startActivity(appSettingsIntent)
+                user.apply {
+                    email?.let {
+                        tvEmail.text = it
+                    }
+                    username?.let {
+                        tvUsername.text = it
+                    }
+                    imageUrl?.let {
+                        Glide.with(root).load(it).into(ivUser)
+                    }
+                    uid?.let {
+                        tvUserId.text = "ID: $it"
+                    }
                 }
-                .create()
-                .show()
+            }
         }
     }
 
-    private val result =
+    private val imagePickerResult =
         registerForActivityResult(GetContent()) { result ->
             result?.let {
-                binding.ivUser.setImageURI(it)
+                val drawable = BitmapDrawable.createFromStream(requireActivity().contentResolver.openInputStream(it), it.path)
+                viewModel.uploadImageToStorage(drawable as BitmapDrawable)
             }
         }
 

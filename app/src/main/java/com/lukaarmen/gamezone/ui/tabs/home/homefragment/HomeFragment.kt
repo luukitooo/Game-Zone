@@ -5,6 +5,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
@@ -62,8 +63,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
                 HomeFragmentDirections.actionHomeFragmentToLiveMatchDetailsFragment(firstLiveId)
             )
         }
-        binding.tvUsername.setOnClickListener {
-            findTopNavController().navigate(R.id.profileFragment)
+        arrayOf(
+            binding.ivUserImage,
+            binding.tvUsername,
+            binding.tvGreeting
+        ).forEach {
+            it.setOnClickListener {
+                findTopNavController().navigate(R.id.profileFragment)
+            }
         }
     }
 
@@ -73,6 +80,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
                 it.data?.let { matchesList -> successfulState(matchesList) }
                 it.error?.let { error -> errorState(error) }
                 it.isLoading?.let { loadingState() }
+            }
+        }
+        doInBackground {
+            viewModel.userState.collect { user ->
+                user.apply {
+                    imageUrl?.let {
+                        Glide.with(binding.ivUserImage).load(it).into(binding.ivUserImage)
+                    }
+                    username?.let {
+                        binding.tvUsername.text = it
+                    }
+                }
             }
         }
 
