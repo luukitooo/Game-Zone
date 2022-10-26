@@ -1,32 +1,35 @@
 package com.lukaarmen.gamezone.ui.tabs.chat.chatfragment
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.tabs.TabLayoutMediator
 import com.lukaarmen.gamezone.R
+import com.lukaarmen.gamezone.common.base.BaseFragment
+import com.lukaarmen.gamezone.databinding.FragmentChatBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class ChatFragmentFragment : Fragment() {
+@AndroidEntryPoint
+class ChatFragmentFragment : BaseFragment<FragmentChatBinding>(FragmentChatBinding::inflate) {
 
-    companion object {
-        fun newInstance() = ChatFragmentFragment()
+    override fun init() {
+        initViewPager()
     }
 
-    private lateinit var viewModel: ChatViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_chat, container, false)
+    override fun listeners() {
+        return
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun observers() {
+        return
+    }
+
+    private fun initViewPager() {
+        binding.viewPager.adapter = ChatFragmentStateAdapter(requireActivity() as AppCompatActivity)
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            when (position) {
+                0 -> tab.setIcon(R.drawable.ic_friends)
+                1 -> tab.setIcon(R.drawable.ic_globe)
+            }
+        }.attach()
     }
 
 }

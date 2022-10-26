@@ -84,7 +84,11 @@ class HomeViewModel @Inject constructor(
     fun updateProfile() {
         usersReference.child(firebaseAuth.currentUser!!.uid).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val user = snapshot.getValue(User::class.java) ?: return
+                val user = try {
+                    snapshot.getValue(User::class.java) ?: return
+                } catch(t : Throwable) {
+                    return
+                }
                 _userState.value = user
             }
 
