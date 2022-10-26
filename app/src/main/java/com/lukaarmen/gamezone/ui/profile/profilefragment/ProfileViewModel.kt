@@ -2,6 +2,7 @@ package com.lukaarmen.gamezone.ui.profile.profilefragment
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.util.Log.d
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
@@ -33,21 +34,25 @@ class ProfileViewModel @Inject constructor(
     private val _userState = MutableStateFlow(User())
     val userSate = _userState.asStateFlow()
 
+    private val _photoUploadProgressFlow = MutableStateFlow(0L)
+    val photoUploadProgressFlow = _photoUploadProgressFlow.asStateFlow()
+
     fun signOut() {
         firebaseAuth.signOut()
     }
 
-    fun updateProfile() {
-        usersReference.child(firebaseAuth.currentUser!!.uid).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val user = snapshot.getValue(User::class.java) ?: return
-                _userState.value = user
-            }
+    private fun updateProfile() {
+        usersReference.child(firebaseAuth.currentUser!!.uid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val user = snapshot.getValue(User::class.java) ?: return
+                    _userState.value = user
+                }
 
-            override fun onCancelled(error: DatabaseError) {
-                throw Exception(error.message)
-            }
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    throw Exception(error.message)
+                }
+            })
     }
 
     fun uploadImageToStorage(drawable: BitmapDrawable) {
@@ -56,18 +61,23 @@ class ProfileViewModel @Inject constructor(
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos)
         val data = baos.toByteArray()
         val userImageReference = storageReference.child(firebaseAuth.currentUser!!.uid)
-        userImageReference.putBytes(data).addOnFailureListener { exception ->
-            throw exception
-        }.continueWithTask { task ->
-            if (!task.isSuccessful){
-                throw task.exception ?: Exception()
+        userImageReference.putBytes(data)
+            .addOnProgressListener{progressSnapshot ->
+                val progress = (100*progressSnapshot.bytesTransferred)/progressSnapshot.totalByteCount
+                _photoUploadProgressFlow.value = progress
             }
-            userImageReference.downloadUrl
-        }.addOnCompleteListener { task ->
-            usersReference.child(firebaseAuth.currentUser!!.uid)
-                .child("imageUrl")
-                .setValue(task.result.toString())
-        }
+            .addOnFailureListener { exception ->
+                throw exception
+            }.continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    throw task.exception ?: Exception()
+                }
+                userImageReference.downloadUrl
+            }.addOnCompleteListener { task ->
+                usersReference.child(firebaseAuth.currentUser!!.uid)
+                    .child("imageUrl")
+                    .setValue(task.result.toString())
+            }
     }
 
 }

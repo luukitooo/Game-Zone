@@ -56,3 +56,36 @@ fun ImageView.setPlayerPhoto(url: String?, errorImg: Int){
         this.setImageDrawable(ContextCompat.getDrawable(this.context, errorImg))
     }
 }
+
+fun ImageView.setProfilePhoto(profilePhoto: String?, progressBar: ProgressBar?){
+    if(profilePhoto != null ){
+        Glide.with(this.context)
+            .load(profilePhoto)
+            .listener(object: RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    progressBar?.let { it.isVisible = false }
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    progressBar?.let { it.isVisible = false }
+                    return false
+                }
+            })
+            .into(this)
+    }else{
+        //this.setImageDrawable(ContextCompat.getDrawable(this.context, R.drawable.img_stream_error))
+        progressBar?.let { it.isVisible = true }
+    }
+}

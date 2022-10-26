@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:paddingHorizontal="15dp"
+    android:background="@color/app_background_light">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_edit"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Username"
+        android:layout_weight="1"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:fontFamily="@font/sk_modernist_regular"
+        android:textSize="20sp"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_right"
+        android:layout_gravity="center"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

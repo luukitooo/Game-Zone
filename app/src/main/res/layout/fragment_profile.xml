@@ -8,73 +8,87 @@
     android:padding="24dp"
     tools:context=".ui.profile.profilefragment.ProfileFragment">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnBack"
+        style="@style/PrimaryFloatingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_back"
+        app:iconTint="@color/app_grey_light"
+        app:layout_constraintBottom_toBottomOf="@+id/appCompatTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/appCompatTextView" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/appCompatTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="36dp"
         android:fontFamily="@font/sk_modernist_bold"
         android:text="@string/my_profile"
         android:textColor="@color/white"
         android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnSignOut"
-        style="@style/PrimaryFloatingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_signout"
-        app:iconTint="@color/app_grey_light"
-        app:layout_constraintBottom_toBottomOf="@+id/appCompatTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/appCompatTextView" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivUser"
         style="@style/RoundedImageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="50dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_background"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appCompatTextView" />
+
+    <ProgressBar
+        android:id="@+id/imageProgressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/ivUser"
+        app:layout_constraintEnd_toEndOf="@+id/ivUser"
+        app:layout_constraintStart_toStartOf="@+id/ivUser"
+        app:layout_constraintTop_toTopOf="@+id/ivUser" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="22dp"
         android:fontFamily="@font/sk_modernist_bold"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
         android:text="Username"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/tvEmail"
-        app:layout_constraintStart_toEndOf="@+id/ivUser"
-        app:layout_constraintTop_toTopOf="@+id/ivUser" />
+        app:layout_constraintEnd_toEndOf="@+id/ivUser"
+        app:layout_constraintStart_toStartOf="@+id/ivUser"
+        app:layout_constraintTop_toBottomOf="@+id/ivUser" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/sk_modernist_regular"
+        android:gravity="center"
         android:text="test@gmail.com"
-        android:textColor="@color/white"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/app_grey_light"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/tvUserId"
+        app:layout_constraintEnd_toEndOf="@+id/tvUsername"
         app:layout_constraintStart_toStartOf="@+id/tvUsername"
         app:layout_constraintTop_toBottomOf="@+id/tvUsername" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvUserId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ID: 1234567"
-        android:textColor="@color/app_grey_light"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ivUser"
-        app:layout_constraintStart_toStartOf="@+id/tvEmail"
-        app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/settingsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvEmail"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
