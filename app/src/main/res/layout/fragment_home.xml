@@ -14,9 +14,19 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="34dp"
-        android:src="@drawable/ic_launcher_background"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/imageProgressbar"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:indeterminateDrawable="@drawable/progressbar_bg"
+        app:layout_constraintBottom_toBottomOf="@+id/ivUserImage"
+        app:layout_constraintEnd_toEndOf="@+id/ivUserImage"
+        app:layout_constraintStart_toStartOf="@+id/ivUserImage"
+        app:layout_constraintTop_toTopOf="@+id/ivUserImage" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnNotifications"

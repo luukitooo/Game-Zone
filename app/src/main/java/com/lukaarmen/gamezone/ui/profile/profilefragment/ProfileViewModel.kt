@@ -62,10 +62,6 @@ class ProfileViewModel @Inject constructor(
         val data = baos.toByteArray()
         val userImageReference = storageReference.child(firebaseAuth.currentUser!!.uid)
         userImageReference.putBytes(data)
-            .addOnProgressListener{progressSnapshot ->
-                val progress = (100*progressSnapshot.bytesTransferred)/progressSnapshot.totalByteCount
-                _photoUploadProgressFlow.value = progress
-            }
             .addOnFailureListener { exception ->
                 throw exception
             }.continueWithTask { task ->

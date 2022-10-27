@@ -97,7 +97,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     private fun handleGoogleSignInResponse(isSuccessful: Boolean) {
         if (isSuccessful) {
             findNavController().navigate(
-                LoginFragmentDirections.actionLoginFragmentToEnterUsernameFragment()
+                LoginFragmentDirections.actionLoginFragmentToEnterUsernameFragment(null)
             )
         } else {
             Snackbar.make(binding.root, "Can't sign in with google...", Snackbar.LENGTH_LONG).show()

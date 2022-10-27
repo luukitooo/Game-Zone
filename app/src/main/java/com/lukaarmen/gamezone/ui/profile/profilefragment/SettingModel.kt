@@ -2,7 +2,7 @@ package com.lukaarmen.gamezone.ui.profile.profilefragment
 
 import com.lukaarmen.gamezone.R
 
-enum class SettingType(){
+enum class SettingType{
     USERNAME,
     PASSWORD,
     PHOTO,
@@ -15,7 +15,8 @@ enum class SettingType(){
 data class SettingModel(
     val type: SettingType,
     val icon: Int,
-    val title: String
+    val title: String,
+    val isWithSwitch: Boolean
 )
 
 data class SettingsModel2(
@@ -23,24 +24,21 @@ data class SettingsModel2(
     val list: List<SettingModel>
 )
 
-val generalSettings = mutableListOf(
-    SettingModel(SettingType.USERNAME, R.drawable.ic_user,"Username"),
-    SettingModel(SettingType.PASSWORD, R.drawable.ic_lock,"Password"),
-    SettingModel(SettingType.PHOTO, R.drawable.ic_photo,"Photo")
+val editProfile = mutableListOf(
+    SettingModel(SettingType.USERNAME, R.drawable.ic_user,"Username", false),
+    SettingModel(SettingType.PASSWORD, R.drawable.ic_lock,"Password", false),
+    SettingModel(SettingType.PHOTO, R.drawable.ic_photo,"Photo", false)
 )
 val otherSettings = mutableListOf(
-    SettingModel(SettingType.NOTIFICATIONS, R.drawable.ic_notification,"Notifications"),
-    SettingModel(SettingType.SIGN_OUT, R.drawable.ic_signout,"Sign out")
+    SettingModel(SettingType.NOTIFICATIONS, R.drawable.ic_notification,"Notifications", true),
+    SettingModel(SettingType.SIGN_OUT, R.drawable.ic_signout,"Sign out", false)
 )
-
 val information = mutableListOf(
-    SettingModel(SettingType.HELP, R.drawable.ic_help,"Help"),
-    SettingModel(SettingType.ABOUT_US, R.drawable.ic_info,"About us")
+    SettingModel(SettingType.HELP, R.drawable.ic_help,"Help", false),
+    SettingModel(SettingType.ABOUT_US, R.drawable.ic_info,"About us", false)
 )
-
 val settings = listOf(
-    SettingsModel2("Edit profile", generalSettings),
+    SettingsModel2("Edit profile", editProfile),
     SettingsModel2("Other", otherSettings),
     SettingsModel2("Info", information)
-
 )

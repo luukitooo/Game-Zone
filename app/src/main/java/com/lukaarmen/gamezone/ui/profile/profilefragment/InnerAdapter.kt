@@ -1,12 +1,13 @@
 package com.lukaarmen.gamezone.ui.profile.profilefragment
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.lukaarmen.gamezone.common.extentions.hide
+import com.lukaarmen.gamezone.common.extentions.show
 import com.lukaarmen.gamezone.databinding.ItemSettingsGeneralBinding
 
 class InnerAdapter : ListAdapter<SettingModel, InnerAdapter.InnerViewHolder>(InnerCallBack()) {
@@ -19,7 +20,16 @@ class InnerAdapter : ListAdapter<SettingModel, InnerAdapter.InnerViewHolder>(Inn
             binding.title.text = item.title
             binding.ivIcon.setImageDrawable(ContextCompat.getDrawable(binding.root.context, item.icon))
             binding.root.setOnClickListener { onClickListener?.invoke(item.type)
-                Log.d("myLog_inner_adapter", item.type.toString())
+            when(item.isWithSwitch){
+                true -> {
+                    binding.notificationsSwitch.show()
+                    binding.secondIcon.hide()
+                }
+                false -> {
+                    binding.notificationsSwitch.hide()
+                    binding.secondIcon.show()
+                }
+            }
             }
         }
     }
@@ -38,7 +48,6 @@ class InnerAdapter : ListAdapter<SettingModel, InnerAdapter.InnerViewHolder>(Inn
         holder.bind(getItem(position))
     }
 
-
     class InnerCallBack : DiffUtil.ItemCallback<SettingModel>() {
         override fun areItemsTheSame(oldItem: SettingModel, newItem: SettingModel) =
             oldItem.title == newItem.title
@@ -46,6 +55,5 @@ class InnerAdapter : ListAdapter<SettingModel, InnerAdapter.InnerViewHolder>(Inn
         override fun areContentsTheSame(oldItem: SettingModel, newItem: SettingModel) =
             oldItem.title == newItem.title
     }
-
 
 }

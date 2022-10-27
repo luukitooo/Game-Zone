@@ -2,32 +2,41 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:paddingHorizontal="15dp"
-    android:background="@color/app_background_light">
+    android:background="@color/app_background_light"
+    android:paddingHorizontal="15dp">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/ic_edit"/>
+        android:src="@drawable/ic_edit" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Change Username"
-        android:layout_weight="1"
-        android:layout_marginStart="10dp"
-        android:textColor="@color/white"
         android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
         android:fontFamily="@font/sk_modernist_regular"
-        android:textSize="20sp"/>
+        android:text="Change Username"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/secondIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:src="@drawable/ic_arrow_right"
-        android:layout_gravity="center"/>
+        android:visibility="gone" />
+
+    <Switch
+        android:id="@+id/notificationsSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

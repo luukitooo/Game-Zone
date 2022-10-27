@@ -6,7 +6,6 @@ import androidx.activity.result.contract.ActivityResultContracts.GetContent
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
@@ -25,6 +24,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
 
     private val viewModel by viewModels<ProfileViewModel>()
     private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter() }
+    private var userName: String? = null
 
     override fun init() {
         binding.settingsRecyclerView.apply {
@@ -41,48 +41,50 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
             findNavController().popBackStack()
         }
 
-        settingsAdapter.onClickListener = {
-            d("myLog", it.toString())
+        settingsAdapter.onClickListener2 = { settingType ->
+            when (settingType) {
+                SettingType.USERNAME -> changeUsername()
+                SettingType.PASSWORD -> changePassword()
+                SettingType.PHOTO -> imagePickerResult.launch("image/*")
+                SettingType.SIGN_OUT -> signOut()
+                else -> d("myLog", settingType.toString())
+            }
         }
-//        btnSignOut.setOnClickListener {
-//            Snackbar.make(binding.root, "Do you want to sign Out?", Snackbar.LENGTH_LONG)
-//                .setAction("Yes") {
-//                    viewModel.signOut()
-//                    findTopNavController().navigate(R.id.welcomeFragment)
-//                }.show()
-//        }
-//        btnChangeProfilePhoto.setOnClickListener {
-//            imagePickerResult.launch("image/*")
-//        }
     }
 
     override fun observers(): Unit = with(binding) {
         doInBackground {
             viewModel.userSate.collect { user ->
-                d("user_log", user.imageUrl ?: "Photo")
                 user.apply {
                     email?.let {
                         tvEmail.text = it
                     }
                     username?.let {
+                        userName = it
                         tvUsername.text = it
                     }
                     ivUser.setProfilePhoto(user.imageUrl, imageProgressbar)
                 }
             }
         }
+    }
 
-        doInBackground {
-            viewModel.photoUploadProgressFlow.collect{
-                if(it > 0) binding.imageProgressbar.show()
-                binding.imageProgressbar.progress = it.toInt()
-            }
-        }
+    private fun changeUsername() {
+        findNavController().navigate(
+            ProfileFragmentDirections.actionProfileFragmentToEnterUsernameFragment(
+                userName
+            )
+        )
+    }
+
+    private fun changePassword() {
+        findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToNewPasswordFragment())
     }
 
     private val imagePickerResult =
         registerForActivityResult(GetContent()) { Uri ->
             Uri?.let {
+                binding.imageProgressbar.show()
                 val drawable = BitmapDrawable.createFromStream(
                     requireActivity().contentResolver.openInputStream(it), it.path
                 )
@@ -90,4 +92,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
             }
         }
 
+    private fun signOut() {
+        Snackbar.make(binding.root, "Do you want to sign Out?", Snackbar.LENGTH_LONG)
+            .setAction("Yes") {
+                viewModel.signOut()
+                findTopNavController().navigate(R.id.welcomeFragment)
+            }.show()
+    }
 }

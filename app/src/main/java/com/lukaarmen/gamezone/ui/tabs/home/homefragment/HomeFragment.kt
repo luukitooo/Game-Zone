@@ -5,13 +5,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.extentions.findTopNavController
 import com.lukaarmen.gamezone.common.extentions.setLivePreview
+import com.lukaarmen.gamezone.common.extentions.setProfilePhoto
 import com.lukaarmen.gamezone.common.utils.GameType
 import com.lukaarmen.gamezone.databinding.FragmentHomeBinding
 import com.lukaarmen.gamezone.models.Match
@@ -85,9 +85,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         doInBackground {
             viewModel.userState.collect { user ->
                 user.apply {
-                    imageUrl?.let {
-                        Glide.with(binding.ivUserImage).load(it).into(binding.ivUserImage)
-                    }
+                    binding.ivUserImage.setProfilePhoto(user.imageUrl, binding.imageProgressbar)
+
                     username?.let {
                         binding.tvUsername.text = it
                     }

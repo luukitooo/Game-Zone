@@ -85,7 +85,6 @@ fun ImageView.setProfilePhoto(profilePhoto: String?, progressBar: ProgressBar?){
             })
             .into(this)
     }else{
-        //this.setImageDrawable(ContextCompat.getDrawable(this.context, R.drawable.img_stream_error))
         progressBar?.let { it.isVisible = true }
     }
 }

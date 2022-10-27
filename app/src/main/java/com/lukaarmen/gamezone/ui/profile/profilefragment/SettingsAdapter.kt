@@ -12,7 +12,7 @@ import com.lukaarmen.gamezone.databinding.ItemSettingsBinding
 class SettingsAdapter :
     ListAdapter<SettingsModel2, SettingsAdapter.SettingsViewHolder>(SettingsCallBack()) {
 
-    var onClickListener: ((SettingType) -> Unit)? = null
+    var onClickListener2: ((SettingType) -> Unit)? = null
 
     inner class SettingsViewHolder(private val binding: ItemSettingsBinding) :
         ViewHolder(binding.root) {
@@ -22,13 +22,10 @@ class SettingsAdapter :
             binding.innerRv.layoutManager = LinearLayoutManager(binding.innerRv.context)
             binding.innerRv.adapter = innerAdapter
             innerAdapter.submitList(item.list)
-            binding.root.setOnClickListener {
-                innerAdapter.onClickListener = {
-                    Log.d("myLog_adapter", it.toString())
-                    onClickListener?.invoke(it)
-                }
-            }
 
+            innerAdapter.onClickListener = {
+                onClickListener2?.invoke(it)
+            }
         }
     }
 
