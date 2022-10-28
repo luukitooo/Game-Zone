@@ -12,6 +12,8 @@ import com.lukaarmen.gamezone.model.User
 
 class UserAdapter : ListAdapter<User, UserAdapter.UserViewHolder>(UserItemCallback) {
 
+    var onItemClickListener: ((User) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = UserViewHolder(
         ItemUserBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -34,6 +36,9 @@ class UserAdapter : ListAdapter<User, UserAdapter.UserViewHolder>(UserItemCallba
                     .load(user.imageUrl)
                     .placeholder(R.drawable.img_guest)
                     .into(ivUser)
+                root.setOnClickListener {
+                    onItemClickListener?.invoke(user)
+                }
             }
         }
     }

@@ -55,4 +55,11 @@ object FirebaseModule {
         return FirebaseStorage.getInstance().getReference("UserProfilePictures")
     }
 
+    @Provides
+    @Singleton
+    @Named("Messages")
+    fun provideDatabaseMessagesReference(): DatabaseReference {
+        return FirebaseDatabase.getInstance().getReference("Messages")
+    }
+
 }
