@@ -12,7 +12,6 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="zfjjb.b"
         android:fontFamily="@font/sk_modernist_regular"
         android:textColor="@color/white"
         android:textSize="20sp" />
@@ -28,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:itemCount="3"
-            tools:listitem="@layout/item_settings_general" />
+            tools:listitem="@layout/item_setting" />
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>

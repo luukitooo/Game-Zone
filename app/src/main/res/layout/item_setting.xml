@@ -32,11 +32,13 @@
         android:src="@drawable/ic_arrow_right"
         android:visibility="gone" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/notificationsSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:checked="true"
+        android:theme="@style/SwitchCompatStyle"
+        android:visibility="visible" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

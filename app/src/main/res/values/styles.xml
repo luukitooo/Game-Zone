@@ -55,4 +55,8 @@
         <item name="rippleColor">@color/app_grey_light</item>
     </style>
 
+    <style name="SwitchCompatStyle" >
+        <item name="colorControlActivated">@color/app_yellow</item>
+    </style>
+
 </resources>

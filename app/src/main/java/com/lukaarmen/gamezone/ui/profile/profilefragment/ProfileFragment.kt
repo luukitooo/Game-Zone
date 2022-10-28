@@ -1,5 +1,6 @@
 package com.lukaarmen.gamezone.ui.profile.profilefragment
 
+import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.util.Log.d
 import androidx.activity.result.contract.ActivityResultContracts.GetContent
@@ -14,6 +15,8 @@ import com.lukaarmen.gamezone.common.extentions.findTopNavController
 import com.lukaarmen.gamezone.common.extentions.setProfilePhoto
 import com.lukaarmen.gamezone.common.extentions.show
 import com.lukaarmen.gamezone.databinding.FragmentProfileBinding
+import com.lukaarmen.gamezone.ui.profile.profilefragment.adapters.SettingsAdapter
+import com.lukaarmen.gamezone.ui.profile.profilefragment.settings.SettingsType
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -30,10 +33,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
         binding.settingsRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = settingsAdapter
-            settingsAdapter.submitList(settings)
+            settingsAdapter.submitList(viewModel.settings)
         }
-
-        return
     }
 
     override fun listeners() = with(binding) {
@@ -41,12 +42,18 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
             findNavController().popBackStack()
         }
 
-        settingsAdapter.onClickListener2 = { settingType ->
+        settingsAdapter.notificationListener = {isChecked ->
+            d("myLog", isChecked.toString())
+        }
+
+        settingsAdapter.onClickListener = { settingType ->
             when (settingType) {
-                SettingType.USERNAME -> changeUsername()
-                SettingType.PASSWORD -> changePassword()
-                SettingType.PHOTO -> imagePickerResult.launch("image/*")
-                SettingType.SIGN_OUT -> signOut()
+                SettingsType.USERNAME -> changeUsername()
+                SettingsType.PASSWORD -> changePassword()
+                SettingsType.PHOTO -> imagePickerResult.launch("image/*")
+                SettingsType.SIGN_OUT -> signOut()
+                SettingsType.HELP -> contactUs()
+                SettingsType.ABOUT_US -> aboutUs()
                 else -> d("myLog", settingType.toString())
             }
         }
@@ -98,5 +105,17 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
                 viewModel.signOut()
                 findTopNavController().navigate(R.id.welcomeFragment)
             }.show()
+    }
+
+    private fun contactUs(){
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("gamezonedevelop@gmail.com"))
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Contact us")
+        intent.type = "message/rfc822"
+        startActivity(Intent.createChooser(intent, "Choose an Email client :"))
+    }
+
+    private fun aboutUs(){
+        findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToAboutUsFragment())
     }
 }

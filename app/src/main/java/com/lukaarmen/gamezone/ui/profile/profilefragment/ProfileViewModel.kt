@@ -2,7 +2,6 @@ package com.lukaarmen.gamezone.ui.profile.profilefragment
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.util.Log.d
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
@@ -11,7 +10,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.StorageReference
+import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.model.User
+import com.lukaarmen.gamezone.ui.profile.profilefragment.settings.SettingsGroup
+import com.lukaarmen.gamezone.ui.profile.profilefragment.settings.SettingsType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,9 +35,6 @@ class ProfileViewModel @Inject constructor(
 
     private val _userState = MutableStateFlow(User())
     val userSate = _userState.asStateFlow()
-
-    private val _photoUploadProgressFlow = MutableStateFlow(0L)
-    val photoUploadProgressFlow = _photoUploadProgressFlow.asStateFlow()
 
     fun signOut() {
         firebaseAuth.signOut()
@@ -75,5 +74,30 @@ class ProfileViewModel @Inject constructor(
                     .setValue(task.result.toString())
             }
     }
+
+    val settings = listOf(
+        SettingsGroup(
+            title = "Edit profile",
+            list = listOf(
+                SettingsGroup.SettingItem(SettingsType.USERNAME, R.drawable.ic_user, "Username"),
+                SettingsGroup.SettingItem(SettingsType.PASSWORD, R.drawable.ic_lock, "Password"),
+                SettingsGroup.SettingItem(SettingsType.PHOTO, R.drawable.ic_photo, "Photo")
+            )
+        ),
+        SettingsGroup(
+            title = "Other",
+            list = listOf(
+                SettingsGroup.SettingItem(SettingsType.NOTIFICATIONS, R.drawable.ic_notification, "Notifications"),
+                SettingsGroup.SettingItem(SettingsType.SIGN_OUT, R.drawable.ic_signout, "Sign out")
+            )
+        ),
+        SettingsGroup(
+            title = "Info",
+            list = listOf(
+                SettingsGroup.SettingItem(SettingsType.HELP, R.drawable.ic_help, "Help"),
+                SettingsGroup.SettingItem(SettingsType.ABOUT_US, R.drawable.ic_info, "About us")
+            )
+        )
+    )
 
 }
