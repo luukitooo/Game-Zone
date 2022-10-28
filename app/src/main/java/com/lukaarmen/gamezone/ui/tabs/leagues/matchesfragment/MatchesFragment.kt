@@ -35,13 +35,6 @@ class MatchesFragment : BaseFragment<FragmentMatchesBinding>(FragmentMatchesBind
 
     override fun init() {
         binding.rvMatches.adapter = matchAdapter
-        doInBackground {
-            viewModel.getMatchesByLeagueId(
-                leagueId = args.leagueId,
-                gameType = args.gameType,
-                timeFrame = TimeFrame.PAST.timeFrame
-            )
-        }
     }
 
     override fun listeners(): Unit = with(binding) {
@@ -55,8 +48,9 @@ class MatchesFragment : BaseFragment<FragmentMatchesBinding>(FragmentMatchesBind
             isSearching = !isSearching
             setSearching(isSearching)
         }
-        etSearch.doOnTextChanged { text, _, _, _ ->
-            searchFor(text.toString())
+        etSearch.doOnTextChanged { text, start, before, _ ->
+            if (start != 0 || before != 0)
+                searchFor(text.toString())
         }
     }
 
@@ -71,7 +65,7 @@ class MatchesFragment : BaseFragment<FragmentMatchesBinding>(FragmentMatchesBind
     private fun handleState(state: ViewState<List<Match>>) {
         state.data?.let { matches ->
             binding.progressBar.hide()
-            matchAdapter.submitList(matches.filter { it.opponents?.isNotEmpty() ?: false})
+            matchAdapter.submitList(matches.filter { it.opponents?.isNotEmpty() ?: false })
             if (matches.isEmpty())
                 binding.layoutError.show()
             else
@@ -82,6 +76,7 @@ class MatchesFragment : BaseFragment<FragmentMatchesBinding>(FragmentMatchesBind
             Snackbar.make(binding.root, error, Snackbar.LENGTH_LONG).show()
         }
         state.isLoading?.let { isLoading ->
+            binding.layoutError.hide()
             binding.progressBar.show()
         }
     }
@@ -96,7 +91,8 @@ class MatchesFragment : BaseFragment<FragmentMatchesBinding>(FragmentMatchesBind
                     viewModel.getMatchesByLeagueId(
                         leagueId = args.leagueId,
                         gameType = args.gameType,
-                        timeFrame = TimeFrame.PAST.timeFrame
+                        timeFrame = TimeFrame.PAST.timeFrame,
+                        title = binding.etSearch.text.toString()
                     )
                 }
             }
@@ -106,7 +102,8 @@ class MatchesFragment : BaseFragment<FragmentMatchesBinding>(FragmentMatchesBind
                     viewModel.getMatchesByLeagueId(
                         leagueId = args.leagueId,
                         gameType = args.gameType,
-                        timeFrame = TimeFrame.RUNNING.timeFrame
+                        timeFrame = TimeFrame.RUNNING.timeFrame,
+                        title = binding.etSearch.text.toString()
                     )
                 }
             }
@@ -116,7 +113,8 @@ class MatchesFragment : BaseFragment<FragmentMatchesBinding>(FragmentMatchesBind
                     viewModel.getMatchesByLeagueId(
                         leagueId = args.leagueId,
                         gameType = args.gameType,
-                        timeFrame = TimeFrame.UPCOMING.timeFrame
+                        timeFrame = TimeFrame.UPCOMING.timeFrame,
+                        title = binding.etSearch.text.toString()
                     )
                 }
             }
@@ -137,6 +135,7 @@ class MatchesFragment : BaseFragment<FragmentMatchesBinding>(FragmentMatchesBind
         searchingJob?.cancel()
         searchingJob = doInBackground {
             delay(500L)
+            matchAdapter.submitList(emptyList())
             viewModel.getMatchesByLeagueId(
                 leagueId = args.leagueId,
                 gameType = args.gameType,

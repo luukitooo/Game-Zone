@@ -1,8 +1,11 @@
 package com.lukaarmen.gamezone.ui.tabs.leagues.matchesfragment
 
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.lukaarmen.domain.common.mapSuccess
 import com.lukaarmen.domain.usecases.GetMatchesUseCase
 import com.lukaarmen.gamezone.common.base.BaseViewModel
+import com.lukaarmen.gamezone.common.utils.TimeFrame
 import com.lukaarmen.gamezone.common.utils.ViewState
 import com.lukaarmen.gamezone.models.Match
 import com.lukaarmen.gamezone.models.toMatch
@@ -11,12 +14,24 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MatchesViewModel @Inject constructor(
-    private val getMatchesUseCase: GetMatchesUseCase
+    private val getMatchesUseCase: GetMatchesUseCase,
+    private val savedStateHandler: SavedStateHandle
 ) : BaseViewModel() {
+
+    init {
+        viewModelScope.launch {
+            getMatchesByLeagueId(
+                leagueId = savedStateHandler.get<Int>("leagueId") ?: -1,
+                gameType = savedStateHandler.get<String>("gameType") ?: "",
+                timeFrame = TimeFrame.PAST.timeFrame
+            )
+        }
+    }
 
     private val _matchesFlow = MutableStateFlow(ViewState<List<Match>>())
     val matchesFlow get() = _matchesFlow.asStateFlow()

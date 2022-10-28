@@ -1,6 +1,7 @@
 package com.lukaarmen.gamezone.ui.tabs.leagues.leaguesfragment
 
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -45,7 +46,10 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
         gamesAdapter.onClickListener = { gameIndicator ->
             doInBackground {
                 leagueAdapter.submitList(emptyList())
-                viewModel.getLeagues(gameIndicator.title)
+                viewModel.getLeagues(
+                    name = binding.etSearch.text.toString(),
+                    gameType = gameIndicator.title
+                )
                 viewModel.updateIndicators(gameIndicator)
             }
         }
@@ -71,9 +75,11 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
             isSearching = !isSearching
             setSearching(isSearching)
         }
-        binding.etSearch.doOnTextChanged { leagueTitle, _, _, _ ->
-            doInBackground {
-                searchFor(leagueTitle.toString())
+        binding.etSearch.doOnTextChanged { leagueTitle, start, before, _ ->
+            if (start != 0 || before != 0) {
+                doInBackground {
+                    searchFor(leagueTitle.toString())
+                }
             }
         }
     }
@@ -98,7 +104,11 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
 
     private fun handleSavedLeagueCheck(league: FavoriteLeague?) {
         league?.let {
-            saveSnackBar = Snackbar.make(binding.root, "You really want to save this league?", Snackbar.LENGTH_LONG)
+            saveSnackBar = Snackbar.make(
+                binding.root,
+                "You really want to save this league?",
+                Snackbar.LENGTH_LONG
+            )
                 .setAnchorView(binding.glLayoutBottom)
                 .setAction("Yes") {
                     doInBackground {
@@ -143,6 +153,7 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
         searchJob?.cancel()
         searchJob = doInBackground {
             delay(500L)
+            leagueAdapter.submitList(emptyList())
             viewModel.getLeagues(
                 gameType = gamesAdapter.currentList.find { it.isSelected }!!.gameType.title,
                 name = leagueTitle
