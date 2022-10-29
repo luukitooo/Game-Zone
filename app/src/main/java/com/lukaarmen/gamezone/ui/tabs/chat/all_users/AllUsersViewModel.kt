@@ -7,6 +7,8 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.firestore.CollectionReference
+import com.lukaarmen.domain.usecases.users.GetAllUsersObserverUseCase
 import com.lukaarmen.gamezone.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +20,7 @@ import javax.inject.Named
 @HiltViewModel
 class AllUsersViewModel @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
-    @Named("Users") private val usersReference: DatabaseReference
+    private val getAllUsersObserverUseCase: GetAllUsersObserverUseCase
 ): ViewModel() {
 
     init {
@@ -30,37 +32,15 @@ class AllUsersViewModel @Inject constructor(
     private val _usersFlow = MutableStateFlow(emptyList<User>())
     val usersFlow get() = _usersFlow.asStateFlow()
 
-    private val currentUsersList = mutableListOf<User>()
-
-    fun getAllUsers() {
-        usersReference.addChildEventListener(object : ChildEventListener {
-            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val user = snapshot.getValue(User::class.java) ?: return
-                if (user.uid != firebaseAuth.currentUser!!.uid) {
-                    currentUsersList.add(user)
-                }
-                _usersFlow.value = currentUsersList.toList()
+    private suspend fun getAllUsers() {
+        getAllUsersObserverUseCase.invoke { userDomains ->
+            val result = userDomains.map { userDomain ->
+                User.fromDomain(userDomain)
+            }.filter { user ->
+                user.uid != firebaseAuth.currentUser!!.uid
             }
-
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                val user = snapshot.getValue(User::class.java) ?: return
-                if (user.uid != firebaseAuth.currentUser!!.uid)
-                    currentUsersList[currentUsersList.indexOf(currentUsersList.find { it.uid == user.uid })] = user
-                _usersFlow.value = currentUsersList.toList()
-            }
-
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-                return
-            }
-
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                return
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                throw error.toException()
-            }
-        })
+            _usersFlow.value = result
+        }
     }
 
 }

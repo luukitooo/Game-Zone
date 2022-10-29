@@ -10,6 +10,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.StorageReference
+import com.lukaarmen.domain.models.firebase.UserDomain
+import com.lukaarmen.domain.usecases.users.GetUserByIdUseCase
+import com.lukaarmen.domain.usecases.users.UpdateUserUseCase
 import com.lukaarmen.gamezone.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,12 +25,15 @@ import javax.inject.Named
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
-    @Named("Users") private val usersReference: DatabaseReference,
+    private val getUserByIdUseCase: GetUserByIdUseCase,
+    private val updateUserUseCase: UpdateUserUseCase,
     @Named("ProfilePictures") private val storageReference: StorageReference
 ) : ViewModel() {
 
     init {
-        viewModelScope.launch { updateProfile() }
+        viewModelScope.launch {
+            updateProfile()
+        }
     }
 
     private val _userState = MutableStateFlow(User())
@@ -37,20 +43,13 @@ class ProfileViewModel @Inject constructor(
         firebaseAuth.signOut()
     }
 
-    fun updateProfile() {
-        usersReference.child(firebaseAuth.currentUser!!.uid).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val user = snapshot.getValue(User::class.java) ?: return
-                _userState.value = user
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                throw Exception(error.message)
-            }
-        })
+    suspend fun updateProfile() {
+        _userState.emit(
+            User.fromDomain(getUserByIdUseCase.invoke(firebaseAuth.currentUser!!.uid))
+        )
     }
 
-    fun uploadImageToStorage(drawable: BitmapDrawable) {
+    suspend fun uploadImageToStorage(drawable: BitmapDrawable) {
         val bitmap = drawable.bitmap
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos)
@@ -64,9 +63,14 @@ class ProfileViewModel @Inject constructor(
             }
             userImageReference.downloadUrl
         }.addOnCompleteListener { task ->
-            usersReference.child(firebaseAuth.currentUser!!.uid)
-                .child("imageUrl")
-                .setValue(task.result.toString())
+            viewModelScope.launch {
+                updateUserUseCase.invoke(
+                    oldUser = _userState.value.toDomain(),
+                    newUser = mapOf("imageUrl" to task.result.toString())
+                )
+            }.invokeOnCompletion {
+                viewModelScope.launch { updateProfile() }
+            }
         }
     }
 

@@ -7,6 +7,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -60,6 +62,13 @@ object FirebaseModule {
     @Named("Messages")
     fun provideDatabaseMessagesReference(): DatabaseReference {
         return FirebaseDatabase.getInstance().getReference("Messages")
+    }
+
+    @Provides
+    @Singleton
+    @Named("Users")
+    fun provideFirestoreUsersReference(): CollectionReference {
+        return Firebase.firestore.collection("Users")
     }
 
 }

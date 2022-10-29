@@ -64,7 +64,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
         registerForActivityResult(GetContent()) { result ->
             result?.let {
                 val drawable = BitmapDrawable.createFromStream(requireActivity().contentResolver.openInputStream(it), it.path)
-                viewModel.uploadImageToStorage(drawable as BitmapDrawable)
+                doInBackground { viewModel.uploadImageToStorage(drawable as BitmapDrawable) }
             }
         }
 

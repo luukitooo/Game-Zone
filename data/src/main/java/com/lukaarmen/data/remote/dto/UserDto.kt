@@ -1,28 +1,28 @@
-package com.lukaarmen.gamezone.model
+package com.lukaarmen.data.remote.dto
 
 import com.lukaarmen.domain.models.firebase.UserDomain
 
-data class User(
+data class UserDto(
     var uid: String? = null,
     var email: String? = null,
     var username: String? = null,
     var imageUrl: String? = null,
 ) {
 
-    fun toDomain() = UserDomain(
+    fun toUserDomain() = UserDomain(
         uid = uid,
         email = email,
         username = username,
-        imageUrl = imageUrl,
+        imageUrl = imageUrl
     )
 
     companion object {
 
-        fun fromDomain(userDomain: UserDomain) = User(
+        fun fromDomain(userDomain: UserDomain) = UserDto(
             uid = userDomain.uid,
             email = userDomain.email,
             username = userDomain.username,
-            imageUrl = userDomain.imageUrl,
+            imageUrl = userDomain.imageUrl
         )
 
     }

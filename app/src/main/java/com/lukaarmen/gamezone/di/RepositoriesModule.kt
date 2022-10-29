@@ -2,6 +2,7 @@ package com.lukaarmen.gamezone.di
 
 import com.lukaarmen.data.repositories.*
 import com.lukaarmen.domain.repositories.*
+import com.lukaarmen.domain.repositories.firebase.UsersRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -35,5 +36,9 @@ abstract class RepositoriesModule {
     @Singleton
     @Binds
     abstract fun bindTeamsRepositoryImpl(repositoryImpl: TeamsRepositoryImpl): TeamsRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindUsersRepositoryImpl(repositoryImpl: UsersRepositoryImpl): UsersRepository
 
 }
