@@ -5,6 +5,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.work.*
+import com.LivesWorker
 import com.google.android.material.snackbar.Snackbar
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
@@ -17,6 +19,7 @@ import com.lukaarmen.gamezone.databinding.FragmentHomeBinding
 import com.lukaarmen.gamezone.models.Match
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(
@@ -29,9 +32,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
     private var streamsCount = 0
     private var firstLiveId = 0
 
+    private val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+
+    private val livesWorker =
+        PeriodicWorkRequestBuilder<LivesWorker>(15, TimeUnit.MINUTES)
+            .setConstraints(constraints)
+            .build()
+
     override fun init() {
         initGamesRecycler()
         initLivesRecycler()
+        WorkManager
+            .getInstance(requireActivity().applicationContext)
+            .enqueueUniquePeriodicWork(
+                "sendLogs",
+                ExistingPeriodicWorkPolicy.KEEP,
+                livesWorker
+            )
     }
 
     override fun listeners() {
