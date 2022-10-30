@@ -11,15 +11,26 @@
         android:id="@+id/appCompatTextView3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="70dp"
-        android:paddingHorizontal="24dp"
         android:text="Chats"
         android:textColor="@color/white"
         android:textSize="32sp"
         app:fontFamily="@font/sk_modernist_bold"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnSearch"
+        style="@style/PrimaryFloatingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/ic_search"
+        app:layout_constraintBottom_toBottomOf="@+id/appCompatTextView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/appCompatTextView3"
+        app:tint="@color/app_grey_light" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"

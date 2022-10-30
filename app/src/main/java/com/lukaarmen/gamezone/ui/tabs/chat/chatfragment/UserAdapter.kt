@@ -1,4 +1,4 @@
-package com.lukaarmen.gamezone.ui.tabs.chat
+package com.lukaarmen.gamezone.ui.tabs.chat.chatfragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
