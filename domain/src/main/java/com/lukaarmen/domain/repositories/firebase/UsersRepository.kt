@@ -14,4 +14,6 @@ interface UsersRepository {
 
     suspend fun observeAllUsers(function: (List<UserDomain>) -> Unit)
 
+    suspend fun updateUserActivityStatus(uid: String, status: String)
+
 }

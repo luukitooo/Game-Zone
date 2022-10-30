@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
-    android:layout_marginBottom="8dp"
     android:clickable="true"
     android:focusable="true"
     app:cardCornerRadius="12dp">
@@ -13,8 +12,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/app_background_light"
-        android:padding="16dp">
+        android:background="@color/app_background"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivUser"
@@ -50,14 +50,24 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="4dp"
+            android:lines="1"
             android:fontFamily="@font/sk_modernist_regular"
             android:textColor="@color/app_grey_light"
-            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivUser"
             app:layout_constraintTop_toBottomOf="@+id/tvUsername"
             tools:text="Activity Status" />
+
+        <View
+            android:id="@+id/activityIndicator"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/shape_circular"
+            android:backgroundTint="@android:color/holo_green_dark"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/ivUser"
+            app:layout_constraintEnd_toEndOf="@+id/ivUser" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -7,13 +7,15 @@ data class UserDto(
     var email: String? = null,
     var username: String? = null,
     var imageUrl: String? = null,
+    var activity: String? = null,
 ) {
 
     fun toUserDomain() = UserDomain(
         uid = uid,
         email = email,
         username = username,
-        imageUrl = imageUrl
+        imageUrl = imageUrl,
+        activity = activity
     )
 
     companion object {
@@ -22,7 +24,8 @@ data class UserDto(
             uid = userDomain.uid,
             email = userDomain.email,
             username = userDomain.username,
-            imageUrl = userDomain.imageUrl
+            imageUrl = userDomain.imageUrl,
+            activity = userDomain.activity
         )
 
     }

@@ -61,4 +61,16 @@ class UsersRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun updateUserActivityStatus(uid: String, status: String) {
+        val userDto = usersCollection
+            .whereEqualTo("uid", uid)
+            .get()
+            .await()
+            .documents[0]
+        usersCollection.document(userDto.id).set(
+            mapOf("activity" to status),
+            SetOptions.merge()
+        ).await()
+    }
+
 }

@@ -5,4 +5,5 @@ data class UserDomain(
     var email: String? = null,
     var username: String? = null,
     var imageUrl: String? = null,
+    var activity: String? = null,
 )
