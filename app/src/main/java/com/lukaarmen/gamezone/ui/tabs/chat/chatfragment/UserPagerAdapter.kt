@@ -54,7 +54,7 @@ class UserPagerAdapter : RecyclerView.Adapter<UserPagerAdapter.PageViewHolder>()
             userAdapter.onItemClickListener = { user ->
                 onListItemClick?.invoke(user)
             }
-            itemView.findViewTreeLifecycleOwner()?.lifecycleScope?.launch {
+            CoroutineScope(Dispatchers.Main).launch {
                 savedUsersFlow.collect { users ->
                     userAdapter.submitList(users)
                 }

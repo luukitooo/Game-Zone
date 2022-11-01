@@ -8,6 +8,7 @@ data class User(
     var username: String? = null,
     var imageUrl: String? = null,
     var activity: String? = null,
+    var savedUserIds: List<String>? = null
 ) {
 
     fun toDomain() = UserDomain(
@@ -15,7 +16,8 @@ data class User(
         email = email,
         username = username,
         imageUrl = imageUrl,
-        activity = activity
+        activity = activity,
+        savedUserIds = savedUserIds
     )
 
     companion object {
@@ -25,7 +27,8 @@ data class User(
             email = userDomain.email,
             username = userDomain.username,
             imageUrl = userDomain.imageUrl,
-            activity = userDomain.activity
+            activity = userDomain.activity,
+            savedUserIds = userDomain.savedUserIds
         )
 
     }

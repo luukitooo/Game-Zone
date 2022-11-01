@@ -1,6 +1,5 @@
 package com.lukaarmen.gamezone.ui.tabs.chat.chatfragment
 
-import android.util.Log.d
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
@@ -9,8 +8,6 @@ import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.databinding.FragmentChatBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class ChatFragmentFragment : BaseFragment<FragmentChatBinding>(FragmentChatBinding::inflate) {
@@ -44,8 +41,13 @@ class ChatFragmentFragment : BaseFragment<FragmentChatBinding>(FragmentChatBindi
     override fun observers() {
         doInBackground {
             viewModel.allUsersFlow.collect { users ->
-                d("MyLog", users.toString())
                 userPagerAdapter.setAllUsers(users)
+                viewModel.getUsersForCurrentUser()
+            }
+        }
+        doInBackground {
+            viewModel.savedUsersFlow.collect { users ->
+                userPagerAdapter.setSavedUsers(users)
             }
         }
     }

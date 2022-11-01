@@ -1,6 +1,7 @@
 package com.lukaarmen.domain.repositories.firebase
 
 import com.lukaarmen.domain.models.firebase.UserDomain
+import kotlinx.coroutines.CoroutineScope
 
 interface UsersRepository {
 
@@ -15,5 +16,9 @@ interface UsersRepository {
     suspend fun observeAllUsers(function: (List<UserDomain>) -> Unit)
 
     suspend fun updateUserActivityStatus(uid: String, status: String)
+
+    suspend fun saveOtherUserId(selfId: String, otherUserId: String)
+
+    suspend fun getUsersForUser(uid: String) : List<UserDomain>
 
 }
