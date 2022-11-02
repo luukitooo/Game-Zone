@@ -12,6 +12,7 @@ import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.extentions.filterDate
 import com.lukaarmen.gamezone.common.extentions.setPlayerPhoto
+import com.lukaarmen.gamezone.common.extentions.show
 import com.lukaarmen.gamezone.common.utils.GameType
 import com.lukaarmen.gamezone.databinding.FragmentLiveMatchDetailsBinding
 import com.lukaarmen.gamezone.models.Match
@@ -60,7 +61,10 @@ class LiveMatchDetailsFragment : BaseFragment<FragmentLiveMatchDetailsBinding>(
 
     private fun successState(match: Match) = with(binding) {
         initRecyclerView()
-        liveLink = match.streamsList?.last()?.rawUrl!!
+
+        if(match.streamsList != null && match.streamsList.isNotEmpty()){
+            liveLink = match.streamsList.last()?.rawUrl.toString()
+        }
         progressBar.isVisible = false
 
         tvLiveNow.isVisible = match.status == "running"

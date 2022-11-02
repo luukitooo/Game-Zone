@@ -15,7 +15,6 @@ import com.lukaarmen.gamezone.common.utils.ViewState
 import com.lukaarmen.gamezone.databinding.FragmentMatchesBinding
 import com.lukaarmen.gamezone.models.Match
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 
@@ -58,6 +57,14 @@ class MatchesFragment : BaseFragment<FragmentMatchesBinding>(FragmentMatchesBind
         etSearch.doOnTextChanged { text, _, _, _ ->
             searchFor(text.toString())
         }
+
+        matchAdapter.onClickListener = { matchId ->
+            findNavController().navigate(
+                MatchesFragmentDirections.actionMatchesFragmentToLiveMatchDetailsFragment2(
+                    matchId
+                )
+            )
+        }
     }
 
     override fun observers() {
@@ -71,7 +78,7 @@ class MatchesFragment : BaseFragment<FragmentMatchesBinding>(FragmentMatchesBind
     private fun handleState(state: ViewState<List<Match>>) {
         state.data?.let { matches ->
             binding.progressBar.hide()
-            matchAdapter.submitList(matches.filter { it.opponents?.isNotEmpty() ?: false})
+            matchAdapter.submitList(matches.filter { it.opponents?.isNotEmpty() ?: false })
             if (matches.isEmpty())
                 binding.layoutError.show()
             else

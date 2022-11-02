@@ -14,6 +14,8 @@ import com.lukaarmen.gamezone.models.Match
 
 class MatchAdapter: BaseAdapter<Match, ItemMatchBinding>(ItemMatchBinding::inflate) {
 
+    var onClickListener: ((Int) -> Unit)? = null
+
     override fun onBind(binding: ItemMatchBinding, position: Int) {
         val match = getItem(position)
         binding.apply {
@@ -93,6 +95,10 @@ class MatchAdapter: BaseAdapter<Match, ItemMatchBinding>(ItemMatchBinding::infla
                 })
                 .placeholder(R.drawable.ic_no_image)
                 .into(tmgSecondTeamLogo)
+
+            root.setOnClickListener {
+                match.id?.let { it1 -> onClickListener?.invoke(it1) }
+            }
         }
     }
 

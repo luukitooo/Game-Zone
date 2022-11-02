@@ -18,6 +18,6 @@ class LivesAdapter : BaseAdapter<Match, ItemLiveBinding>(ItemLiveBinding::inflat
         tvTitle.text = item.name
         tvLeague.text = item.beginAt?.filterDate()
 
-        root.setOnClickListener { onClickListener?.invoke(item.id!!) }
+        root.setOnClickListener { item.id?.let { it1 -> onClickListener?.invoke(it1) } }
     }
 }

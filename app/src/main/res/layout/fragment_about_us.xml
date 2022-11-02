@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/app_background"
     android:padding="24dp"
     tools:context=".ui.profile.profilefragment.AboutUsFragment">
@@ -16,22 +15,21 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_arrow_back"
         app:iconTint="@color/app_grey_light"
-        app:layout_constraintBottom_toBottomOf="@+id/appCompatTextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/appCompatTextView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/appCompatTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
         android:fontFamily="@font/sk_modernist_bold"
         android:text="About us"
         android:textColor="@color/white"
         android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/btnBack" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvaboutUs"

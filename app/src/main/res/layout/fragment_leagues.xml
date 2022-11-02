@@ -20,22 +20,10 @@
         app:layout_constraintStart_toStartOf="@+id/rvLeagues"
         app:layout_constraintTop_toTopOf="@+id/rvLeagues" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        style="@style/PrimaryFloatingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
-        android:clickable="false"
-        android:focusable="false"
-        android:src="@drawable/ic_arrow_back"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/appCompatTextView3"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
         android:gravity="center"
@@ -43,10 +31,10 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         app:fontFamily="@font/sk_modernist_bold"
-        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
-        app:layout_constraintEnd_toStartOf="@+id/btnSearch"
-        app:layout_constraintStart_toEndOf="@+id/floatingActionButton"
-        app:layout_constraintTop_toTopOf="@+id/floatingActionButton" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnSearch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnSearch" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnSearch"
@@ -54,9 +42,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_search"
-        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/floatingActionButton"
+        app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/app_grey_light" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -68,7 +55,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/floatingActionButton"
+        app:layout_constraintTop_toBottomOf="@+id/btnSearch"
         tools:itemCount="4"
         tools:listitem="@layout/item_game" />
 
@@ -101,7 +88,6 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/btnSearch"
         app:layout_constraintEnd_toEndOf="@+id/appCompatTextView3"
-        app:layout_constraintStart_toStartOf="@+id/floatingActionButton"
         app:layout_constraintTop_toTopOf="@+id/btnSearch" />
 
     <androidx.constraintlayout.widget.Guideline

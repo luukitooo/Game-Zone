@@ -13,7 +13,6 @@
         style="@style/RoundedImageView"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginTop="34dp"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,16 +27,6 @@
         app:layout_constraintStart_toStartOf="@+id/ivUserImage"
         app:layout_constraintTop_toTopOf="@+id/ivUserImage" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnNotifications"
-        style="@style/PrimaryFloatingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_notification"
-        app:layout_constraintBottom_toBottomOf="@+id/ivUserImage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ivUserImage" />
-
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvGreeting"
         android:layout_width="0dp"
@@ -47,7 +36,6 @@
         android:text="Morning"
         android:textColor="@color/app_grey_light"
         app:layout_constraintBottom_toTopOf="@id/tvUsername"
-        app:layout_constraintEnd_toStartOf="@+id/btnNotifications"
         app:layout_constraintStart_toEndOf="@+id/ivUserImage"
         app:layout_constraintTop_toTopOf="@+id/ivUserImage" />
 
@@ -61,7 +49,6 @@
         android:textColor="@color/white"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="@+id/ivUserImage"
-        app:layout_constraintEnd_toStartOf="@+id/btnNotifications"
         app:layout_constraintStart_toEndOf="@+id/ivUserImage"
         app:layout_constraintTop_toBottomOf="@+id/tvGreeting" />
 
