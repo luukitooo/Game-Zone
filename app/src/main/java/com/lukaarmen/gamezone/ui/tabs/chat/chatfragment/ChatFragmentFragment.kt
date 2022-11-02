@@ -42,7 +42,6 @@ class ChatFragmentFragment : BaseFragment<FragmentChatBinding>(FragmentChatBindi
         doInBackground {
             viewModel.allUsersFlow.collect { users ->
                 userPagerAdapter.setAllUsers(users)
-                viewModel.getUsersForCurrentUser()
             }
         }
         doInBackground {

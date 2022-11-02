@@ -1,6 +1,5 @@
 package com.lukaarmen.gamezone.ui.tabs.chat.messages
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,17 +8,20 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.firestore.FirebaseFirestoreException
+import com.lukaarmen.domain.models.firebase.ChatDomain
+import com.lukaarmen.domain.usecases.chats.CreateChatUseCase
+import com.lukaarmen.domain.usecases.chats.ObserveChatUseCase
+import com.lukaarmen.domain.usecases.chats.RemoveUserTypingUseCase
+import com.lukaarmen.domain.usecases.chats.SetUserTypingUseCase
 import com.lukaarmen.domain.usecases.users.SaveUserIdUseCase
 import com.lukaarmen.gamezone.common.utils.MessageTypes
+import com.lukaarmen.gamezone.model.Chat
 import com.lukaarmen.gamezone.model.Message
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.UUID
-import javax.crypto.KeyGenerator
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -28,15 +30,33 @@ class MessagesViewModel @Inject constructor(
     @Named("Messages") private val messagesReference: DatabaseReference,
     private val firebaseAuth: FirebaseAuth,
     private val saveUserIdUseCase: SaveUserIdUseCase,
-    savedStateHandler: SavedStateHandle
+    private val setUserTypingUseCase: SetUserTypingUseCase,
+    private val removeUserTypingUseCase: RemoveUserTypingUseCase,
+    private val createChatUseCase: CreateChatUseCase,
+    private val observeChatUseCase: ObserveChatUseCase,
+    private val savedStateHandler: SavedStateHandle
 ) : ViewModel() {
 
     init {
+        viewModelScope.launch {
+            createChatUseCase.invoke(
+                ChatDomain(
+                    id = savedStateHandler
+                        .get<String>("recipientId")
+                        .plus(firebaseAuth.currentUser!!.uid)
+                        .toSortedSet()
+                        .joinToString(""),
+                    typingUserIds = emptyList()
+                )
+            )
+        }
         viewModelScope.launch {
             saveUserIdUseCase.invoke(
                 selfId = firebaseAuth.currentUser!!.uid,
                 otherUserId = savedStateHandler.get<String>("recipientId") ?: return@launch,
             )
+        }
+        viewModelScope.launch {
             saveUserIdUseCase.invoke(
                 selfId = savedStateHandler.get<String>("recipientId") ?: return@launch,
                 otherUserId = firebaseAuth.currentUser!!.uid,
@@ -89,6 +109,40 @@ class MessagesViewModel @Inject constructor(
                 text = message
             )
         )
+    }
+
+    suspend fun setCurrentUserTyping() {
+        setUserTypingUseCase.invoke(
+            chatId = savedStateHandler
+                .get<String>("recipientId")
+                .plus(firebaseAuth.currentUser!!.uid)
+                .toSortedSet()
+                .joinToString(""),
+            userId = firebaseAuth.currentUser!!.uid
+        )
+    }
+
+    suspend fun removeCurrentUserTyping() {
+        removeUserTypingUseCase.invoke(
+            chatId = savedStateHandler
+                .get<String>("recipientId")
+                .plus(firebaseAuth.currentUser!!.uid)
+                .toSortedSet()
+                .joinToString(""),
+            userId = firebaseAuth.currentUser!!.uid
+        )
+    }
+
+    suspend fun observeCurrentChat(action: (Chat) -> Unit) {
+        observeChatUseCase.invoke(
+            id = savedStateHandler
+                .get<String>("recipientId")
+                .plus(firebaseAuth.currentUser!!.uid)
+                .toSortedSet()
+                .joinToString(""),
+        ) { chatDomain ->
+            action.invoke(Chat.fromChatDomain(chatDomain))
+        }
     }
 
 }

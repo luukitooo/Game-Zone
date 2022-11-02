@@ -40,6 +40,9 @@ class ChatViewModel @Inject constructor(
             }.filter { user ->
                 user.uid != firebaseAuth.currentUser!!.uid
             }
+            viewModelScope.launch {
+                getUsersForCurrentUser()
+            }
         }
     }
 

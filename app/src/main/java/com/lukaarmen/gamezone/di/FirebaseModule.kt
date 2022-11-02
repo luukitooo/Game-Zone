@@ -71,4 +71,11 @@ object FirebaseModule {
         return Firebase.firestore.collection("Users")
     }
 
+    @Provides
+    @Singleton
+    @Named("Chats")
+    fun provideFirestoreChatsReference(): CollectionReference {
+        return Firebase.firestore.collection("Chats")
+    }
+
 }

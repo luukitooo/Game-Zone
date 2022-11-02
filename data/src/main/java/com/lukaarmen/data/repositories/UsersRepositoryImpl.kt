@@ -18,6 +18,7 @@ class UsersRepositoryImpl @Inject constructor(
         usersCollection.add(
             UserDto.fromDomain(user)
         ).await()
+        usersCollection.document()
     }
 
     override suspend fun getAllUsers(): List<UserDomain> {

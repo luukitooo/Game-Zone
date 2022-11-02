@@ -82,13 +82,26 @@
         android:id="@+id/rvMessages"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginVertical="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/etMessage"
+        app:layout_constraintBottom_toTopOf="@+id/gifIsTyping"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnBack"
         app:stackFromEnd="true"
         tools:listitem="@layout/item_message_left" />
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifIsTyping"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
+        android:scaleX="5"
+        android:scaleY="5"
+        android:src="@drawable/gif_typing"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/etMessage"
+        app:layout_constraintStart_toStartOf="@+id/etMessage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
