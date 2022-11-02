@@ -39,18 +39,6 @@ class MessagesViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            createChatUseCase.invoke(
-                ChatDomain(
-                    id = savedStateHandler
-                        .get<String>("recipientId")
-                        .plus(firebaseAuth.currentUser!!.uid)
-                        .toSortedSet()
-                        .joinToString(""),
-                    typingUserIds = emptyList()
-                )
-            )
-        }
-        viewModelScope.launch {
             saveUserIdUseCase.invoke(
                 selfId = firebaseAuth.currentUser!!.uid,
                 otherUserId = savedStateHandler.get<String>("recipientId") ?: return@launch,
@@ -107,6 +95,19 @@ class MessagesViewModel @Inject constructor(
                 recipientId = recipientId,
                 type = MessageTypes.TEXT.type,
                 text = message
+            )
+        )
+    }
+
+    suspend fun createUser() {
+        createChatUseCase.invoke(
+            ChatDomain(
+                id = savedStateHandler
+                    .get<String>("recipientId")
+                    .plus(firebaseAuth.currentUser!!.uid)
+                    .toSortedSet()
+                    .joinToString(""),
+                typingUserIds = emptyList()
             )
         )
     }

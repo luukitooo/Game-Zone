@@ -1,11 +1,7 @@
 package com.lukaarmen.gamezone.ui.tabs.chat.messages
 
-import android.util.Log.d
-import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -16,7 +12,6 @@ import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.extentions.hide
 import com.lukaarmen.gamezone.common.extentions.show
 import com.lukaarmen.gamezone.databinding.FragmentMessagesBinding
-import com.lukaarmen.gamezone.model.Chat
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -45,6 +40,13 @@ class MessagesFragment : BaseFragment<FragmentMessagesBinding>(FragmentMessagesB
             .into(ivUser)
         rvMessages.adapter = messageAdapter
         viewModel.getMessages(args.recipientId)
+        doInBackground {
+            viewModel.createUser()
+        }.invokeOnCompletion {
+            doInBackground {
+                handleChatState(binding.gifIsTyping)
+            }
+        }
     }
 
     override fun listeners(): Unit = with(binding) {
@@ -73,9 +75,6 @@ class MessagesFragment : BaseFragment<FragmentMessagesBinding>(FragmentMessagesB
                 messageAdapter.submitList(messages)
                 scrollRecyclerToBottom()
             }
-        }
-        doInBackground {
-            handleChatState(binding.gifIsTyping)
         }
     }
 
