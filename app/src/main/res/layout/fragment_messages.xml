@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background"
+    android:padding="24dp"
+    tools:context=".ui.tabs.chat.messages.MessagesFragment">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnBack"
+        style="@style/PrimaryFloatingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:src="@drawable/ic_arrow_back"
+        app:elevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="24dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvUsername"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:gravity="center"
+        android:text="@string/username"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:fontFamily="@font/sk_modernist_bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
+        app:layout_constraintEnd_toStartOf="@+id/ivUser"
+        app:layout_constraintStart_toEndOf="@+id/btnBack"
+        app:layout_constraintTop_toTopOf="@+id/btnBack" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivUser"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/shape_circular"
+        android:clickable="false"
+        android:clipToOutline="true"
+        android:focusable="false"
+        android:src="@drawable/img_guest"
+        app:elevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnBack"
+        tools:targetApi="s" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/shape_rounded_corners"
+        android:backgroundTint="@color/app_background_light"
+        android:hint="@string/message"
+        android:padding="16dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/app_grey_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnSend"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnSend"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/app_yellow"
+        android:src="@drawable/ic_send"
+        app:layout_constraintBottom_toBottomOf="@+id/etMessage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etMessage"
+        app:rippleColor="@color/app_background_light"
+        app:tint="@color/app_background" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMessages"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/gifIsTyping"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnBack"
+        app:stackFromEnd="true"
+        tools:listitem="@layout/item_message_left" />
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifIsTyping"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
+        android:scaleX="5"
+        android:scaleY="5"
+        android:src="@drawable/gif_typing"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/etMessage"
+        app:layout_constraintStart_toStartOf="@+id/etMessage" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

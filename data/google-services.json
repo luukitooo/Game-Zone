@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "703591413376",
+    "firebase_url": "https://gamezone-2dcad-default-rtdb.firebaseio.com",
+    "project_id": "gamezone-2dcad",
+    "storage_bucket": "gamezone-2dcad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703591413376:android:77777545dd3f881efad865",
+        "android_client_info": {
+          "package_name": "com.lukaarmen.gamezone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "703591413376-04l1kv5j1uthbli16cah9vi2fhtd6bt7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lukaarmen.gamezone",
+            "certificate_hash": "c869d6c91f7bb830be88a4ac55491aa309096755"
+          }
+        },
+        {
+          "client_id": "703591413376-6jbjveglv9bsdbduosi0d6rsiebtsdpj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1nOsmmACANFuWg95liJpoYVSr7HtWqmM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "703591413376-6jbjveglv9bsdbduosi0d6rsiebtsdpj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

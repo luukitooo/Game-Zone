@@ -44,4 +44,5 @@
     <string name="title">Title</string>
     <string name="nothing_was_found">Nothing was found</string>
     <string name="about_us_description">About us text</string>
+    <string name="message">Message</string>
 </resources>

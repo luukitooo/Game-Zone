@@ -9,7 +9,9 @@ import com.google.firebase.database.ValueEventListener
 import com.lukaarmen.domain.common.mapSuccess
 import com.lukaarmen.domain.usecases.GetAllRunningMatchesUseCase
 import com.lukaarmen.domain.usecases.GetLivesByGameUseCase
+import com.lukaarmen.domain.usecases.users.UpdateUserActivityUseCase
 import com.lukaarmen.gamezone.common.base.BaseViewModel
+import com.lukaarmen.gamezone.common.utils.ActivityStatus
 import com.lukaarmen.gamezone.common.utils.CategoryIndicator
 import com.lukaarmen.gamezone.common.utils.GameType
 import com.lukaarmen.gamezone.common.utils.ViewState
@@ -29,8 +31,16 @@ class HomeViewModel @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     @Named("Users") private val usersReference: DatabaseReference,
     private val getAllRunningMatchesUseCase: GetAllRunningMatchesUseCase,
-    private val getLivesByGameUseCase: GetLivesByGameUseCase
+    private val getLivesByGameUseCase: GetLivesByGameUseCase,
+    private val updateUserActivityUseCase: UpdateUserActivityUseCase
 ) : BaseViewModel() {
+
+    suspend fun setStatusToOnline() {
+        updateUserActivityUseCase.invoke(
+            uid = firebaseAuth.currentUser!!.uid,
+            ActivityStatus.IS_ACTIVE
+        )
+    }
 
     private val gamesList = mutableListOf(
         CategoryIndicator(GameType.ALL, true),
@@ -84,7 +94,11 @@ class HomeViewModel @Inject constructor(
     fun updateProfile() {
         usersReference.child(firebaseAuth.currentUser!!.uid).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val user = snapshot.getValue(User::class.java) ?: return
+                val user = try {
+                    snapshot.getValue(User::class.java) ?: return
+                } catch(t : Throwable) {
+                    return
+                }
                 _userState.value = user
             }
 
@@ -115,5 +129,6 @@ class HomeViewModel @Inject constructor(
             _viewState.value = it
         }
     }
+
 }
 

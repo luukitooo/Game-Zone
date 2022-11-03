@@ -9,5 +9,28 @@
         android:id="@+id/chatFragmentFragment"
         android:name="com.lukaarmen.gamezone.ui.tabs.chat.chatfragment.ChatFragmentFragment"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/action_chatFragmentFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/messagesFragment"
+        android:name="com.lukaarmen.gamezone.ui.tabs.chat.messages.MessagesFragment"
+        android:label="fragment_messages"
+        tools:layout="@layout/fragment_messages" >
+        <argument
+            android:name="recipientId"
+            app:argType="string" />
+        <argument
+            android:name="recipientUsername"
+            app:argType="string" />
+        <argument
+            android:name="recipientImageUrl"
+            app:argType="string" />
+    </fragment>
 </navigation>

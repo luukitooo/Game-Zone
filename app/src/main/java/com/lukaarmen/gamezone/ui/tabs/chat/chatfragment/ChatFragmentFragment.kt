@@ -1,32 +1,96 @@
 package com.lukaarmen.gamezone.ui.tabs.chat.chatfragment
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.tabs.TabLayoutMediator
 import com.lukaarmen.gamezone.R
+import com.lukaarmen.gamezone.common.base.BaseFragment
+import com.lukaarmen.gamezone.common.extentions.doInBackground
+import com.lukaarmen.gamezone.common.extentions.hide
+import com.lukaarmen.gamezone.common.extentions.show
+import com.lukaarmen.gamezone.databinding.FragmentChatBinding
+import com.lukaarmen.gamezone.model.User
+import dagger.hilt.android.AndroidEntryPoint
 
-class ChatFragmentFragment : Fragment() {
+@AndroidEntryPoint
+class ChatFragmentFragment : BaseFragment<FragmentChatBinding>(FragmentChatBinding::inflate) {
 
-    companion object {
-        fun newInstance() = ChatFragmentFragment()
+    private val viewModel: ChatViewModel by viewModels()
+
+    private val userPagerAdapter = UserPagerAdapter()
+
+    private var isSearching = false
+    private var currentAllUsersList = emptyList<User>()
+    private var currentSavedUsersList = emptyList<User>()
+
+    override fun init() {
+        binding.viewPager.adapter = userPagerAdapter
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, pos ->
+            when (pos) {
+                0 -> tab.setIcon(R.drawable.ic_friends)
+                1 -> tab.setIcon(R.drawable.ic_globe)
+            }
+        }.attach()
     }
 
-    private lateinit var viewModel: ChatViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_chat, container, false)
+    override fun listeners() {
+        userPagerAdapter.onListItemClick = { user ->
+            findNavController().navigate(
+                ChatFragmentFragmentDirections.actionChatFragmentFragmentToMessagesFragment(
+                    recipientId = user.uid ?: "",
+                    recipientUsername = user.username ?: "",
+                    recipientImageUrl = user.imageUrl ?: ""
+                )
+            )
+        }
+        binding.btnSearch.setOnClickListener {
+            isSearching = !isSearching
+            toggleSearch(isSearching)
+        }
+        binding.etSearch.doOnTextChanged { text, start, before, _ ->
+            if (start != 0 || before != 0) {
+                searchForUsers(text.toString())
+            }
+        }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun observers() {
+        doInBackground {
+            viewModel.allUsersFlow.collect { users ->
+                userPagerAdapter.setAllUsers(users)
+                currentAllUsersList = users
+            }
+        }
+        doInBackground {
+            viewModel.savedUsersFlow.collect { users ->
+                userPagerAdapter.setSavedUsers(users)
+                currentSavedUsersList = users
+            }
+        }
+    }
+
+    private fun toggleSearch(isSearching: Boolean) {
+        if (isSearching) {
+            binding.btnSearch.setImageResource(R.drawable.ic_cross)
+            binding.etSearch.show()
+        } else {
+            binding.btnSearch.setImageResource(R.drawable.ic_search)
+            binding.etSearch.hide()
+        }
+    }
+
+    private fun searchForUsers(username: String) {
+        userPagerAdapter.setAllUsers(
+            currentAllUsersList.filter { user ->
+                user.username?.contains(username) ?: false
+            }
+        )
+        userPagerAdapter.setSavedUsers(
+            currentSavedUsersList.filter { user ->
+                user.username?.contains(username) ?: false
+            }
+        )
     }
 
 }
