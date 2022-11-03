@@ -54,4 +54,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etSearch"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_rounded_corners"
+        android:backgroundTint="@color/app_background_light"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="16dp"
+        android:hint="@string/title"
+        android:paddingHorizontal="16dp"
+        android:textColorHint="@color/app_grey"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSearch"
+        app:layout_constraintEnd_toStartOf="@+id/btnSearch"
+        app:layout_constraintStart_toStartOf="@id/appCompatTextView3"
+        app:layout_constraintTop_toTopOf="@+id/btnSearch" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
