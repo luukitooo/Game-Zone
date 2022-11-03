@@ -12,7 +12,7 @@ import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.extentions.findTopNavController
-import com.lukaarmen.gamezone.common.extentions.setProfilePhoto
+import com.lukaarmen.gamezone.common.extentions.setPhotoByUrl
 import com.lukaarmen.gamezone.common.extentions.show
 import com.lukaarmen.gamezone.databinding.FragmentProfileBinding
 import com.lukaarmen.gamezone.ui.profile.profilefragment.adapters.SettingsAdapter
@@ -70,7 +70,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
                         userName = it
                         tvUsername.text = it
                     }
-                    ivUser.setProfilePhoto(user.imageUrl, imageProgressbar)
+                    ivUser.setPhotoByUrl(user.imageUrl, imageProgressbar, R.drawable.ic_user)
                 }
             }
         }

@@ -10,57 +10,11 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.lukaarmen.gamezone.R
-import com.lukaarmen.gamezone.common.utils.Quality
-import com.lukaarmen.gamezone.models.Match
 
-fun ImageView.setLivePreview(preview: List<Match.Stream?>?, progressBar: ProgressBar?){
-    if(preview != null && preview.isNotEmpty() && preview.last()?.embedUrl != null){
-        Glide.with(this.context)
-            .load(preview.last()?.embedUrl?.getStreamPreview(Quality.LOW))
-            .listener(object: RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    progressBar?.let { it.isVisible = false }
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    progressBar?.let { it.isVisible = false }
-                    return false
-                }
-            })
-            .into(this)
-    }else{
-        this.setImageDrawable(ContextCompat.getDrawable(this.context, R.drawable.img_stream_error))
-        progressBar?.let { it.isVisible = false }
-    }
-}
-
-fun ImageView.setPlayerPhoto(url: String?, errorImg: Int){
-    if(url != null){
+fun ImageView.setPhotoByUrl(url: String?, progressBar: ProgressBar? = null, placeHolder: Int? = null){
+    if( url != "" && url != null ){
         Glide.with(this.context)
             .load(url)
-            .into(this)
-    }else{
-        this.setImageDrawable(ContextCompat.getDrawable(this.context, errorImg))
-    }
-}
-
-fun ImageView.setProfilePhoto(profilePhoto: String?, progressBar: ProgressBar?){
-    if(profilePhoto != null ){
-        Glide.with(this.context)
-            .load(profilePhoto)
             .listener(object: RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
@@ -85,6 +39,7 @@ fun ImageView.setProfilePhoto(profilePhoto: String?, progressBar: ProgressBar?){
             })
             .into(this)
     }else{
-        progressBar?.let { it.isVisible = true }
+        progressBar?.let { it.isVisible = false }
+        placeHolder?.let { this.setImageDrawable(ContextCompat.getDrawable(this.context, it)) }
     }
 }

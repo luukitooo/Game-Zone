@@ -10,11 +10,11 @@ import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.extentions.findTopNavController
-import com.lukaarmen.gamezone.common.extentions.setLivePreview
-import com.lukaarmen.gamezone.common.extentions.setProfilePhoto
+import com.lukaarmen.gamezone.common.extentions.setPhotoByUrl
 import com.lukaarmen.gamezone.common.utils.GameType
 import com.lukaarmen.gamezone.databinding.FragmentHomeBinding
 import com.lukaarmen.gamezone.models.Match
+import com.lukaarmen.gamezone.ui.tabs.home.livematcheslist.checkForPreview
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -85,7 +85,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         doInBackground {
             viewModel.userState.collect { user ->
                 user.apply {
-                    binding.ivUserImage.setProfilePhoto(user.imageUrl, binding.imageProgressbar)
+                    binding.ivUserImage.setPhotoByUrl(user.imageUrl, binding.imageProgressbar, R.drawable.ic_user)
 
                     username?.let {
                         binding.tvUsername.text = it
@@ -117,8 +117,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
             else -> {
                 firstLiveId = data.first().id!!
                 if (data.size != 1) list.removeFirst()
-                ivNewestLive.setLivePreview(data[0].streamsList, null)
-                btnPlay.visibility = View.VISIBLE
+
+                ivNewestLive.setPhotoByUrl(
+                    url = data[0].streamsList?.checkForPreview(),
+                    placeHolder = R.drawable.img_stream_error
+                )
+
+                btnPlay.show()
             }
         }
 

@@ -19,6 +19,16 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:targetApi="s" />
 
+    <ProgressBar
+        android:id="@+id/firstTeamProgressBar"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:indeterminateDrawable="@drawable/progressbar_bg"
+        app:layout_constraintBottom_toBottomOf="@+id/ivPlayerFirst"
+        app:layout_constraintEnd_toEndOf="@+id/ivPlayerFirst"
+        app:layout_constraintStart_toStartOf="@+id/ivPlayerFirst"
+        app:layout_constraintTop_toTopOf="@+id/ivPlayerFirst" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvPlayerFirstUsername"
         android:layout_width="wrap_content"
@@ -43,6 +53,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:targetApi="s" />
+
+    <ProgressBar
+        android:id="@+id/secondTeamProgressBar"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:indeterminateDrawable="@drawable/progressbar_bg"
+        app:layout_constraintBottom_toBottomOf="@+id/ivPlayerSecond"
+        app:layout_constraintEnd_toEndOf="@+id/ivPlayerSecond"
+        app:layout_constraintStart_toStartOf="@+id/ivPlayerSecond"
+        app:layout_constraintTop_toTopOf="@+id/ivPlayerSecond" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvPlayerSecondUsername"
