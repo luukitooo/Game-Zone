@@ -6,5 +6,6 @@ data class Message(
     var recipientId: String? = null,
     var type: String? = null,
     var text: String = "",
+    var twitchUrl: String = "",
     var imageUrl: String = "",
 )

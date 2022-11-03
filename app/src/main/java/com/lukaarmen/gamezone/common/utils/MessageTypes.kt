@@ -1,5 +1,6 @@
 package com.lukaarmen.gamezone.common.utils
 
 enum class MessageTypes(val type: String) {
-    TEXT("text")
+    TEXT("text"),
+    MATCH("match")
 }

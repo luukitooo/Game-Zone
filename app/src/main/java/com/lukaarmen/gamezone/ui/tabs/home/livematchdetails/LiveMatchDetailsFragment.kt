@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.lukaarmen.gamezone.R
@@ -22,6 +23,8 @@ class LiveMatchDetailsFragment : BaseFragment<FragmentLiveMatchDetailsBinding>(
     FragmentLiveMatchDetailsBinding::inflate
 ) {
 
+    private val args : LiveMatchDetailsFragmentArgs by navArgs()
+
     private val viewModel by viewModels<LiveMatchDetailsViewModel>()
     private val playersAdapter: PlayersAdapter by lazy { PlayersAdapter() }
     private var liveLink = ""
@@ -38,6 +41,13 @@ class LiveMatchDetailsFragment : BaseFragment<FragmentLiveMatchDetailsBinding>(
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(liveLink)
             startActivity(intent)
+        }
+        binding.btnShare.setOnClickListener {
+            findNavController().navigate(
+                LiveMatchDetailsFragmentDirections.actionLiveMatchDetailsFragmentToShareBottomSheet(
+                    matchId = args.matchId
+                )
+            )
         }
     }
 

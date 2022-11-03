@@ -1,5 +1,7 @@
 package com.lukaarmen.gamezone.ui.tabs.chat.messages
 
+import android.content.Intent
+import android.net.Uri
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -66,6 +68,11 @@ class MessagesFragment : BaseFragment<FragmentMessagesBinding>(FragmentMessagesB
                 delay(1000)
                 viewModel.removeCurrentUserTyping()
             }
+        }
+        messageAdapter.onMatchItemClickListener = { message ->
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(message.twitchUrl)
+            startActivity(intent)
         }
     }
 
