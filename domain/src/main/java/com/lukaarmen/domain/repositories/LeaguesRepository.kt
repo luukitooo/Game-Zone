@@ -8,8 +8,6 @@ interface LeaguesRepository {
 
     suspend fun getAllLeagues(
         gameType: String,
-        page: Int,
-        perPage: Int,
         name: String?
     ): Flow<Resource<List<LeaguesDomain>>>
 }

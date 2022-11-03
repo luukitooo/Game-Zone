@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.room.Room
 import com.lukaarmen.data.local.GameZoneDatabase
 import com.lukaarmen.data.local.dao.FavoriteLeaguesDao
-import com.lukaarmen.domain.models.SeriesDomain
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

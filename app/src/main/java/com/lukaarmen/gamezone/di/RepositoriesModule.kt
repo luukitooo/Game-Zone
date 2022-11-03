@@ -18,14 +18,6 @@ abstract class RepositoriesModule {
 
     @Singleton
     @Binds
-    abstract fun bindSeriesRepositoryImpl(repositoryImpl: SeriesRepositoryImpl): SeriesRepository
-
-    @Singleton
-    @Binds
-    abstract fun bindTournamentsRepositoryImpl(repositoryImpl: TournamentRepositoryImpl): TournamentRepository
-
-    @Singleton
-    @Binds
     abstract fun bindMatchesRepositoryImpl(repositoryImpl: MatchesRepositoryImpl): MatchesRepository
 
     @Singleton

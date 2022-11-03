@@ -9,16 +9,12 @@ interface MatchesRepository {
     suspend fun getMatchesByLeagueId(
         gameType: String,
         timeFrame: String,
-        page: Int,
-        perPage: Int,
         leagueId: Int,
         sort: String,
         title: String
     ): Flow<Resource<List<MatchDomain>>>
 
     suspend fun getAllRunningMatches(
-        page: Int?,
-        perPage: Int?,
         sort: String,
         filter: String,
         name: String?
@@ -26,8 +22,6 @@ interface MatchesRepository {
 
     suspend fun getRunningMatchesByGame(
         gameType: String,
-        page: Int,
-        perPage: Int,
         sort: String,
         name: String?
     ): Flow<Resource<List<MatchDomain>>>

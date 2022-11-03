@@ -17,15 +17,11 @@ class LeaguesRepositoryImpl @Inject constructor(
 ) : LeaguesRepository {
     override suspend fun getAllLeagues(
         gameType: String,
-        page: Int,
-        perPage: Int,
         name: String?
     ): Flow<Resource<List<LeaguesDomain>>> {
         return baseRepository.safeApiCall {
             leaguesService.getAllLeagues(
                 gameType,
-                page,
-                perPage,
                 name
             )
         }

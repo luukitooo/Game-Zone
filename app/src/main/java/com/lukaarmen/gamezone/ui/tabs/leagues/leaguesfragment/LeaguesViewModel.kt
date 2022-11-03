@@ -49,11 +49,9 @@ class LeaguesViewModel @Inject constructor(
 
     suspend fun getLeagues(
         gameType: String,
-        page: Int = 1,
-        perPage: Int = 50,
         name: String? = null
     ) {
-        stateHandler(getLeaguesUseCase(gameType, page, perPage, name).map { resource ->
+        stateHandler(getLeaguesUseCase(gameType, name).map { resource ->
             resource.mapSuccess { domain ->
                 domain.toLeague()
             }
