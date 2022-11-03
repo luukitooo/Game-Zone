@@ -7,9 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.storage.StorageReference
+import com.lukaarmen.domain.usecases.users.GetUserByIdUseCase
+import com.lukaarmen.domain.usecases.users.UpdateUserUseCase
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.model.User
 import com.lukaarmen.gamezone.ui.profile.profilefragment.settings.SettingsGroup
@@ -25,33 +27,26 @@ import javax.inject.Named
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
-    @Named("Users") private val usersReference: DatabaseReference,
+    private val getUserByIdUseCase: GetUserByIdUseCase,
+    private val updateUserUseCase: UpdateUserUseCase,
     @Named("ProfilePictures") private val storageReference: StorageReference
 ) : ViewModel() {
 
-    init {
-        viewModelScope.launch { updateProfile() }
-    }
-
     private val _userState = MutableStateFlow(User())
-    val userSate = _userState.asStateFlow()
+    val userSate get() = _userState.asStateFlow()
 
     fun signOut() {
         firebaseAuth.signOut()
     }
 
-    private fun updateProfile() {
-        usersReference.child(firebaseAuth.currentUser!!.uid)
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val user = snapshot.getValue(User::class.java) ?: return
-                    _userState.value = user
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    throw Exception(error.message)
-                }
-            })
+    suspend fun updateProfile() {
+        _userState.emit(
+            User.fromDomain(
+                getUserByIdUseCase.invoke(
+                    firebaseAuth.currentUser!!.uid
+                )
+            )
+        )
     }
 
     fun uploadImageToStorage(drawable: BitmapDrawable) {
@@ -69,9 +64,15 @@ class ProfileViewModel @Inject constructor(
                 }
                 userImageReference.downloadUrl
             }.addOnCompleteListener { task ->
-                usersReference.child(firebaseAuth.currentUser!!.uid)
-                    .child("imageUrl")
-                    .setValue(task.result.toString())
+                viewModelScope.launch {
+                    updateUserUseCase.invoke(
+                        oldUser = _userState.value.toDomain(),
+                        newUser = mapOf(
+                            "imageUrl" to task.result.toString()
+                        )
+                    )
+                    updateProfile()
+                }
             }
     }
 
@@ -87,7 +88,11 @@ class ProfileViewModel @Inject constructor(
         SettingsGroup(
             title = "Other",
             list = listOf(
-                SettingsGroup.SettingItem(SettingsType.NOTIFICATIONS, R.drawable.ic_notification, "Notifications"),
+                SettingsGroup.SettingItem(
+                    SettingsType.NOTIFICATIONS,
+                    R.drawable.ic_notification,
+                    "Notifications"
+                ),
                 SettingsGroup.SettingItem(SettingsType.SIGN_OUT, R.drawable.ic_signout, "Sign out")
             )
         ),

@@ -35,6 +35,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
             adapter = settingsAdapter
             settingsAdapter.submitList(viewModel.settings)
         }
+        doInBackground {
+            viewModel.updateProfile()
+        }
     }
 
     override fun listeners() = with(binding) {

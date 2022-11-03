@@ -9,6 +9,7 @@ import com.google.firebase.database.ValueEventListener
 import com.lukaarmen.domain.common.mapSuccess
 import com.lukaarmen.domain.usecases.GetAllRunningMatchesUseCase
 import com.lukaarmen.domain.usecases.GetLivesByGameUseCase
+import com.lukaarmen.domain.usecases.users.GetUserByIdUseCase
 import com.lukaarmen.domain.usecases.users.UpdateUserActivityUseCase
 import com.lukaarmen.gamezone.common.base.BaseViewModel
 import com.lukaarmen.gamezone.common.utils.ActivityStatus
@@ -29,7 +30,7 @@ import javax.inject.Named
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
-    @Named("Users") private val usersReference: DatabaseReference,
+    private val getUserByIdUseCase: GetUserByIdUseCase,
     private val getAllRunningMatchesUseCase: GetAllRunningMatchesUseCase,
     private val getLivesByGameUseCase: GetLivesByGameUseCase,
     private val updateUserActivityUseCase: UpdateUserActivityUseCase
@@ -54,7 +55,9 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             getAllRunningMatches()
         }
-        updateProfile()
+        viewModelScope.launch {
+            updateProfile()
+        }
     }
 
     private val _viewState = MutableStateFlow(ViewState<List<Match>>())
@@ -91,21 +94,14 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun updateProfile() {
-        usersReference.child(firebaseAuth.currentUser!!.uid).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val user = try {
-                    snapshot.getValue(User::class.java) ?: return
-                } catch(t : Throwable) {
-                    return
-                }
-                _userState.value = user
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                throw Exception(error.message)
-            }
-        })
+    private suspend fun updateProfile() {
+        _userState.emit(
+            User.fromDomain(
+                getUserByIdUseCase.invoke(
+                    firebaseAuth.currentUser!!.uid
+                )
+            )
+        )
     }
 
     private suspend fun getAllRunningMatches() {
