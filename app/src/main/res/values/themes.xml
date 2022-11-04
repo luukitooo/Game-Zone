@@ -17,4 +17,9 @@
         <item name="android:navigationBarColor">@color/app_background</item>
 
     </style>
+
+    <style name="SplashScreenTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+
 </resources>

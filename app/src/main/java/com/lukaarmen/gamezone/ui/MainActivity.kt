@@ -8,6 +8,7 @@ import androidx.work.WorkManager
 import com.google.firebase.auth.FirebaseAuth
 import com.lukaarmen.domain.repositories.firebase.UsersRepository
 import com.lukaarmen.domain.usecases.users.UpdateUserActivityUseCase
+import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.utils.ActivityStatus
 import com.lukaarmen.gamezone.databinding.ActivityMainBinding
 import com.lukaarmen.gamezone.common.workers.SetStatusToOfflineWorker
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_GameZone)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
