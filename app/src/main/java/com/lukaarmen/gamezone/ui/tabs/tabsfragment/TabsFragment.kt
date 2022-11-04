@@ -4,26 +4,34 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
+import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.workers.SetStatusToOfflineWorker
 import com.lukaarmen.gamezone.common.workers.SetStatusToOnlineWorker
 import com.lukaarmen.gamezone.databinding.FragmentTabsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TabsFragment : BaseFragment<FragmentTabsBinding>(
     FragmentTabsBinding::inflate
 ) {
+
+    private val viewModel by viewModels<TabsViewModel>()
 
     private var backPressedTime: Long = 0
 
     override fun init() {
         initNavigation()
         onBackPressed()
-
+        doInBackground {
+            viewModel.setToken()
+        }
     }
 
     override fun listeners() {

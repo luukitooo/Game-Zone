@@ -1,5 +1,6 @@
 package com.lukaarmen.gamezone.ui.tabs.chat.messages
 
+import android.util.Log.d
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,11 +9,14 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.lukaarmen.data.remote.services.NotificationBody
+import com.lukaarmen.data.remote.services.NotificationService
 import com.lukaarmen.domain.models.firebase.ChatDomain
 import com.lukaarmen.domain.usecases.chats.CreateChatUseCase
 import com.lukaarmen.domain.usecases.chats.ObserveChatUseCase
 import com.lukaarmen.domain.usecases.chats.RemoveUserTypingUseCase
 import com.lukaarmen.domain.usecases.chats.SetUserTypingUseCase
+import com.lukaarmen.domain.usecases.users.GetUserByIdUseCase
 import com.lukaarmen.domain.usecases.users.SaveUserIdUseCase
 import com.lukaarmen.gamezone.common.utils.MessageTypes
 import com.lukaarmen.gamezone.model.Chat
@@ -34,7 +38,9 @@ class MessagesViewModel @Inject constructor(
     private val removeUserTypingUseCase: RemoveUserTypingUseCase,
     private val createChatUseCase: CreateChatUseCase,
     private val observeChatUseCase: ObserveChatUseCase,
-    private val savedStateHandler: SavedStateHandle
+    private val savedStateHandler: SavedStateHandle,
+    private val getUserByIdUseCase: GetUserByIdUseCase,
+    private val sendNotificationService: NotificationService
 ) : ViewModel() {
 
     init {
@@ -97,6 +103,15 @@ class MessagesViewModel @Inject constructor(
                 text = message
             )
         )
+        viewModelScope.launch {
+            val recipientUser = getUserByIdUseCase(recipientId)
+            val currentUser = getUserByIdUseCase(firebaseAuth.currentUser!!.uid)
+            if(recipientUser.currentChatUseId != currentUser.uid){
+                val notificationBody = NotificationBody(recipientUser.deviceId, NotificationBody.Data(currentUser.username, message, currentUser.imageUrl))
+                sendNotificationService.sendNotification(notificationBody)
+            }
+
+        }
     }
 
     suspend fun createUser() {

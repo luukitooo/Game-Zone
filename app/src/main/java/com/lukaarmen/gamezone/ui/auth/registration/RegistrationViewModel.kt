@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.messaging.FirebaseMessaging
 import com.lukaarmen.domain.models.firebase.UserDomain
 import com.lukaarmen.domain.usecases.users.SaveUserUseCase
 import com.lukaarmen.gamezone.model.User
@@ -21,6 +22,7 @@ import javax.inject.Named
 class RegistrationViewModel @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val saveUserUseCase: SaveUserUseCase,
+    private val firebaseMessaging: FirebaseMessaging
 ) : ViewModel() {
 
     private val _registrationSuccessFlow = MutableSharedFlow<Boolean>()

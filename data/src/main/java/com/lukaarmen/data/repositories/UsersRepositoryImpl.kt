@@ -111,4 +111,30 @@ class UsersRepositoryImpl @Inject constructor(
             }.await()
         }
     }
+
+    override suspend fun updateUserDeviceId(uId: String, deviceId: String) {
+        val userDto = usersCollection
+            .whereEqualTo("uid", uId)
+            .get()
+            .await()
+            .documents[0]
+
+        usersCollection.document(userDto.id).set(
+            mapOf("deviceId" to deviceId),
+            SetOptions.merge()
+        ).await()
+    }
+
+    override suspend fun updateCurrentChatUserId(uId: String, currentChatUserId: String?) {
+        val userDto = usersCollection
+            .whereEqualTo("uid", uId)
+            .get()
+            .await()
+            .documents[0]
+
+        usersCollection.document(userDto.id).set(
+            mapOf("currentChatUseId" to currentChatUserId),
+            SetOptions.merge()
+        ).await()
+    }
 }

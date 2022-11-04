@@ -6,6 +6,9 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.lukaarmen.gamezone.R
@@ -13,6 +16,7 @@ import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.extentions.hide
 import com.lukaarmen.gamezone.common.extentions.show
+import com.lukaarmen.gamezone.common.workers.SetCurrentChatUserIdWorker
 import com.lukaarmen.gamezone.databinding.FragmentMessagesBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -112,6 +116,26 @@ class MessagesFragment : BaseFragment<FragmentMessagesBinding>(FragmentMessagesB
         } catch (t: Throwable) {
             t.printStackTrace()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val data = workDataOf("userId" to args.recipientId)
+        val work = OneTimeWorkRequestBuilder<SetCurrentChatUserIdWorker>()
+            .setInputData(data)
+            .build()
+
+        WorkManager.getInstance(requireContext()).enqueue(work)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val data = workDataOf("userId" to "")
+        val work = OneTimeWorkRequestBuilder<SetCurrentChatUserIdWorker>()
+            .setInputData(data)
+            .build()
+
+        WorkManager.getInstance(requireContext()).enqueue(work)
     }
 
 }

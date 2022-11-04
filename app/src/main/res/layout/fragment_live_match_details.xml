@@ -159,7 +159,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnWatch"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="50dp"
             android:layout_marginHorizontal="24dp"
             android:fontFamily="@font/sk_modernist_bold"
             android:text="Watch"
@@ -171,6 +171,7 @@
             app:layout_constraintEnd_toStartOf="@+id/btnShare"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/btnShare"
+            android:enabled="true"
             app:rippleColor="@color/app_background_light" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -180,7 +181,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="24dp"
             android:src="@drawable/ic_share"
-            app:fabCustomSize="60dp"
+            app:fabCustomSize="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent" />

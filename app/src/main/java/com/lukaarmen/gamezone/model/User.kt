@@ -8,7 +8,9 @@ data class User(
     var username: String? = null,
     var imageUrl: String? = null,
     var activity: String? = null,
-    var savedUserIds: List<String>? = null
+    var savedUserIds: List<String>? = null,
+    var deviceId: String? = null,
+    var currentChatUseId: String? = null
 ) {
 
     fun toDomain() = UserDomain(
@@ -17,7 +19,9 @@ data class User(
         username = username,
         imageUrl = imageUrl,
         activity = activity,
-        savedUserIds = savedUserIds
+        savedUserIds = savedUserIds,
+        deviceId = deviceId,
+        currentChatUseId = currentChatUseId
     )
 
     companion object {
@@ -28,7 +32,9 @@ data class User(
             username = userDomain.username,
             imageUrl = userDomain.imageUrl,
             activity = userDomain.activity,
-            savedUserIds = userDomain.savedUserIds
+            savedUserIds = userDomain.savedUserIds,
+            deviceId = userDomain.deviceId,
+            currentChatUseId = userDomain.currentChatUseId
         )
 
     }

@@ -10,6 +10,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.lukaarmen.gamezone.R
@@ -24,6 +25,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object FirebaseModule {
+
+    @Provides
+    @Singleton
+    fun provideFirebaseMessaging(): FirebaseMessaging{
+        return FirebaseMessaging.getInstance()
+    }
 
     @Provides
     @Singleton

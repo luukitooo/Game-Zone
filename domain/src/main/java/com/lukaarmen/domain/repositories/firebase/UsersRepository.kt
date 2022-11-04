@@ -21,4 +21,8 @@ interface UsersRepository {
 
     suspend fun getUsersForUser(uid: String) : List<UserDomain>
 
+    suspend fun updateUserDeviceId(uId: String, deviceId: String)
+
+    suspend fun updateCurrentChatUserId(uId: String, currentChatUserId: String?)
+
 }
