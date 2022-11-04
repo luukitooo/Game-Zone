@@ -160,7 +160,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:layoutAnimation="@anim/layout_items_slide_from_left"
+        android:layoutAnimation="@anim/layout_items_scale_out"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"

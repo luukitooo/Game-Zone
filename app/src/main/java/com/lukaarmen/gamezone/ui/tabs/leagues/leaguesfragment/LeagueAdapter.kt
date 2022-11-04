@@ -1,5 +1,6 @@
 package com.lukaarmen.gamezone.ui.tabs.leagues.leaguesfragment
 
+import android.view.animation.AnimationUtils
 import com.bumptech.glide.Glide
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseAdapter

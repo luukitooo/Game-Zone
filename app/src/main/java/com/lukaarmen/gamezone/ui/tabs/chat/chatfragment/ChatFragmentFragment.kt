@@ -1,5 +1,7 @@
 package com.lukaarmen.gamezone.ui.tabs.chat.chatfragment
 
+import android.util.Log.d
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,6 +14,7 @@ import com.lukaarmen.gamezone.common.extentions.show
 import com.lukaarmen.gamezone.databinding.FragmentChatBinding
 import com.lukaarmen.gamezone.model.User
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class ChatFragmentFragment : BaseFragment<FragmentChatBinding>(FragmentChatBinding::inflate) {
@@ -58,12 +61,14 @@ class ChatFragmentFragment : BaseFragment<FragmentChatBinding>(FragmentChatBindi
     override fun observers() {
         doInBackground {
             viewModel.allUsersFlow.collect { users ->
+                binding.progressBar.isVisible = users.isEmpty()
                 userPagerAdapter.setAllUsers(users)
                 currentAllUsersList = users
             }
         }
         doInBackground {
             viewModel.savedUsersFlow.collect { users ->
+                binding.progressBar.isVisible = users.isEmpty()
                 userPagerAdapter.setSavedUsers(users)
                 currentSavedUsersList = users
             }

@@ -22,8 +22,10 @@ class ChatViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            setAllUsersObserver()
             getUsersForCurrentUser()
+        }
+        viewModelScope.launch {
+            setAllUsersObserver()
         }
     }
 
