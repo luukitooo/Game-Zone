@@ -27,18 +27,14 @@ class LeaguesViewModel @Inject constructor(
     private val getAllFavoriteLeaguesUseCase: GetAllFavoriteLeaguesUseCase
 ) : BaseViewModel() {
 
-    init {
-        viewModelScope.launch {
-            getLeagues()
-        }
-    }
-
     private val gameIndicators = mutableListOf(
         CategoryIndicator(GameType.CSGO, true),
         CategoryIndicator(GameType.DOTA2, false),
         CategoryIndicator(GameType.OWERWATCH, false),
         CategoryIndicator(GameType.RAINBOW_SIX, false),
     )
+
+    private var searchQuery = ""
 
     private val _leaguesFlow = MutableStateFlow(ViewState<List<League>>())
     val leaguesFlow get() = _leaguesFlow.asStateFlow()
@@ -53,8 +49,9 @@ class LeaguesViewModel @Inject constructor(
         gameType: String = _indicatorsFlow.value.find { it.isSelected }?.gameType?.title ?: "",
         page: Int = 1,
         perPage: Int = 50,
-        name: String? = null
+        name: String? = searchQuery
     ) {
+        _leaguesFlow.emit(ViewState())
         val savedLeagues = getAllFavoriteLeaguesUseCase.invoke().filter { favoriteLeague ->
             favoriteLeague.userId == auth.currentUser!!.uid
         }
@@ -101,8 +98,16 @@ class LeaguesViewModel @Inject constructor(
         }
     }
 
+    fun setSearchQuery(leagueTitle: String) {
+        searchQuery = leagueTitle
+    }
+
     suspend fun addLeagueToFavorites(league: FavoriteLeague) {
         addFavoriteLeaguesUseCase(league.toFavoriteLeagueDomain())
+    }
+
+    fun clearState() {
+        _leaguesFlow.value = ViewState()
     }
 
 }

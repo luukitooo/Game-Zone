@@ -1,5 +1,6 @@
 package com.lukaarmen.gamezone.ui.tabs.leagues.leaguesfragment
 
+import android.util.Log.d
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
@@ -39,6 +40,9 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
     override fun init(): Unit = with(binding) {
         rvLeagues.adapter = leagueAdapter
         rvGames.adapter = gamesAdapter
+        doInBackground {
+            viewModel.getLeagues()
+        }
     }
 
     override fun listeners() {
@@ -53,6 +57,7 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
             }
         }
         leagueAdapter.onItemClickListener = { league ->
+            leagueAdapter.submitList(emptyList())
             findNavController().navigate(
                 LeaguesFragmentDirections.actionLeaguesFragmentToMatchesFragment(
                     leagueId = league.id!!,
@@ -75,6 +80,7 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
             setSearching(isSearching)
         }
         binding.etSearch.doOnTextChanged { leagueTitle, start, before, _ ->
+            viewModel.setSearchQuery(leagueTitle.toString())
             if (start != 0 || before != 0) {
                 doInBackground {
                     searchFor(leagueTitle.toString())
@@ -92,6 +98,7 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
     override fun observers() {
         doInBackground {
             viewModel.leaguesFlow.collect { state ->
+                d("MyLog", state.toString())
                 handleState(state)
             }
         }
