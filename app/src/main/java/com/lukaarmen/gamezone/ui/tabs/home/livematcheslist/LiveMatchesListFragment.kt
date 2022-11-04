@@ -66,7 +66,9 @@ class LiveMatchesListFragment : BaseFragment<FragmentLiveMatchesListBinding>(
             viewModel.livesState.collect { viewState ->
                 viewState.data?.let { matchesList ->
                     initLivesRecycler()
-                    livesAdapter.submitList(matchesList)
+                    livesAdapter.submitList(matchesList).also {
+                        binding.livesRecycler.startLayoutAnimation()
+                    }
                     binding.progressBar.isVisible = false
                 }
                 viewState.error?.let { error ->

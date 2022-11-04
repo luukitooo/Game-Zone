@@ -1,5 +1,7 @@
 package com.lukaarmen.gamezone.ui.tabs.leagues.leaguesfragment
 
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
@@ -126,7 +128,9 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
     private fun handleState(state: ViewState<List<League>>) {
         state.apply {
             data?.let { leagues ->
-                leagueAdapter.submitList(leagues)
+                leagueAdapter.submitList(leagues).also {
+                    binding.rvLeagues.startLayoutAnimation()
+                }
                 binding.progressBar.isVisible = false
             }
             error?.let { errorMessage ->

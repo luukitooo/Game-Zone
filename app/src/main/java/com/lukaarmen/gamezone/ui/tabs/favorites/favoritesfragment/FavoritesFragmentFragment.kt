@@ -26,6 +26,7 @@ class FavoritesFragmentFragment : BaseFragment<FragmentFavoritesBinding>(Fragmen
 
     private val favoriteLeagueAdapter = FavoriteLeagueAdapter()
 
+    private var animationStarted = false
     private var lastRemovedLeague: FavoriteLeague? = null
     private var undoSnackBar: Snackbar? = null
 
@@ -52,7 +53,12 @@ class FavoritesFragmentFragment : BaseFragment<FragmentFavoritesBinding>(Fragmen
                     domainLeagues.map { domain ->
                         FavoriteLeague.fromFavoriteLeagueDomain(domain)
                     }
-                )
+                ).also {
+                    if (!animationStarted) {
+                        binding.rvFavoriteLeagues.startLayoutAnimation()
+                        animationStarted = true
+                    }
+                }
             }
         }
     }

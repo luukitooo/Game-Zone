@@ -9,9 +9,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
-import com.lukaarmen.gamezone.common.extentions.doInBackground
-import com.lukaarmen.gamezone.common.extentions.findTopNavController
-import com.lukaarmen.gamezone.common.extentions.setLivePreview
+import com.lukaarmen.gamezone.common.extentions.*
 import com.lukaarmen.gamezone.common.utils.GameType
 import com.lukaarmen.gamezone.databinding.FragmentHomeBinding
 import com.lukaarmen.gamezone.models.Match
@@ -113,7 +111,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         when (data.size) {
             0 -> {
                 latestLiveErrorState()
-                tvMessage.text = requireContext().getString(R.string.no_data)
+                binding.layoutError.show()
             }
             else -> {
                 firstLiveId = data.first().id!!
@@ -144,7 +142,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         //recyclerview
         livesAdapter.submitList(emptyList())
         livesRecyclerProgressBar.visibility = View.GONE
-        tvMessage.text = requireContext().getString(R.string.error)
+        binding.layoutError.show()
         //latest live
         latestLiveErrorState()
         tvLivesCount.text = requireContext().getString(R.string.not_available)
@@ -161,16 +159,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         ivNewestLive.setImageResource(R.drawable.img_stream_error)
         btnPlay.visibility = View.GONE
         latestStreamProgressBar.visibility = View.GONE
-        imgRvErrorImg.visibility = View.VISIBLE
-        tvMessage.visibility = View.VISIBLE
+        binding.layoutError.show()
     }
 
     private fun loadingState() = with(binding) {
         //recyclerview
         livesAdapter.submitList(emptyList())
         livesRecyclerProgressBar.visibility = View.VISIBLE
-        imgRvErrorImg.visibility = View.GONE
-        tvMessage.visibility = View.GONE
+        binding.layoutError.hide()
         //latest live
         btnPlay.visibility = View.GONE
         ivNewestLive.setImageDrawable(null)

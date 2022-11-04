@@ -57,7 +57,9 @@ class MatchesFragment : BaseFragment<FragmentMatchesBinding>(FragmentMatchesBind
     override fun observers() {
         doInBackground {
             viewModel.matchesFlow.collect { state ->
-                handleState(state)
+                handleState(state).also {
+                    binding.rvMatches.startLayoutAnimation()
+                }
             }
         }
     }

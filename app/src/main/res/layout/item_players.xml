@@ -9,8 +9,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivPlayerFirst"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@drawable/shape_circular"
         android:clipToOutline="true"
         android:src="@drawable/ic_launcher_background"
@@ -27,15 +27,15 @@
         android:fontFamily="@font/sk_modernist_regular"
         android:text="Username"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/ivPlayerFirst"
         app:layout_constraintStart_toEndOf="@+id/ivPlayerFirst"
         app:layout_constraintTop_toTopOf="@+id/ivPlayerFirst" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivPlayerSecond"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@drawable/shape_circular"
         android:clipToOutline="true"
         android:src="@drawable/ic_launcher_background"
@@ -52,7 +52,7 @@
         android:fontFamily="@font/sk_modernist_regular"
         android:text="Username"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/ivPlayerSecond"
         app:layout_constraintEnd_toStartOf="@+id/ivPlayerSecond"
         app:layout_constraintTop_toTopOf="@+id/ivPlayerSecond" />

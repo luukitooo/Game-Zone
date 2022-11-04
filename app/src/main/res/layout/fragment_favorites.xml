@@ -30,6 +30,7 @@
         android:layout_marginTop="44dp"
         android:layout_marginHorizontal="24dp"
         android:clipToPadding="false"
+        android:layoutAnimation="@anim/layout_items_slide_from_left"
         android:paddingBottom="24dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -17,13 +17,14 @@ import com.lukaarmen.gamezone.common.utils.GameType
 import com.lukaarmen.gamezone.databinding.FragmentLiveMatchDetailsBinding
 import com.lukaarmen.gamezone.models.Match
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class LiveMatchDetailsFragment : BaseFragment<FragmentLiveMatchDetailsBinding>(
     FragmentLiveMatchDetailsBinding::inflate
 ) {
 
-    private val args : LiveMatchDetailsFragmentArgs by navArgs()
+    private val args: LiveMatchDetailsFragmentArgs by navArgs()
 
     private val viewModel by viewModels<LiveMatchDetailsViewModel>()
     private val playersAdapter: PlayersAdapter by lazy { PlayersAdapter() }
@@ -63,6 +64,9 @@ class LiveMatchDetailsFragment : BaseFragment<FragmentLiveMatchDetailsBinding>(
         doInBackground {
             viewModel.matchPlayers.collect {
                 playersAdapter.submitList(it)
+                delay(1)
+                binding.rvPlayers.startLayoutAnimation()
+
             }
         }
 

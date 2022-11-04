@@ -6,5 +6,5 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:src="@drawable/img_dota2_icon"
-    app:fabCustomSize="70dp"
+    app:fabCustomSize="64dp"
     app:tint="@null"/>
