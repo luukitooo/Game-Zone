@@ -1,9 +1,6 @@
 package com.lukaarmen.gamezone.ui.tabs.leagues.leaguesfragment
 
-import android.view.animation.AnimationUtils
-import android.view.animation.LayoutAnimationController
 import androidx.core.view.isVisible
-import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -39,7 +36,7 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
     private var searchJob: Job? = null
     private var saveSnackBar: Snackbar? = null
 
-    override fun init() = with(binding) {
+    override fun init(): Unit = with(binding) {
         rvLeagues.adapter = leagueAdapter
         rvGames.adapter = gamesAdapter
     }
@@ -84,6 +81,12 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
                 }
             }
         }
+        binding.swipeToRefreshLayout.setOnRefreshListener {
+            doInBackground {
+                leagueAdapter.submitList(emptyList())
+                viewModel.getLeagues()
+            }
+        }
     }
 
     override fun observers() {
@@ -115,6 +118,7 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
                 .setAction("Yes") {
                     doInBackground {
                         viewModel.addLeagueToFavorites(league)
+                        viewModel.getLeagues()
                     }
                 }
             saveSnackBar?.show()
@@ -132,6 +136,7 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
                     binding.rvLeagues.startLayoutAnimation()
                 }
                 binding.progressBar.isVisible = false
+                binding.swipeToRefreshLayout.isRefreshing = false
             }
             error?.let { errorMessage ->
                 Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
@@ -159,7 +164,6 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
             delay(500L)
             leagueAdapter.submitList(emptyList())
             viewModel.getLeagues(
-                gameType = gamesAdapter.currentList.find { it.isSelected }!!.gameType.title,
                 name = leagueTitle
             )
         }

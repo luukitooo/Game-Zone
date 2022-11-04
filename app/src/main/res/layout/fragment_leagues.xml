@@ -15,10 +15,10 @@
         android:layout_height="wrap_content"
         android:indeterminateDrawable="@drawable/progressbar_bg"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/rvLeagues"
-        app:layout_constraintEnd_toEndOf="@+id/rvLeagues"
-        app:layout_constraintStart_toStartOf="@+id/rvLeagues"
-        app:layout_constraintTop_toTopOf="@+id/rvLeagues" />
+        app:layout_constraintBottom_toBottomOf="@+id/swipeToRefreshLayout"
+        app:layout_constraintEnd_toEndOf="@+id/swipeToRefreshLayout"
+        app:layout_constraintStart_toStartOf="@+id/swipeToRefreshLayout"
+        app:layout_constraintTop_toTopOf="@+id/swipeToRefreshLayout" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -73,20 +73,31 @@
         tools:itemCount="4"
         tools:listitem="@layout/item_game" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvLeagues"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeToRefreshLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layoutAnimation="@anim/layout_items_scale_out"
-        android:clipToPadding="false"
-        android:paddingTop="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvGames"
-        tools:listitem="@layout/item_league" />
+        app:layout_constraintTop_toBottomOf="@id/rvGames">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvLeagues"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            android:layoutAnimation="@anim/layout_items_scale_out"
+            android:paddingTop="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="@+id/swipeToRefreshLayout"
+            app:layout_constraintEnd_toEndOf="@+id/swipeToRefreshLayout"
+            app:layout_constraintStart_toStartOf="@+id/swipeToRefreshLayout"
+            app:layout_constraintTop_toBottomOf="@+id/swipeToRefreshLayout"
+            tools:listitem="@layout/item_league" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etSearch"

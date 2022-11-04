@@ -1,13 +1,13 @@
 package com.lukaarmen.gamezone.models
 
-import com.lukaarmen.domain.models.FavoriteLeagueDomain
 import com.lukaarmen.gamezone.common.utils.Recyclable
 
 data class League(
     val id: Int?,
     val imageUrl: Any?,
     val name: String?,
-    val url: String?
+    val url: String?,
+    var isSaved: Boolean = false
 ) : Recyclable<League>() {
 
     override val inner: League
