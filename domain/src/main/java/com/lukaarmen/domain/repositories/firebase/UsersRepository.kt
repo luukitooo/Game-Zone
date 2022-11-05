@@ -21,4 +21,6 @@ interface UsersRepository {
 
     suspend fun getUsersForUser(uid: String) : List<UserDomain>
 
+    suspend fun observeUserById(uid: String, function: (UserDomain) -> Unit)
+
 }

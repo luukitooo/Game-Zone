@@ -10,6 +10,7 @@ import com.lukaarmen.domain.common.mapSuccess
 import com.lukaarmen.domain.usecases.GetAllRunningMatchesUseCase
 import com.lukaarmen.domain.usecases.GetLivesByGameUseCase
 import com.lukaarmen.domain.usecases.users.GetUserByIdUseCase
+import com.lukaarmen.domain.usecases.users.ObserveUserByIdUseCase
 import com.lukaarmen.domain.usecases.users.UpdateUserActivityUseCase
 import com.lukaarmen.gamezone.common.base.BaseViewModel
 import com.lukaarmen.gamezone.common.utils.ActivityStatus
@@ -33,6 +34,7 @@ class HomeViewModel @Inject constructor(
     private val getUserByIdUseCase: GetUserByIdUseCase,
     private val getAllRunningMatchesUseCase: GetAllRunningMatchesUseCase,
     private val getLivesByGameUseCase: GetLivesByGameUseCase,
+    private val observeUserByIdUseCase: ObserveUserByIdUseCase,
     private val updateUserActivityUseCase: UpdateUserActivityUseCase
 ) : BaseViewModel() {
 
@@ -95,13 +97,13 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun updateProfile() {
-        _userState.emit(
-            User.fromDomain(
-                getUserByIdUseCase.invoke(
-                    firebaseAuth.currentUser!!.uid
+        observeUserByIdUseCase.invoke(firebaseAuth.currentUser!!.uid) { userDomain ->
+            viewModelScope.launch {
+                _userState.emit(
+                    User.fromDomain(userDomain)
                 )
-            )
-        )
+            }
+        }
     }
 
     private suspend fun getAllRunningMatches() {

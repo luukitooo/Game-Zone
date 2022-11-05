@@ -111,4 +111,18 @@ class UsersRepositoryImpl @Inject constructor(
             }.await()
         }
     }
+
+    override suspend fun observeUserById(uid: String, function: (UserDomain) -> Unit) {
+        usersCollection
+            .whereEqualTo("uid", uid)
+            .addSnapshotListener { value, error ->
+                error?.let {
+                    error.printStackTrace()
+                    return@addSnapshotListener
+                }
+                value?.documents?.get(0)?.toObject(UserDto::class.java)?.toUserDomain()?.let {
+                    function.invoke(it)
+                }
+            }
+    }
 }
