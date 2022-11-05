@@ -56,9 +56,7 @@ class UserPagerAdapter : RecyclerView.Adapter<UserPagerAdapter.PageViewHolder>()
             }
             CoroutineScope(Dispatchers.Main).launch {
                 savedUsersFlow.collect { users ->
-                    userAdapter.submitList(users).also {
-                        binding.root.startLayoutAnimation()
-                    }
+                    userAdapter.submitList(users)
                 }
             }
         }
@@ -70,9 +68,7 @@ class UserPagerAdapter : RecyclerView.Adapter<UserPagerAdapter.PageViewHolder>()
             }
             CoroutineScope(Dispatchers.Main).launch {
                 allUsersFlow.collect { users ->
-                    userAdapter.submitList(users).also {
-                        binding.root.startLayoutAnimation()
-                    }
+                    userAdapter.submitList(users)
                 }
             }
         }

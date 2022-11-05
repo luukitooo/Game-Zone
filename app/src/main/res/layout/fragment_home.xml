@@ -37,7 +37,6 @@
         android:text="Morning"
         android:textColor="@color/app_grey_light"
         app:layout_constraintBottom_toTopOf="@id/tvUsername"
-        app:layout_constraintEnd_toStartOf="@+id/btnNotifications"
         app:layout_constraintStart_toEndOf="@+id/ivUserImage"
         app:layout_constraintTop_toTopOf="@+id/ivUserImage" />
 
@@ -51,7 +50,6 @@
         android:textColor="@color/white"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="@+id/ivUserImage"
-        app:layout_constraintEnd_toStartOf="@+id/btnNotifications"
         app:layout_constraintStart_toEndOf="@+id/ivUserImage"
         app:layout_constraintTop_toBottomOf="@+id/tvGreeting" />
 
@@ -189,17 +187,32 @@
         app:layout_constraintStart_toStartOf="@+id/ivNewestLive"
         app:layout_constraintTop_toTopOf="@+id/ivNewestLive" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imgRvErrorImg"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:src="@drawable/ic_error"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/tvMessage"
-        app:layout_constraintDimensionRatio="1"
-        app:layout_constraintEnd_toEndOf="@+id/rvLives"
-        app:layout_constraintStart_toStartOf="@+id/rvLives"
-        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2" />
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layoutError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_error" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/nothing_was_found"
+            android:textColor="@color/app_grey_light"
+            app:fontFamily="@font/sk_modernist_regular" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvMessage"

@@ -1,6 +1,7 @@
 package com.lukaarmen.gamezone.ui.tabs.leagues.leaguesfragment
 
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import com.lukaarmen.domain.common.mapSuccess
 import com.lukaarmen.domain.models.FavoriteLeagueDomain
 import com.lukaarmen.domain.usecases.GetLeaguesUseCase
@@ -53,8 +54,6 @@ class LeaguesViewModel @Inject constructor(
 
     suspend fun getLeagues(
         gameType: String = _indicatorsFlow.value.find { it.isSelected }?.gameType?.title ?: "",
-        page: Int = 1,
-        perPage: Int = 50,
         name: String? = searchQuery,
         withLoader: Boolean = true
     ) {
@@ -62,7 +61,7 @@ class LeaguesViewModel @Inject constructor(
         val savedLeagues = getAllFavoriteLeaguesUseCase.invoke().filter { favoriteLeague ->
             favoriteLeague.userId == auth.currentUser!!.uid
         }
-        stateHandler(getLeaguesUseCase(gameType, page, perPage, name).map { resource ->
+        stateHandler(getLeaguesUseCase(gameType, name).map { resource ->
             resource.mapSuccess { domain ->
                 val league = domain.toLeague()
                 savedLeagues.find { favorite ->
