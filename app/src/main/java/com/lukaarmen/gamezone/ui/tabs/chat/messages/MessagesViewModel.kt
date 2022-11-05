@@ -9,6 +9,9 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
+import com.google.firebase.messaging.ktx.remoteMessage
 import com.lukaarmen.data.remote.services.NotificationBody
 import com.lukaarmen.data.remote.services.NotificationService
 import com.lukaarmen.domain.models.firebase.ChatDomain
@@ -110,7 +113,6 @@ class MessagesViewModel @Inject constructor(
                 val notificationBody = NotificationBody(recipientUser.deviceId, NotificationBody.Data(currentUser.username, message, currentUser.imageUrl))
                 sendNotificationService.sendNotification(notificationBody)
             }
-
         }
     }
 

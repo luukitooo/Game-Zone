@@ -6,11 +6,13 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.workDataOf
+import androidx.work.*
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
+import com.google.firebase.messaging.ktx.remoteMessage
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
@@ -37,6 +39,8 @@ class MessagesFragment : BaseFragment<FragmentMessagesBinding>(FragmentMessagesB
     private val messageAdapter = MessageAdapter()
 
     private var typingJob: Job? = null
+
+    private val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
 
     override fun init(): Unit = with(binding) {
         tvUsername.text = args.recipientUsername
@@ -123,6 +127,7 @@ class MessagesFragment : BaseFragment<FragmentMessagesBinding>(FragmentMessagesB
         val data = workDataOf("userId" to args.recipientId)
         val work = OneTimeWorkRequestBuilder<SetCurrentChatUserIdWorker>()
             .setInputData(data)
+            .setConstraints(constraints)
             .build()
 
         WorkManager.getInstance(requireContext()).enqueue(work)
@@ -133,6 +138,7 @@ class MessagesFragment : BaseFragment<FragmentMessagesBinding>(FragmentMessagesB
         val data = workDataOf("userId" to "")
         val work = OneTimeWorkRequestBuilder<SetCurrentChatUserIdWorker>()
             .setInputData(data)
+            .setConstraints(constraints)
             .build()
 
         WorkManager.getInstance(requireContext()).enqueue(work)

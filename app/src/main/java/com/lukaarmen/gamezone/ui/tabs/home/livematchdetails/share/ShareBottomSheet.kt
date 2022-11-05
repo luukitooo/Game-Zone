@@ -16,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.extentions.hide
 import com.lukaarmen.gamezone.common.extentions.show
+import com.lukaarmen.gamezone.common.workers.SendShareNotificationWorker
 import com.lukaarmen.gamezone.common.workers.ShareLiveWorker
 import com.lukaarmen.gamezone.databinding.BottomSheedShareBinding
 import com.lukaarmen.gamezone.model.User
@@ -79,6 +80,9 @@ class ShareBottomSheet : BottomSheetDialogFragment() {
                 matchId = args.matchId,
                 recipientId = user.uid ?: ""
             )
+            startShareNotificationWorker(
+                recipientId = user.uid ?: ""
+            )
             dismiss()
         }
     }
@@ -101,6 +105,14 @@ class ShareBottomSheet : BottomSheetDialogFragment() {
             .build()
         shareWork.setInputData(data)
         WorkManager.getInstance(requireContext()).enqueue(shareWork.build())
+    }
+
+    private fun startShareNotificationWorker(recipientId: String){
+        val data = Data.Builder().putString("recipientId", recipientId).build()
+        val worker = OneTimeWorkRequest.Builder(SendShareNotificationWorker::class.java)
+            .setInputData(data)
+            .build()
+        WorkManager.getInstance(requireContext()).enqueue(worker)
     }
 
 }

@@ -1,4 +1,4 @@
-package com.lukaarmen.gamezone
+package com.lukaarmen.gamezone.common.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -8,20 +8,13 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.NotificationCompat
-import androidx.core.graphics.drawable.toBitmap
 import com.bumptech.glide.Glide
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.lukaarmen.domain.usecases.users.UpdateUserDeviceIdUseCase
+import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.ui.MainActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.*
-import javax.inject.Inject
 
 class MessagingService : FirebaseMessagingService() {
 
@@ -31,17 +24,16 @@ class MessagingService : FirebaseMessagingService() {
         super.onNewToken(token)
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
     override fun onMessageReceived(message: RemoteMessage) {
        super.onMessageReceived(message)
 
-        val intent = Intent(this, MainActivity::class.java)
-        val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationID = Random().nextInt(3000)
 
-        setupChannels(notificationManager)
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            setupChannels(notificationManager)
+        }
+        val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         val pendingIntent = PendingIntent.getActivity(
             this, 0, intent,

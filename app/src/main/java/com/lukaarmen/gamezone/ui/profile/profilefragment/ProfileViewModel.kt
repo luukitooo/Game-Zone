@@ -11,12 +11,14 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.storage.StorageReference
 import com.lukaarmen.domain.usecases.users.GetUserByIdUseCase
+import com.lukaarmen.domain.usecases.users.UpdateUserDeviceIdUseCase
 import com.lukaarmen.domain.usecases.users.UpdateUserUseCase
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.model.User
 import com.lukaarmen.gamezone.ui.profile.profilefragment.settings.SettingsGroup
 import com.lukaarmen.gamezone.ui.profile.profilefragment.settings.SettingsType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -29,6 +31,7 @@ class ProfileViewModel @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val getUserByIdUseCase: GetUserByIdUseCase,
     private val updateUserUseCase: UpdateUserUseCase,
+    private val updateUserDeviceIdUseCase: UpdateUserDeviceIdUseCase,
     @Named("ProfilePictures") private val storageReference: StorageReference
 ) : ViewModel() {
 
@@ -36,6 +39,9 @@ class ProfileViewModel @Inject constructor(
     val userSate get() = _userState.asStateFlow()
 
     fun signOut() {
+        viewModelScope.launch {
+            updateUserDeviceIdUseCase(firebaseAuth.currentUser!!.uid, "")
+        }
         firebaseAuth.signOut()
     }
 
