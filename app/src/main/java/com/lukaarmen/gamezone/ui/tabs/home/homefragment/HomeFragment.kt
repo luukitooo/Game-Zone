@@ -7,16 +7,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import com.lukaarmen.data.remote.services.NotificationService
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.*
 import com.lukaarmen.gamezone.common.utils.GameType
 import com.lukaarmen.gamezone.databinding.FragmentHomeBinding
 import com.lukaarmen.gamezone.models.Match
+import com.lukaarmen.gamezone.ui.tabs.home.livematcheslist.checkForPreview
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(
@@ -33,9 +32,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         initGamesRecycler()
         initLivesRecycler()
     }
-
-    @Inject
-    lateinit var notificationService: NotificationService
 
     override fun listeners() {
         binding.tvShowAll.setOnClickListener {
@@ -88,9 +84,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         doInBackground {
             viewModel.userState.collect { user ->
                 user.apply {
-                    imageUrl?.let {
-                        Glide.with(binding.ivUserImage).load(it).into(binding.ivUserImage)
-                    }
+                    binding.ivUserImage.setPhotoByUrl(user.imageUrl, binding.imageProgressbar, R.drawable.ic_user)
+
                     username?.let {
                         binding.tvUsername.text = it
                     }
@@ -121,8 +116,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
             else -> {
                 firstLiveId = data.first().id!!
                 if (data.size != 1) list.removeFirst()
-                ivNewestLive.setLivePreview(data[0].streamsList, null)
-                btnPlay.visibility = View.VISIBLE
+
+                ivNewestLive.setPhotoByUrl(
+                    url = data[0].streamsList?.checkForPreview(),
+                    placeHolder = R.drawable.img_stream_error
+                )
+
+                btnPlay.show()
             }
         }
 

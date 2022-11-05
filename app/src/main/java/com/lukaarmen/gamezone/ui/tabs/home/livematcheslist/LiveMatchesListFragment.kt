@@ -10,9 +10,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
+import com.lukaarmen.gamezone.common.extentions.hide
 import com.lukaarmen.gamezone.databinding.FragmentLiveMatchesListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class LiveMatchesListFragment : BaseFragment<FragmentLiveMatchesListBinding>(
@@ -25,7 +27,7 @@ class LiveMatchesListFragment : BaseFragment<FragmentLiveMatchesListBinding>(
     private var isSearching = false
 
     override fun init() {
-        return
+        initLivesRecycler()
     }
 
     override fun listeners() {
@@ -36,9 +38,11 @@ class LiveMatchesListFragment : BaseFragment<FragmentLiveMatchesListBinding>(
             isSearching = !isSearching
             setSearching(isSearching)
         }
-        binding.etSearch.doAfterTextChanged { matchName->
-            doInBackground {
-                viewModel.setSearchInput(matchName.toString())
+        binding.etSearch.doOnTextChanged { matchName, start, before, _ ->
+            if(start != 0 || before != 0){
+                doInBackground {
+                    search(matchName.toString())
+                }
             }
         }
         livesAdapter.onClickListener = {
@@ -61,21 +65,26 @@ class LiveMatchesListFragment : BaseFragment<FragmentLiveMatchesListBinding>(
         }
     }
 
+    private fun search(matchName: String?){
+        doInBackground {
+            delay(500L)
+            livesAdapter.submitList(emptyList())
+            viewModel.fetchMatches(matchName)
+        }
+    }
+
     override fun observers() {
         doInBackground {
             viewModel.livesState.collect { viewState ->
                 viewState.data?.let { matchesList ->
-                    initLivesRecycler()
-                    livesAdapter.submitList(matchesList).also {
-                        binding.livesRecycler.startLayoutAnimation()
-                    }
-                    binding.progressBar.isVisible = false
+                    livesAdapter.submitList(matchesList)
+                    binding.progressBar.hide()
                 }
                 viewState.error?.let { error ->
                     Snackbar.make(binding.root, error, Snackbar.LENGTH_LONG).setAction("Reload") {
                         doInBackground { viewModel.fetchMatches() }
                     }.show()
-                    binding.progressBar.isVisible = false
+                    binding.progressBar.hide()
                 }
                 viewState.isLoading?.let { isLoading ->
                     binding.progressBar.isVisible = isLoading

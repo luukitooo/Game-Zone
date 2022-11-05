@@ -29,5 +29,17 @@
         <argument
             android:name="gameType"
             app:argType="string" />
+        <action
+            android:id="@+id/action_matchesFragment_to_liveMatchDetailsFragment2"
+            app:destination="@id/liveMatchDetailsFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/liveMatchDetailsFragment2"
+        android:name="com.lukaarmen.gamezone.ui.tabs.home.livematchdetails.LiveMatchDetailsFragment"
+        android:label="fragment_live_match_details"
+        tools:layout="@layout/fragment_live_match_details" >
+        <argument
+            android:name="matchId"
+            app:argType="integer" />
     </fragment>
 </navigation>

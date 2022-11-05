@@ -10,7 +10,6 @@ data class LeaguesDto(
     @SerializedName("modified_at")
     val modifiedAt: String?,
     val name: String?,
-    val series: List<SeriesDto?>?,
     val slug: String?,
     val url: String?,
     @SerializedName("videogame")

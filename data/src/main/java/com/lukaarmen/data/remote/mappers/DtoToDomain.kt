@@ -9,40 +9,8 @@ fun LeaguesDto.toLeaguesDomain() = LeaguesDomain(
     imageUrl = imageUrl,
     modifiedAt = modifiedAt,
     name = name,
-    series = series?.map { it?.toSeriesDomain() },
     slug = slug,
     url = url,
-    videoGame = videoGame?.toVideoGameDomain()
-)
-
-//Series
-fun SeriesDto.toSeriesDomain() = SeriesDomain(
-    beginAt = beginAt,
-    endAt = endAt,
-    fullName = fullName,
-    id = id,
-    leagueId = leagueId,
-    modifiedAt = modifiedAt,
-    name = name,
-    season = season,
-    slug = slug,
-    tournaments = tournaments?.map { it?.toTournamentsDomain() },
-    videoGame = videoGame?.toVideoGameDomain(),
-    year = year
-)
-
-//Tournaments
-fun TournamentDto.toTournamentsDomain() = TournamentsDomain(
-    beginAt = beginAt,
-    endAt = endAt,
-    id = id,
-    matches = matches?.map { it?.toMatchDomain() },
-    modifiedAt = modifiedAt,
-    name = name,
-    prizepool = prizepool,
-    slug = slug,
-    teams = teams?.map { it?.toTeamDomain() },
-    tier = tier,
     videoGame = videoGame?.toVideoGameDomain()
 )
 
@@ -116,7 +84,6 @@ fun TeamDto.PlayerDto.toPlayerDomain() = TeamDomain.PlayerDomain(
     role = role,
     slug = slug
 )
-
 
 fun VideoGameDto.toVideoGameDomain() = VideoGameDomain(
     id = id,

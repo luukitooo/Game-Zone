@@ -63,18 +63,6 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideSeriesService(retrofit: Retrofit): SeriesService {
-        return retrofit.create(SeriesService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideTournamentsService(retrofit: Retrofit): TournamentsService {
-        return retrofit.create(TournamentsService::class.java)
-    }
-
-    @Provides
-    @Singleton
     fun provideMatchesService(retrofit: Retrofit): MatchesService {
         return retrofit.create(MatchesService::class.java)
     }

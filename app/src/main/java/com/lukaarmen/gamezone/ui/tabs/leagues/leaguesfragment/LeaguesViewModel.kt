@@ -1,8 +1,8 @@
 package com.lukaarmen.gamezone.ui.tabs.leagues.leaguesfragment
 
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
 import com.lukaarmen.domain.common.mapSuccess
+import com.lukaarmen.domain.models.FavoriteLeagueDomain
 import com.lukaarmen.domain.usecases.GetLeaguesUseCase
 import com.lukaarmen.domain.usecases.favorite_leagues.AddFavoriteLeagueUseCase
 import com.lukaarmen.domain.usecases.favorite_leagues.GetAllFavoriteLeaguesUseCase
@@ -26,6 +26,12 @@ class LeaguesViewModel @Inject constructor(
     private val addFavoriteLeaguesUseCase: AddFavoriteLeagueUseCase,
     private val getAllFavoriteLeaguesUseCase: GetAllFavoriteLeaguesUseCase
 ) : BaseViewModel() {
+
+    init {
+        viewModelScope.launch {
+            getLeagues(GameType.CSGO.title)
+        }
+    }
 
     private val gameIndicators = mutableListOf(
         CategoryIndicator(GameType.CSGO, true),

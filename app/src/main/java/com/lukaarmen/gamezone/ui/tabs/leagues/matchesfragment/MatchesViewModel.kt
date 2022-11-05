@@ -38,8 +38,6 @@ class MatchesViewModel @Inject constructor(
 
     suspend fun getMatchesByLeagueId(
         leagueId: Int,
-        page: Int = 1,
-        perPage: Int = 0,
         gameType: String,
         timeFrame: String,
         sort: String = "begin_at",
@@ -48,8 +46,6 @@ class MatchesViewModel @Inject constructor(
         stateHandler(
             state = getMatchesUseCase(
                 leagueId = leagueId,
-                page = page,
-                perPage = perPage,
                 gameType = gameType,
                 timeFrame = timeFrame,
                 sort = sort,

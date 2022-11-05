@@ -10,9 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
-import com.lukaarmen.gamezone.common.extentions.doInBackground
-import com.lukaarmen.gamezone.common.extentions.filterDate
-import com.lukaarmen.gamezone.common.extentions.setPlayerPhoto
+import com.lukaarmen.gamezone.common.extentions.*
 import com.lukaarmen.gamezone.common.utils.GameType
 import com.lukaarmen.gamezone.databinding.FragmentLiveMatchDetailsBinding
 import com.lukaarmen.gamezone.models.Match
@@ -31,7 +29,7 @@ class LiveMatchDetailsFragment : BaseFragment<FragmentLiveMatchDetailsBinding>(
     private var liveLink = ""
 
     override fun init() {
-        return
+        initRecyclerView()
     }
 
     override fun listeners() {
@@ -39,9 +37,13 @@ class LiveMatchDetailsFragment : BaseFragment<FragmentLiveMatchDetailsBinding>(
             findNavController().popBackStack()
         }
         binding.btnWatch.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(liveLink)
-            startActivity(intent)
+            try{
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(liveLink)
+                startActivity(intent)
+            }catch (e: Throwable){
+                Snackbar.make(binding.root, "Live is not available", Snackbar.LENGTH_SHORT).show()
+            }
         }
         binding.btnShare.setOnClickListener {
             findNavController().navigate(
@@ -69,20 +71,24 @@ class LiveMatchDetailsFragment : BaseFragment<FragmentLiveMatchDetailsBinding>(
 
             }
         }
-
     }
 
     private fun successState(match: Match) = with(binding) {
-        initRecyclerView()
-        liveLink = match.streamsList?.last()?.rawUrl!!
+
+        if(match.streamsList != null && match.streamsList.isNotEmpty()){
+            liveLink = match.streamsList.last()?.rawUrl.toString()
+        }
         progressBar.isVisible = false
 
-        tvLiveNow.isVisible = match.status == "running"
+        if(match.status == "running"){
+            tvLiveNow.show()
+            btnWatch.isEnabled = true
+        }
 
-        ivLive.setImageDrawable(requireContext().getDrawable(setImage(match.videoGame?.name)))
+            ivLive.setImageDrawable(requireContext().getDrawable(setImage(match.videoGame?.name)))
 
-        ivTeamFirst.setPlayerPhoto(match.opponents?.first()?.imageUrl, R.drawable.img_tabata)
-        ivTeamSecond.setPlayerPhoto(match.opponents?.last()?.imageUrl, R.drawable.img_tabata)
+        ivTeamFirst.setPhotoByUrl(match.opponents?.first()?.imageUrl, firstTeamProgressBar, R.drawable.ic_no_image)
+        ivTeamSecond.setPhotoByUrl(match.opponents?.last()?.imageUrl, secondTeamProgressBar, R.drawable.ic_no_image)
 
         tvScoreFirst.text = match.results?.first()?.score.toString()
         tvScoreSecond.text = match.results?.last()?.score.toString()

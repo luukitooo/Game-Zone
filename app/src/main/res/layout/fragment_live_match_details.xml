@@ -15,7 +15,7 @@
         android:layout_marginTop="40dp"
         android:src="@drawable/ic_arrow_back"
         app:backgroundTint="@color/app_white_transparent"
-        app:fabCustomSize="60dp"
+        app:fabCustomSize="70dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/white" />
@@ -68,6 +68,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ProgressBar
+            android:id="@+id/firstTeamProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateDrawable="@drawable/progressbar_bg"
+            app:layout_constraintBottom_toBottomOf="@+id/ivTeamFirst"
+            app:layout_constraintEnd_toEndOf="@+id/ivTeamFirst"
+            app:layout_constraintStart_toStartOf="@+id/ivTeamFirst"
+            app:layout_constraintTop_toTopOf="@+id/ivTeamFirst" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvScoreFirst"
             android:layout_width="wrap_content"
@@ -118,6 +128,16 @@
             app:layout_constraintStart_toEndOf="@+id/tvScoreSecond"
             app:layout_constraintTop_toTopOf="@+id/tvScoreSecond" />
 
+        <ProgressBar
+            android:id="@+id/secondTeamProgressBar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:indeterminateDrawable="@drawable/progressbar_bg"
+            app:layout_constraintBottom_toBottomOf="@+id/ivTeamSecond"
+            app:layout_constraintEnd_toEndOf="@+id/ivTeamSecond"
+            app:layout_constraintStart_toStartOf="@+id/ivTeamSecond"
+            app:layout_constraintTop_toTopOf="@+id/ivTeamSecond" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
@@ -167,11 +187,11 @@
             android:textColor="@color/app_background"
             android:textSize="16sp"
             app:cornerRadius="14dp"
+            android:enabled="false"
             app:layout_constraintBottom_toBottomOf="@+id/btnShare"
             app:layout_constraintEnd_toStartOf="@+id/btnShare"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/btnShare"
-            android:enabled="true"
             app:rippleColor="@color/app_background_light" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

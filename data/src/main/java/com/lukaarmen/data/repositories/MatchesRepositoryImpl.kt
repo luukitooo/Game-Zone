@@ -20,8 +20,6 @@ class MatchesRepositoryImpl @Inject constructor(
     override suspend fun getMatchesByLeagueId(
         gameType: String,
         timeFrame: String,
-        page: Int,
-        perPage: Int,
         leagueId: Int,
         sort: String,
         title: String
@@ -30,8 +28,6 @@ class MatchesRepositoryImpl @Inject constructor(
             matchesService.getMatchesByLeagueId(
                 gameType = gameType,
                 timeFrame = timeFrame,
-                page = page,
-                perPage = perPage,
                 leagueId = leagueId,
                 sort = sort,
                 title = title
@@ -42,16 +38,12 @@ class MatchesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllRunningMatches(
-        page: Int?,
-        perPage: Int?,
         sort: String,
         filter: String,
         name: String?
     ): Flow<Resource<List<MatchDomain>>> {
         return requestHandler.safeApiCall {
             matchesService.getAllRunningMatches(
-                page = page,
-                perPage = perPage,
                 sort = sort,
                 filter = filter,
                 name = name
@@ -65,16 +57,12 @@ class MatchesRepositoryImpl @Inject constructor(
 
     override suspend fun getRunningMatchesByGame(
         gameType: String,
-        page: Int,
-        perPage: Int,
         sort: String,
         name: String?
     ): Flow<Resource<List<MatchDomain>>> {
         return requestHandler.safeApiCall {
             matchesService.getRunningMatchesByGame(
                 gameType = gameType,
-                page = page,
-                perPage = perPage,
                 sort = sort,
                 name = name
             )

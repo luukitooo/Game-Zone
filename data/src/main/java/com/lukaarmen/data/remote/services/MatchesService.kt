@@ -12,8 +12,6 @@ interface MatchesService {
     suspend fun getMatchesByLeagueId(
         @Path("gameType") gameType: String,
         @Path("timeFrame") timeFrame: String,
-        @Query("page") page: Int? = null,
-        @Query("per_page") perPage: Int? = null,
         @Query("filter[league_id]") leagueId: Int,
         @Query("sort") sort: String,
         @Query("search[name]") title: String = ""
@@ -21,8 +19,6 @@ interface MatchesService {
 
     @GET("matches/running")
     suspend fun getAllRunningMatches(
-        @Query("page") page: Int?,
-        @Query("per_page") perPage: Int?,
         @Query("sort") sort: String,
         @Query("filter[videogame]") filter: String,
         @Query("search[name]") name: String? = null
@@ -31,8 +27,6 @@ interface MatchesService {
     @GET("{gameType}/matches/running")
     suspend fun getRunningMatchesByGame(
         @Path("gameType") gameType: String,
-        @Query("page") page: Int,
-        @Query("per_page") perPage: Int,
         @Query("sort") sort: String,
         @Query("search[name]") name: String? = null
     ): Response<List<MatchDto>>
