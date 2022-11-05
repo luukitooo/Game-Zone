@@ -46,4 +46,8 @@ abstract class RepositoriesModule {
     @Binds
     abstract fun bindChatsRepositoryImpl(repositoryImpl: ChatsRepositoryImpl): ChatsRepository
 
+    @Singleton
+    @Binds
+    abstract fun provideNotificationsRepositoryImpl(repository: NotificationRepositoryImpl): NotificationRepository
+
 }

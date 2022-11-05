@@ -18,6 +18,7 @@ import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.extentions.hide
 import com.lukaarmen.gamezone.common.extentions.show
+import com.lukaarmen.gamezone.common.workers.SendNotificationWorker
 import com.lukaarmen.gamezone.common.workers.SetCurrentChatUserIdWorker
 import com.lukaarmen.gamezone.databinding.FragmentMessagesBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -109,6 +110,11 @@ class MessagesFragment : BaseFragment<FragmentMessagesBinding>(FragmentMessagesB
                 recipientId = args.recipientId,
                 message = message
             )
+            startNotificationWorker(
+                currentUserId = auth.currentUser!!.uid,
+                recipientId = args.recipientId,
+                message = message
+            )
         }
     }
 
@@ -120,6 +126,21 @@ class MessagesFragment : BaseFragment<FragmentMessagesBinding>(FragmentMessagesB
         } catch (t: Throwable) {
             t.printStackTrace()
         }
+    }
+
+    private fun startNotificationWorker(currentUserId: String, recipientId: String, message: String){
+        val data = workDataOf(
+            "currentUserId" to currentUserId,
+            "recipientId" to recipientId,
+            "message" to message
+        )
+
+        val work = OneTimeWorkRequestBuilder<SendNotificationWorker>()
+            .setConstraints(constraints)
+            .setInputData(data)
+            .build()
+
+        WorkManager.getInstance(requireContext()).enqueue(work)
     }
 
     override fun onStart() {

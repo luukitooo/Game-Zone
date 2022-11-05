@@ -5,27 +5,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import androidx.work.Data
-import androidx.work.OneTimeWorkRequest
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.auth.FirebaseAuth
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.extentions.hide
-import com.lukaarmen.gamezone.common.extentions.show
-import com.lukaarmen.gamezone.common.workers.SendShareNotificationWorker
+import com.lukaarmen.gamezone.common.workers.SendNotificationWorker
 import com.lukaarmen.gamezone.common.workers.ShareLiveWorker
 import com.lukaarmen.gamezone.databinding.BottomSheedShareBinding
 import com.lukaarmen.gamezone.model.User
 import com.lukaarmen.gamezone.ui.tabs.chat.chatfragment.UserAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ShareBottomSheet : BottomSheetDialogFragment() {
+
+    @Inject
+    lateinit var auth: FirebaseAuth
 
     private var _binding: BottomSheedShareBinding? = null
     val binding get() = _binding!!
@@ -80,8 +79,10 @@ class ShareBottomSheet : BottomSheetDialogFragment() {
                 matchId = args.matchId,
                 recipientId = user.uid ?: ""
             )
-            startShareNotificationWorker(
-                recipientId = user.uid ?: ""
+            startNotificationWorker(
+                currentUserId = auth.currentUser!!.uid,
+                recipientId = user.uid ?: "",
+                message = "Shared match with you"
             )
             dismiss()
         }
@@ -107,12 +108,19 @@ class ShareBottomSheet : BottomSheetDialogFragment() {
         WorkManager.getInstance(requireContext()).enqueue(shareWork.build())
     }
 
-    private fun startShareNotificationWorker(recipientId: String){
-        val data = Data.Builder().putString("recipientId", recipientId).build()
-        val worker = OneTimeWorkRequest.Builder(SendShareNotificationWorker::class.java)
+    private fun startNotificationWorker(currentUserId: String, recipientId: String, message: String){
+        val data = workDataOf(
+            "currentUserId" to currentUserId,
+            "recipientId" to recipientId,
+            "message" to message
+        )
+        val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+
+        val work = OneTimeWorkRequestBuilder<SendNotificationWorker>()
+            .setConstraints(constraints)
             .setInputData(data)
             .build()
-        WorkManager.getInstance(requireContext()).enqueue(worker)
-    }
 
+        WorkManager.getInstance(requireContext()).enqueue(work)
+    }
 }

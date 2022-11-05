@@ -7,7 +7,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import com.lukaarmen.data.remote.services.NotificationBody
 import com.lukaarmen.data.remote.services.NotificationService
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
@@ -74,15 +73,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         ).forEach {
             it.setOnClickListener {
                 findTopNavController().navigate(R.id.profileFragment)
-            }
-        }
-        binding.btnNotifications.setOnClickListener {
-            doInBackground {
-                val body = NotificationBody(
-                    "cFF2NjjERh2BodBIeLdZu3:APA91bFiiGf7KkKtsPk4aak2CUgFt1hjcMy9RqaUzJQgRzaCH6HJCOyj5J0lmLIdMy-UA8YySk0_v-4DDM8GuUV2u7hU6jA6aTkapokm6SViV8hQz4vZMrPGzsvfQiEzctaU2HJze6Li",
-                    NotificationBody.Data("Test", "From Fragment", "https://firebasestorage.googleapis.com/v0/b/gamezone-2dcad.appspot.com/o/UserProfilePictures%2FXbaSHGGDzedf632p0tGUmqWZnFz2?alt=media&token=79964c23-5855-498c-80d0-4a1cf1af008d")
-                )
-                notificationService.sendNotification(body)
             }
         }
     }

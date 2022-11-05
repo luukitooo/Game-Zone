@@ -41,8 +41,9 @@ class ProfileViewModel @Inject constructor(
     fun signOut() {
         viewModelScope.launch {
             updateUserDeviceIdUseCase(firebaseAuth.currentUser!!.uid, "")
+        }.invokeOnCompletion {
+            firebaseAuth.signOut()
         }
-        firebaseAuth.signOut()
     }
 
     suspend fun updateProfile() {
