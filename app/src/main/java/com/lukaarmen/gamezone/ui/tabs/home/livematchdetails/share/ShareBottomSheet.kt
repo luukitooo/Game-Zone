@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.extentions.hide
 import com.lukaarmen.gamezone.common.workers.SendNotificationWorker
+import com.lukaarmen.gamezone.common.workers.SetUserMarkedWorker
 import com.lukaarmen.gamezone.common.workers.ShareLiveWorker
 import com.lukaarmen.gamezone.databinding.BottomSheedShareBinding
 import com.lukaarmen.gamezone.model.User
@@ -79,6 +80,10 @@ class ShareBottomSheet : BottomSheetDialogFragment() {
                 matchId = args.matchId,
                 recipientId = user.uid ?: ""
             )
+            startSetUserMarkedWork(
+                selfId = user.uid ?: "",
+                otherId = auth.currentUser!!.uid
+            )
             startNotificationWorker(
                 currentUserId = auth.currentUser!!.uid,
                 recipientId = user.uid ?: "",
@@ -122,5 +127,15 @@ class ShareBottomSheet : BottomSheetDialogFragment() {
             .build()
 
         WorkManager.getInstance(requireContext()).enqueue(work)
+    }
+
+    private fun startSetUserMarkedWork(selfId: String, otherId: String) {
+        val setUserSeenWork = OneTimeWorkRequest.Builder(SetUserMarkedWorker::class.java)
+        val data = Data.Builder()
+            .putString("selfId", selfId)
+            .putString("otherId", otherId)
+            .build()
+        setUserSeenWork.setInputData(data)
+        WorkManager.getInstance(requireContext()).enqueue(setUserSeenWork.build())
     }
 }

@@ -60,7 +60,7 @@ class ChatViewModel @Inject constructor(
             if (markedUsers.contains(user.uid))
                 user.isMarked = true
         }
-        _savedUsersFlow.emit(usersForCurrentUser)
+        _savedUsersFlow.emit(usersForCurrentUser.sortedByDescending { it.isMarked })
     }
 
 }
