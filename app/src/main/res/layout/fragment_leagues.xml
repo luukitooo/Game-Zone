@@ -66,6 +66,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rvGames">
 
@@ -73,7 +74,6 @@
             android:id="@+id/rvLeagues"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
             android:clipToPadding="false"
             android:layoutAnimation="@anim/layout_items_scale_out"
             android:paddingTop="8dp"
@@ -90,6 +90,7 @@
         android:id="@+id/etSearch"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/shape_rounded_corners"
         android:backgroundTint="@color/app_background_light"
         android:drawableStart="@drawable/ic_search"
@@ -99,7 +100,8 @@
         android:textColorHint="@color/app_grey"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/btnSearch"
-        app:layout_constraintEnd_toEndOf="@+id/appCompatTextView3"
+        app:layout_constraintEnd_toStartOf="@+id/btnSearch"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnSearch" />
 
     <androidx.constraintlayout.widget.Guideline
