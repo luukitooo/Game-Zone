@@ -57,10 +57,11 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(
                     email = binding.etEmail.text.toString(),
                     username = binding.etUsername.text.toString()
                 )
+            }.invokeOnCompletion {
+                findNavController().navigate(
+                    RegistrationFragmentDirections.actionRegistrationFragmentToTabsFragment()
+                )
             }
-            findNavController().navigate(
-                RegistrationFragmentDirections.actionRegistrationFragmentToTabsFragment()
-            )
         } else {
             Snackbar.make(binding.root, "Account already exists...", Snackbar.LENGTH_LONG).show()
         }

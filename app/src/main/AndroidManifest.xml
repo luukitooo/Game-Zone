@@ -15,7 +15,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_gamepad_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.GameZone"
+        android:theme="@style/SplashScreenTheme"
         tools:targetApi="31">
         <activity
             android:name=".ui.MainActivity"

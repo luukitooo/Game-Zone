@@ -100,7 +100,7 @@
     <fragment
         android:id="@+id/enterUsernameFragment"
         tools:layout="@layout/fragment_enter_username"
-        android:name="com.lukaarmen.gamezone.ui.auth.login.EnterUsernameFragment"
+        android:name="com.lukaarmen.gamezone.ui.auth.login.enter_username.EnterUsernameFragment"
         android:label="EnterUsernameFragment" >
         <action
             android:id="@+id/action_enterUsernameFragment_to_tabsFragment"

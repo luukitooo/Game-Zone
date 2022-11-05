@@ -7,6 +7,7 @@ import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.databinding.FragmentNewPasswordBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class NewPasswordFragment : BaseFragment<FragmentNewPasswordBinding>(
@@ -14,38 +15,32 @@ class NewPasswordFragment : BaseFragment<FragmentNewPasswordBinding>(
 ) {
 
     private val viewModel by viewModels<NewPasswordViewModel>()
+
     override fun init() {
         return
     }
 
     override fun listeners() = with(binding) {
         btnConfirmPassword.setOnClickListener {
-            viewModel.updatePassword(
-                oldPassword = edtConfirmPassword.text.toString(),
-                newPassword = edtPassword.text.toString(),
-                repeatNewPassword = edtRepeatPassword.text.toString()
-            )
+            if (etConfirmPassword.text?.isNotEmpty() == true) {
+                viewModel.updatePasswordByEmail(
+                    email = etConfirmPassword.text.toString()
+                )
+            }
         }
     }
 
     override fun observers() {
         doInBackground {
-            viewModel.passwordChangeFlow.collect { isSuccess ->
-                when (isSuccess) {
-                    true -> successful()
-                    false -> failure()
+            viewModel.passwordChangeSuccessFlow.collect { isSuccessful ->
+                if (isSuccessful) {
+                    findNavController().popBackStack()
+                    Snackbar.make(binding.root, "Please check your email", Snackbar.LENGTH_SHORT).show()
+                } else {
+                    Snackbar.make(binding.root, "Can't send confirmation email, please try again", Snackbar.LENGTH_SHORT).show()
                 }
             }
         }
-    }
-
-    private fun successful() {
-        Snackbar.make(binding.root, "Password successfully changed", Snackbar.LENGTH_SHORT).show()
-        findNavController().popBackStack()
-    }
-
-    private fun failure() {
-        Snackbar.make(binding.root, "Check your credentials", Snackbar.LENGTH_SHORT).show()
     }
 
 }

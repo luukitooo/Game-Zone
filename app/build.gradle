@@ -97,6 +97,9 @@ dependencies {
     // Gif Support
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.25'
 
+    // Swipe to refresh layout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
 }
 
 kapt {

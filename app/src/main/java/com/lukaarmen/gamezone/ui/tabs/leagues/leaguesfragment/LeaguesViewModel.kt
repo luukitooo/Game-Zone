@@ -1,8 +1,8 @@
 package com.lukaarmen.gamezone.ui.tabs.leagues.leaguesfragment
 
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import com.lukaarmen.domain.common.mapSuccess
-import com.lukaarmen.domain.models.FavoriteLeagueDomain
 import com.lukaarmen.domain.usecases.GetLeaguesUseCase
 import com.lukaarmen.domain.usecases.favorite_leagues.AddFavoriteLeagueUseCase
 import com.lukaarmen.domain.usecases.favorite_leagues.GetAllFavoriteLeaguesUseCase
@@ -20,16 +20,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LeaguesViewModel @Inject constructor(
+    private val auth: FirebaseAuth,
     private val getLeaguesUseCase: GetLeaguesUseCase,
     private val gatAllFavoriteLeaguesUseCase: GetAllFavoriteLeaguesUseCase,
-    private val addFavoriteLeaguesUseCase: AddFavoriteLeagueUseCase
+    private val addFavoriteLeaguesUseCase: AddFavoriteLeagueUseCase,
+    private val getAllFavoriteLeaguesUseCase: GetAllFavoriteLeaguesUseCase
 ) : BaseViewModel() {
-
-    init {
-        viewModelScope.launch {
-            getLeagues(GameType.CSGO.title)
-        }
-    }
 
     private val gameIndicators = mutableListOf(
         CategoryIndicator(GameType.CSGO, true),
@@ -37,6 +33,8 @@ class LeaguesViewModel @Inject constructor(
         CategoryIndicator(GameType.OWERWATCH, false),
         CategoryIndicator(GameType.RAINBOW_SIX, false),
     )
+
+    private var searchQuery = ""
 
     private val _leaguesFlow = MutableStateFlow(ViewState<List<League>>())
     val leaguesFlow get() = _leaguesFlow.asStateFlow()
@@ -48,16 +46,25 @@ class LeaguesViewModel @Inject constructor(
     val isLeagueAlreadySavedFlow get() = _isLeagueAlreadySavedFlow.asSharedFlow()
 
     suspend fun getLeagues(
-        gameType: String,
+        gameType: String = _indicatorsFlow.value.find { it.isSelected }?.gameType?.title ?: "",
         page: Int = 1,
         perPage: Int = 50,
-        name: String? = null
+        name: String? = searchQuery,
+        withLoader: Boolean = true
     ) {
+        _leaguesFlow.emit(ViewState())
+        val savedLeagues = getAllFavoriteLeaguesUseCase.invoke().filter { favoriteLeague ->
+            favoriteLeague.userId == auth.currentUser!!.uid
+        }
         stateHandler(getLeaguesUseCase(gameType, page, perPage, name).map { resource ->
             resource.mapSuccess { domain ->
-                domain.toLeague()
+                val league = domain.toLeague()
+                savedLeagues.find { favorite ->
+                    league.id == favorite.leagueId
+                }?.let { league.isSaved = true }
+                league
             }
-        }, _leaguesFlow.value).collect { state ->
+        }, _leaguesFlow.value, withLoader).collect { state ->
             _leaguesFlow.emit(state)
         }
     }
@@ -92,8 +99,16 @@ class LeaguesViewModel @Inject constructor(
         }
     }
 
+    fun setSearchQuery(leagueTitle: String) {
+        searchQuery = leagueTitle
+    }
+
     suspend fun addLeagueToFavorites(league: FavoriteLeague) {
         addFavoriteLeaguesUseCase(league.toFavoriteLeagueDomain())
+    }
+
+    fun clearState() {
+        _leaguesFlow.value = ViewState()
     }
 
 }

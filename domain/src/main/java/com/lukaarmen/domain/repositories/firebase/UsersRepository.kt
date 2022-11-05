@@ -25,4 +25,6 @@ interface UsersRepository {
 
     suspend fun updateCurrentChatUserId(uId: String, currentChatUserId: String?)
 
+    suspend fun observeUserById(uid: String, function: (UserDomain) -> Unit)
+
 }

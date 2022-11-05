@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background"
-    android:padding="24dp"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="24dp"
     tools:context=".ui.tabs.leagues.matchesfragment.MatchesFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
