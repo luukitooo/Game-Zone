@@ -1,18 +1,13 @@
 package com.lukaarmen.gamezone.ui.tabs.chat.chatfragment
 
-import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.findViewTreeLifecycleOwner
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lukaarmen.gamezone.databinding.PageUsersBinding
 import com.lukaarmen.gamezone.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class UserPagerAdapter : RecyclerView.Adapter<UserPagerAdapter.PageViewHolder>() {

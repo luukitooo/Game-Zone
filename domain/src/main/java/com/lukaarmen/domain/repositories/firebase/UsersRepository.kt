@@ -27,4 +27,8 @@ interface UsersRepository {
 
     suspend fun observeUserById(uid: String, function: (UserDomain) -> Unit)
 
+    suspend fun setUserSeen(selfId: String, otherUserId: String)
+
+    suspend fun removeUserSeen(selfId: String, otherUserId: String)
+
 }

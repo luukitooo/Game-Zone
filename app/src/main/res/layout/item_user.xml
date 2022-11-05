@@ -38,7 +38,7 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/tvActivityStatus"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/seenIndicator"
             app:layout_constraintStart_toEndOf="@+id/ivUser"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
@@ -50,11 +50,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="4dp"
-            android:lines="1"
             android:fontFamily="@font/sk_modernist_regular"
+            android:lines="1"
             android:textColor="@color/app_grey_light"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/seenIndicator"
             app:layout_constraintStart_toEndOf="@+id/ivUser"
             app:layout_constraintTop_toBottomOf="@+id/tvUsername"
             tools:text="Activity Status" />
@@ -68,6 +68,17 @@
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/ivUser"
             app:layout_constraintEnd_toEndOf="@+id/ivUser" />
+
+        <View
+            android:id="@+id/seenIndicator"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/shape_circular"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/ivUser"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ivUser" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

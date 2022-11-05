@@ -15,7 +15,9 @@ import com.lukaarmen.domain.usecases.chats.ObserveChatUseCase
 import com.lukaarmen.domain.usecases.chats.RemoveUserTypingUseCase
 import com.lukaarmen.domain.usecases.chats.SetUserTypingUseCase
 import com.lukaarmen.domain.usecases.users.GetUserByIdUseCase
+import com.lukaarmen.domain.usecases.users.RemoveUserMarkedUseCase
 import com.lukaarmen.domain.usecases.users.SaveUserIdUseCase
+import com.lukaarmen.domain.usecases.users.SetUserMarkedUseCase
 import com.lukaarmen.gamezone.common.utils.MessageTypes
 import com.lukaarmen.gamezone.model.Chat
 import com.lukaarmen.gamezone.model.Message
@@ -38,7 +40,9 @@ class MessagesViewModel @Inject constructor(
     private val observeChatUseCase: ObserveChatUseCase,
     private val savedStateHandler: SavedStateHandle,
     private val getUserByIdUseCase: GetUserByIdUseCase,
-    private val sendNotificationService: NotificationService
+    private val sendNotificationService: NotificationService,
+    private val setUserMarkedUseCase: SetUserMarkedUseCase,
+    private val removeUserMarkedUseCase: RemoveUserMarkedUseCase
 ) : ViewModel() {
 
     init {
@@ -148,6 +152,14 @@ class MessagesViewModel @Inject constructor(
         ) { chatDomain ->
             action.invoke(Chat.fromChatDomain(chatDomain))
         }
+    }
+
+    suspend fun setUserSeen(selfId: String, otherId: String) {
+        setUserMarkedUseCase.invoke(selfId, otherId)
+    }
+
+    suspend fun removeUserSeen(selfId: String, otherId: String) {
+        removeUserMarkedUseCase.invoke(selfId, otherId)
     }
 
 }

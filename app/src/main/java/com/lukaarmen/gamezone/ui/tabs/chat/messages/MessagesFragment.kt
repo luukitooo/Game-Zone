@@ -9,17 +9,12 @@ import androidx.navigation.fragment.navArgs
 import androidx.work.*
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.ktx.messaging
-import com.google.firebase.messaging.ktx.remoteMessage
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.extentions.hide
 import com.lukaarmen.gamezone.common.extentions.show
-import com.lukaarmen.gamezone.common.workers.SendNotificationWorker
-import com.lukaarmen.gamezone.common.workers.SetCurrentChatUserIdWorker
+import com.lukaarmen.gamezone.common.workers.*
 import com.lukaarmen.gamezone.databinding.FragmentMessagesBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -110,6 +105,10 @@ class MessagesFragment : BaseFragment<FragmentMessagesBinding>(FragmentMessagesB
                 recipientId = args.recipientId,
                 message = message
             )
+            startSetUserMarkedWork(
+                selfId = args.recipientId,
+                otherId = auth.currentUser!!.uid
+            )
             startNotificationWorker(
                 currentUserId = auth.currentUser!!.uid,
                 recipientId = args.recipientId,
@@ -161,8 +160,35 @@ class MessagesFragment : BaseFragment<FragmentMessagesBinding>(FragmentMessagesB
             .setInputData(data)
             .setConstraints(constraints)
             .build()
+        doInBackground {
+            WorkManager.getInstance(requireContext()).enqueue(work)
+        }
+        doInBackground {
+            startRemoveUserMarkedWork(
+                selfId = auth.currentUser!!.uid,
+                otherId = args.recipientId
+            )
+        }
+    }
 
-        WorkManager.getInstance(requireContext()).enqueue(work)
+    private fun startSetUserMarkedWork(selfId: String, otherId: String) {
+        val setUserSeenWork = OneTimeWorkRequest.Builder(SetUserMarkedWorker::class.java)
+        val data = Data.Builder()
+            .putString("selfId", selfId)
+            .putString("otherId", otherId)
+            .build()
+        setUserSeenWork.setInputData(data)
+        WorkManager.getInstance(requireContext()).enqueue(setUserSeenWork.build())
+    }
+
+    private fun startRemoveUserMarkedWork(selfId: String, otherId: String) {
+        val removeUserSeenWork = OneTimeWorkRequest.Builder(RemoveUserMarkedWorker::class.java)
+        val data = Data.Builder()
+            .putString("selfId", selfId)
+            .putString("otherId", otherId)
+            .build()
+        removeUserSeenWork.setInputData(data)
+        WorkManager.getInstance(requireContext()).enqueue(removeUserSeenWork.build())
     }
 
 }

@@ -151,4 +151,49 @@ class UsersRepositoryImpl @Inject constructor(
                 }
             }
     }
+
+    override suspend fun setUserSeen(selfId: String, otherUserId: String) {
+        val seenUserDocs = usersCollection
+            .whereEqualTo("uid", selfId)
+            .get()
+            .await()
+            .documents[0]
+
+        val currentSeenUsers = seenUserDocs
+            .toObject(UserDto::class.java)
+            ?.toUserDomain()
+            ?.markedUsers
+            ?.toMutableList() ?: mutableListOf()
+
+        if (!currentSeenUsers.contains(otherUserId)) {
+            currentSeenUsers.add(otherUserId)
+            usersCollection.document(seenUserDocs.id).set(
+                mapOf("markedUsers" to currentSeenUsers),
+                SetOptions.merge()
+            ).await()
+        }
+
+    }
+
+    override suspend fun removeUserSeen(selfId: String, otherUserId: String) {
+        val seenUserDocs = usersCollection
+            .whereEqualTo("uid", selfId)
+            .get()
+            .await()
+            .documents[0]
+
+        val currentSeenUsers = seenUserDocs
+            .toObject(UserDto::class.java)
+            ?.toUserDomain()
+            ?.markedUsers
+            ?.toMutableList() ?: mutableListOf()
+
+        if (currentSeenUsers.contains(otherUserId)) {
+            currentSeenUsers.remove(otherUserId)
+            usersCollection.document(seenUserDocs.id).set(
+                mapOf("markedUsers" to currentSeenUsers),
+                SetOptions.merge()
+            ).await()
+        }
+    }
 }
