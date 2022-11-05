@@ -33,9 +33,13 @@ class LiveMatchDetailsFragment : BaseFragment<FragmentLiveMatchDetailsBinding>(
             findNavController().popBackStack()
         }
         binding.btnWatch.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(liveLink)
-            startActivity(intent)
+            try{
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(liveLink)
+                startActivity(intent)
+            }catch (e: Throwable){
+                Snackbar.make(binding.root, "Live is not available", Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -53,7 +57,6 @@ class LiveMatchDetailsFragment : BaseFragment<FragmentLiveMatchDetailsBinding>(
                 playersAdapter.submitList(it)
             }
         }
-
     }
 
     private fun successState(match: Match) = with(binding) {
@@ -63,9 +66,12 @@ class LiveMatchDetailsFragment : BaseFragment<FragmentLiveMatchDetailsBinding>(
         }
         progressBar.isVisible = false
 
-        tvLiveNow.isVisible = match.status == "running"
+        if(match.status == "running"){
+            tvLiveNow.show()
+            btnWatch.isEnabled = true
+        }
 
-        ivLive.setImageDrawable(requireContext().getDrawable(setImage(match.videoGame?.name)))
+            ivLive.setImageDrawable(requireContext().getDrawable(setImage(match.videoGame?.name)))
 
         ivTeamFirst.setPhotoByUrl(match.opponents?.first()?.imageUrl, firstTeamProgressBar, R.drawable.ic_no_image)
         ivTeamSecond.setPhotoByUrl(match.opponents?.last()?.imageUrl, secondTeamProgressBar, R.drawable.ic_no_image)

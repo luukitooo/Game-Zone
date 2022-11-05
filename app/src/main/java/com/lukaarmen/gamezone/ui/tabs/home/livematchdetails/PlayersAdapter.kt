@@ -11,8 +11,8 @@ class PlayersAdapter : BaseAdapter<MatchPlayers, ItemPlayersBinding>(ItemPlayers
     override fun onBind(binding: ItemPlayersBinding, position: Int) = with(binding) {
         val item = getItem(position).inner
 
-        ivPlayerFirst.setPhotoByUrl(item.firstTeamPlayer?.imageUrl, firstTeamProgressBar, R.drawable.img_tabata)
-        ivPlayerSecond.setPhotoByUrl(item.secondTeamPlayer?.imageUrl, secondTeamProgressBar, R.drawable.img_tabata)
+        ivPlayerFirst.setPhotoByUrl(item.firstTeamPlayer?.imageUrl, firstTeamProgressBar, R.drawable.img_player)
+        ivPlayerSecond.setPhotoByUrl(item.secondTeamPlayer?.imageUrl, secondTeamProgressBar, R.drawable.img_player)
 
         tvPlayerFirstUsername.checkPlayerName(item.firstTeamPlayer?.name)
         tvPlayerSecondUsername.checkPlayerName(item.secondTeamPlayer?.name)

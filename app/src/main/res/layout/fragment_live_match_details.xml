@@ -186,6 +186,7 @@
             android:textColor="@color/app_background"
             android:textSize="20sp"
             app:cornerRadius="14dp"
+            android:enabled="false"
             app:layout_constraintBottom_toBottomOf="@+id/btnShare"
             app:layout_constraintEnd_toStartOf="@+id/btnShare"
             app:layout_constraintStart_toStartOf="parent"
