@@ -14,13 +14,12 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(
     FragmentWelcomeBinding::inflate
 ) {
 
-    private val viewModel by viewModels<WelcomeViewModel>()
+    @Inject
+    lateinit var firebaseAuth: FirebaseAuth
 
     override fun init() {
-        doInBackground {
-            viewModel.isLoggedIn.collect{
-                if(it) findNavController().navigate(WelcomeFragmentDirections.actionWelcomeFragmentToTabsFragment())
-            }
+        firebaseAuth.currentUser?.let {
+            findNavController().navigate(WelcomeFragmentDirections.actionWelcomeFragmentToTabsFragment())
         }
     }
 
@@ -33,11 +32,4 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(
     override fun observers() {
         return
     }
-
-    private fun checkSession(isLoggedIn: Boolean){
-        if(isLoggedIn){
-            findNavController().navigate(WelcomeFragmentDirections.actionWelcomeFragmentToTabsFragment())
-        }
-    }
-
 }
