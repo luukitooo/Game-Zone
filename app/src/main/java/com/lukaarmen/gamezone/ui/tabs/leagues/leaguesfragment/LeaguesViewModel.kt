@@ -49,7 +49,8 @@ class LeaguesViewModel @Inject constructor(
         gameType: String = _indicatorsFlow.value.find { it.isSelected }?.gameType?.title ?: "",
         page: Int = 1,
         perPage: Int = 50,
-        name: String? = searchQuery
+        name: String? = searchQuery,
+        withLoader: Boolean = true
     ) {
         _leaguesFlow.emit(ViewState())
         val savedLeagues = getAllFavoriteLeaguesUseCase.invoke().filter { favoriteLeague ->
@@ -63,7 +64,7 @@ class LeaguesViewModel @Inject constructor(
                 }?.let { league.isSaved = true }
                 league
             }
-        }, _leaguesFlow.value).collect { state ->
+        }, _leaguesFlow.value, withLoader).collect { state ->
             _leaguesFlow.emit(state)
         }
     }

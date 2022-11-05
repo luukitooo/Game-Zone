@@ -90,7 +90,7 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
         binding.swipeToRefreshLayout.setOnRefreshListener {
             doInBackground {
                 leagueAdapter.submitList(emptyList())
-                viewModel.getLeagues()
+                viewModel.getLeagues(withLoader = false)
             }
         }
     }
@@ -125,7 +125,7 @@ class LeaguesFragment : BaseFragment<FragmentLeaguesBinding>(FragmentLeaguesBind
                 .setAction("Yes") {
                     doInBackground {
                         viewModel.addLeagueToFavorites(league)
-                        viewModel.getLeagues()
+                        viewModel.getLeagues(withLoader = false)
                     }
                 }
             saveSnackBar?.show()

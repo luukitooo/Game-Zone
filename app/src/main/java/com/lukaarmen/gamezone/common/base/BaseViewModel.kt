@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flow
 
 abstract class BaseViewModel : ViewModel() {
 
-    fun <T> stateHandler(state: Flow<Resource<T>>, currentState: ViewState<T>) = flow {
+    fun <T> stateHandler(state: Flow<Resource<T>>, currentState: ViewState<T>, withLoader: Boolean = true) = flow {
         state.collect { value ->
             value.apply {
                 onSuccess { matchesList ->
@@ -18,7 +18,8 @@ abstract class BaseViewModel : ViewModel() {
                     emit(currentState.copy(error = errorMsg, data = null, isLoading = null))
                 }
                 onLoader { isLoading ->
-                    emit(currentState.copy(isLoading = isLoading, data = null, error = null))
+                    if (withLoader)
+                        emit(currentState.copy(isLoading = isLoading, data = null, error = null))
                 }
             }
         }
