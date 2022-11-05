@@ -1,6 +1,7 @@
 package com.lukaarmen.gamezone.ui.auth.login.enter_username
 
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.lukaarmen.gamezone.common.base.BaseFragment
@@ -33,13 +34,16 @@ class EnterUsernameFragment :
     }
 
     private fun changeUsername(newUsername: String) {
-        if (newUsername.isNotEmpty())
+        if (newUsername.isNotEmpty() && newUsername != args.username) {
             doInBackground {
                 viewModel.updateUsername(
                     newUsername = newUsername
                 )
                 Snackbar.make(binding.root, "Username updated", Snackbar.LENGTH_SHORT).show()
+            }.invokeOnCompletion {
+                args.username?.let {findNavController().popBackStack()}
             }
+        }
         else
             Snackbar.make(binding.root, "Please enter new username", Snackbar.LENGTH_SHORT).show()
     }
