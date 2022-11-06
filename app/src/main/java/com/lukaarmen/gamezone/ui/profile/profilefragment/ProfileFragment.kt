@@ -105,8 +105,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
     private fun signOut() {
         Snackbar.make(binding.root, "Do you want to sign Out?", Snackbar.LENGTH_LONG)
             .setAction("Yes") {
-                viewModel.signOut()
-                findTopNavController().navigate(R.id.welcomeFragment)
+             viewModel.signOut()
+             findTopNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToWelcomeFragment())
             }.show()
     }
 

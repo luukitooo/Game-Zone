@@ -40,7 +40,7 @@ class ChatViewModel @Inject constructor(
             _allUsersFlow.value = userDomains.map { userDomain ->
                 User.fromDomain(userDomain)
             }.filter { user ->
-                user.uid != firebaseAuth.currentUser!!.uid
+                user.uid != (firebaseAuth.currentUser?.uid ?: "")
             }
             viewModelScope.launch {
                 getUsersForCurrentUser()

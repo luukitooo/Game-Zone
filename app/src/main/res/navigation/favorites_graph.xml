@@ -25,5 +25,28 @@
         <argument
             android:name="gameType"
             app:argType="string" />
+        <action
+            android:id="@+id/action_matchesFragment_to_liveMatchDetailsFragment2"
+            app:destination="@id/liveMatchDetailsFragment3" />
     </fragment>
+    <fragment
+        android:id="@+id/liveMatchDetailsFragment3"
+        android:name="com.lukaarmen.gamezone.ui.tabs.home.livematchdetails.LiveMatchDetailsFragment"
+        android:label="fragment_live_match_details"
+        tools:layout="@layout/fragment_live_match_details" >
+        <argument
+            android:name="matchId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_liveMatchDetailsFragment_to_shareBottomSheet"
+            app:destination="@id/shareBottomSheet" />
+    </fragment>
+    <dialog
+        android:id="@+id/shareBottomSheet"
+        android:name="com.lukaarmen.gamezone.ui.tabs.home.livematchdetails.share.ShareBottomSheet"
+        android:label="ShareBottomSheet" >
+        <argument
+            android:name="matchId"
+            app:argType="integer" />
+    </dialog>
 </navigation>

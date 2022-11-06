@@ -9,6 +9,9 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
+import com.lukaarmen.data.remote.dto.UserDto
+import com.lukaarmen.domain.usecases.users.SaveUserUseCase
+import com.lukaarmen.gamezone.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -19,7 +22,7 @@ import javax.inject.Named
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
-    @Named("Users") private val usersReference: DatabaseReference
+    private val saveUserUseCase: SaveUserUseCase
 ) : ViewModel() {
 
     private val _loginSuccessFlow = MutableSharedFlow<Boolean>()
@@ -69,6 +72,12 @@ class LoginViewModel @Inject constructor(
         } else {
             Log.e("MyLog", task.exception?.message ?: "Error Without Body...")
         }
+    }
+
+    suspend fun saveNewUser(user: User) {
+        saveUserUseCase.invoke(
+            user.toDomain()
+        )
     }
 
 }

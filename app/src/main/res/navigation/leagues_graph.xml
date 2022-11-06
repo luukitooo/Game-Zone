@@ -41,5 +41,16 @@
         <argument
             android:name="matchId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_liveMatchDetailsFragment_to_shareBottomSheet"
+            app:destination="@id/shareBottomSheet2" />
     </fragment>
+    <dialog
+        android:id="@+id/shareBottomSheet2"
+        android:name="com.lukaarmen.gamezone.ui.tabs.home.livematchdetails.share.ShareBottomSheet"
+        android:label="ShareBottomSheet">
+        <argument
+            android:name="matchId"
+            app:argType="integer" />
+    </dialog>
 </navigation>
