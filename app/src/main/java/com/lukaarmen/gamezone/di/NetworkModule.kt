@@ -1,14 +1,20 @@
 package com.lukaarmen.gamezone.di
 
+import android.content.Context
 import com.lukaarmen.data.remote.services.*
+import com.lukaarmen.gamezone.common.extentions.isNetworkConnection
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -17,14 +23,23 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttp(interceptor: Interceptor): OkHttpClient {
+    fun provideOkHttpCache(
+        @Named("OnlineInterceptor") onlineInterceptor: Interceptor,
+        @Named("OffLineInterceptor") offlineInterceptor: Interceptor,
+        @Named("LoggingInterceptor") loggingInterceptor: Interceptor,
+        cache: Cache
+    ): OkHttpClient {
         return OkHttpClient.Builder().apply {
-            addInterceptor(interceptor)
+            addInterceptor(offlineInterceptor)
+            addNetworkInterceptor(onlineInterceptor)
+            addInterceptor(loggingInterceptor)
+            cache(cache)
         }.build()
     }
 
     @Singleton
     @Provides
+    @Named("LoggingInterceptor")
     fun provideLoggingInterceptor(): Interceptor {
         return Interceptor {
             val request = it.request().newBuilder()
@@ -43,6 +58,40 @@ class NetworkModule {
             val actualRequest = request.build()
             it.proceed(actualRequest)
         }
+    }
+
+    @Singleton
+    @Provides
+    @Named("OnlineInterceptor")
+    fun provideOnlineInterceptor(): Interceptor = Interceptor { chain ->
+        val response = chain.proceed(chain.request())
+        val maxAge = 60
+        response.newBuilder()
+            .header("Cache-Control", "public, max-age=$maxAge")
+            .removeHeader("Pragma")
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @Named("OffLineInterceptor")
+    fun provideOffLineInterceptor(@ApplicationContext context: Context): Interceptor =
+        Interceptor { chain ->
+            var request: Request = chain.request()
+            if (!context.isNetworkConnection()) {
+                val maxStale = 60 * 60 * 24 * 30
+                request = request.newBuilder()
+                    .header("Cache-Control", "public, only-if-cached, max-stale=$maxStale")
+                    .removeHeader("Pragma")
+                    .build()
+            }
+            chain.proceed(request)
+        }
+
+    @Provides
+    @Singleton
+    fun providesCache(@ApplicationContext context: Context): Cache {
+        return Cache(context.cacheDir, (10 * 1024 * 1024).toLong())
     }
 
     @Provides
