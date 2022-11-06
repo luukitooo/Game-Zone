@@ -16,6 +16,7 @@ import com.lukaarmen.gamezone.common.extentions.areLinesEmpty
 import com.lukaarmen.gamezone.common.extentions.doInBackground
 import com.lukaarmen.gamezone.common.extentions.makeLink
 import com.lukaarmen.gamezone.databinding.FragmentLoginBinding
+import com.lukaarmen.gamezone.model.User
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -32,6 +33,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     @Inject
     lateinit var googleSignInClient: GoogleSignInClient
+
+    @Inject
+    lateinit var auth: FirebaseAuth
 
     override fun init() {
         return
@@ -96,9 +100,18 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     private fun handleGoogleSignInResponse(isSuccessful: Boolean) {
         if (isSuccessful) {
-            findNavController().navigate(
-                LoginFragmentDirections.actionLoginFragmentToEnterUsernameFragment(null)
-            )
+            doInBackground {
+                viewModel.saveNewUser(
+                    User(
+                        uid = auth.currentUser!!.uid,
+                        email = auth.currentUser!!.email
+                    )
+                )
+            }.invokeOnCompletion {
+                findNavController().navigate(
+                    LoginFragmentDirections.actionLoginFragmentToEnterUsernameFragment(null)
+                )
+            }
         } else {
             Snackbar.make(binding.root, "Can't sign in with google...", Snackbar.LENGTH_LONG).show()
         }

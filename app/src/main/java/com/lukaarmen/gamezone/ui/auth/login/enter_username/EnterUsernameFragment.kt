@@ -43,6 +43,7 @@ class EnterUsernameFragment :
             }.invokeOnCompletion {
                 navigation(args.username)
             }
+
         }
         else
             Snackbar.make(binding.root, "Please enter new username", Snackbar.LENGTH_SHORT).show()
