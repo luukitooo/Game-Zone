@@ -8,5 +8,6 @@ data class UserDomain(
     var activity: String? = null,
     var savedUserIds: List<String>? = null,
     var deviceId: String? = null,
-    var currentChatUseId: String? = null
+    var currentChatUseId: String? = null,
+    var markedUsers: List<String>? = null
 )

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.utils.ActivityStatus
 import com.lukaarmen.gamezone.databinding.ItemUserBinding
@@ -35,6 +36,7 @@ class UserAdapter : ListAdapter<User, UserAdapter.UserViewHolder>(UserItemCallba
                 tvUsername.text = user.username
                 tvActivityStatus.text = user.activity
                 activityIndicator.isVisible = user.activity == ActivityStatus.IS_ACTIVE
+                seenIndicator.isVisible = user.isMarked
                 Glide.with(ivUser)
                     .load(user.imageUrl)
                     .placeholder(R.drawable.img_guest)
