@@ -38,7 +38,7 @@
         android:fontFamily="@font/sk_modernist_regular"
         android:paddingHorizontal="8dp"
         android:paddingVertical="2dp"
-        android:text="Live Now"
+        android:text="@string/live_now"
         android:visibility="gone"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"

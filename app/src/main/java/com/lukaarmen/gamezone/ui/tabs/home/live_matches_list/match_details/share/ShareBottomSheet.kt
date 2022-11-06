@@ -99,7 +99,6 @@ class ShareBottomSheet : BottomSheetDialogFragment() {
             viewModel.usersFlow.collect { users ->
                 userAdapter.submitList(users)
                 fullUserList = users
-                binding.progressBar.hide()
             }
         }
     }

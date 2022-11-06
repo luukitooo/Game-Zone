@@ -68,4 +68,9 @@
     <string name="save_confirmation">You really want to save this league?</string>
     <string name="already_saved">League is already saved...</string>
     <string name="something_went_wrong">Something went wrong...</string>
+    <string name="about_us">About us</string>
+    <string name="chats">Chats</string>
+    <string name="morning">Morning</string>
+    <string name="live_now">Live Now</string>
+    <string name="name">Name</string>
 </resources>

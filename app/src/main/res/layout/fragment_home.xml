@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:fontFamily="@font/sk_modernist_regular"
-        android:text="Morning"
+        android:text="@string/morning"
         android:textColor="@color/app_grey_light"
         app:layout_constraintBottom_toTopOf="@id/tvUsername"
         app:layout_constraintStart_toEndOf="@+id/ivUserImage"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:fontFamily="@font/sk_modernist_bold"
-        android:text="Username"
+        android:text="@string/username"
         android:textColor="@color/white"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="@+id/ivUserImage"
@@ -84,12 +84,12 @@
         android:background="@drawable/shape_rounded_corners"
         android:clipToOutline="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/img_csgo_bg"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayoutCompat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/linearLayoutCompat"
         app:layout_constraintTop_toTopOf="@+id/linearLayoutCompat"
         app:layout_constraintVertical_bias="0.0"
+        tools:src="@drawable/img_csgo_bg"
         tools:targetApi="s" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

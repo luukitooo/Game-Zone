@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginEnd="80dp"
     android:layout_marginBottom="8dp"
     android:clickable="true"
@@ -33,7 +34,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/sk_modernist_regular"
-            android:text="text goes here"
+            tools:text="text goes here"
             android:textColor="@color/app_grey_light"
             android:textSize="16sp" />
 

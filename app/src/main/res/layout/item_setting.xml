@@ -2,6 +2,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="50dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/app_background_light"
     android:paddingHorizontal="15dp">
 
@@ -20,7 +21,7 @@
         android:layout_marginStart="10dp"
         android:layout_weight="1"
         android:fontFamily="@font/sk_modernist_regular"
-        android:text="Change Username"
+        tools:text="Change Username"
         android:textColor="@color/white"
         android:textSize="20sp" />
 

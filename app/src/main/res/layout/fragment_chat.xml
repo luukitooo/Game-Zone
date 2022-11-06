@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="36dp"
-        android:text="Chats"
+        android:text="@string/chats"
         android:textColor="@color/white"
         android:textSize="32sp"
         app:fontFamily="@font/sk_modernist_bold"
