@@ -1,6 +1,6 @@
 package com.lukaarmen.data.remote.dto
 
-import com.lukaarmen.domain.models.firebase.ChatDomain
+import com.lukaarmen.domain.model.ChatDomain
 
 data class ChatDto(
     val id: String? = null,

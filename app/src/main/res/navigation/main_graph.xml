@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/tabsFragment"
-        android:name="com.lukaarmen.gamezone.ui.tabs.tabsfragment.TabsFragment"
+        android:name="com.lukaarmen.gamezone.ui.tabs.TabsFragment"
         android:label="fragment_tabs"
         tools:layout="@layout/fragment_tabs" >
         <action
@@ -65,12 +65,12 @@
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
-        android:name="com.lukaarmen.gamezone.ui.auth.forgotpassword.ForgotPasswordFragment"
+        android:name="com.lukaarmen.gamezone.ui.auth.forgot_password.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.lukaarmen.gamezone.ui.profile.profilefragment.ProfileFragment"
+        android:name="com.lukaarmen.gamezone.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -99,7 +99,7 @@
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/newPasswordFragment"
-        android:name="com.lukaarmen.gamezone.ui.auth.newpassword.NewPasswordFragment"
+        android:name="com.lukaarmen.gamezone.ui.auth.new_password.NewPasswordFragment"
         android:label="fragment_new_password"
         tools:layout="@layout/fragment_new_password" />
     <fragment
@@ -119,7 +119,7 @@
     </fragment>
     <fragment
         android:id="@+id/aboutUsFragment"
-        android:name="com.lukaarmen.gamezone.ui.profile.profilefragment.AboutUsFragment"
+        android:name="com.lukaarmen.gamezone.ui.profile.AboutUsFragment"
         android:label="fragment_about_us"
         tools:layout="@layout/fragment_about_us" />
 </navigation>

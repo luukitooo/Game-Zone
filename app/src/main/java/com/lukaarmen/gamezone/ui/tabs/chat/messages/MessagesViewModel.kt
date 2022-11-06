@@ -8,17 +8,17 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.lukaarmen.data.remote.services.NotificationService
-import com.lukaarmen.domain.models.firebase.ChatDomain
-import com.lukaarmen.domain.usecases.chats.CreateChatUseCase
-import com.lukaarmen.domain.usecases.chats.ObserveChatUseCase
-import com.lukaarmen.domain.usecases.chats.RemoveUserTypingUseCase
-import com.lukaarmen.domain.usecases.chats.SetUserTypingUseCase
-import com.lukaarmen.domain.usecases.users.GetUserByIdUseCase
-import com.lukaarmen.domain.usecases.users.RemoveUserMarkedUseCase
-import com.lukaarmen.domain.usecases.users.SaveUserIdUseCase
-import com.lukaarmen.domain.usecases.users.SetUserMarkedUseCase
-import com.lukaarmen.gamezone.common.utils.MessageTypes
+import com.lukaarmen.data.remote.service.NotificationService
+import com.lukaarmen.domain.model.ChatDomain
+import com.lukaarmen.domain.use_case.chats.CreateChatUseCase
+import com.lukaarmen.domain.use_case.chats.ObserveChatUseCase
+import com.lukaarmen.domain.use_case.chats.RemoveUserTypingUseCase
+import com.lukaarmen.domain.use_case.chats.SetUserTypingUseCase
+import com.lukaarmen.domain.use_case.users.GetUserByIdUseCase
+import com.lukaarmen.domain.use_case.users.RemoveUserMarkedUseCase
+import com.lukaarmen.domain.use_case.users.SaveUserIdUseCase
+import com.lukaarmen.domain.use_case.users.SetUserMarkedUseCase
+import com.lukaarmen.gamezone.common.util.MessageType
 import com.lukaarmen.gamezone.model.Chat
 import com.lukaarmen.gamezone.model.Message
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -101,7 +101,7 @@ class MessagesViewModel @Inject constructor(
                 id = UUID.randomUUID().toString().substring(0, 25),
                 senderId = firebaseAuth.currentUser!!.uid,
                 recipientId = recipientId,
-                type = MessageTypes.TEXT.type,
+                type = MessageType.TEXT.type,
                 text = message
             )
         )

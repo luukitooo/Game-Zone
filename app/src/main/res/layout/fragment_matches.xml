@@ -7,7 +7,7 @@
     android:background="@color/app_background"
     android:paddingHorizontal="24dp"
     android:paddingTop="24dp"
-    tools:context=".ui.tabs.leagues.matchesfragment.MatchesFragment">
+    tools:context=".ui.tabs.leagues.matches.MatchesFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnBack"
@@ -165,5 +165,12 @@
         app:layout_constraintEnd_toEndOf="@+id/appCompatTextView3"
         app:layout_constraintStart_toStartOf="@+id/btnBack"
         app:layout_constraintTop_toTopOf="@+id/btnSearch" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

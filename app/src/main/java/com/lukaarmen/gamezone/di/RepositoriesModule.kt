@@ -1,9 +1,9 @@
 package com.lukaarmen.gamezone.di
 
-import com.lukaarmen.data.repositories.*
-import com.lukaarmen.domain.repositories.*
-import com.lukaarmen.domain.repositories.firebase.ChatsRepository
-import com.lukaarmen.domain.repositories.firebase.UsersRepository
+import com.lukaarmen.data.repository.*
+import com.lukaarmen.domain.repository.*
+import com.lukaarmen.domain.repository.firebase.ChatsRepository
+import com.lukaarmen.domain.repository.firebase.UsersRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,34 +12,34 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class RepositoriesModule {
+interface RepositoriesModule {
 
     @Singleton
     @Binds
-    abstract fun bindLeaguesRepositoryImpl(repositoryImpl: LeaguesRepositoryImpl): LeaguesRepository
+    fun bindLeaguesRepositoryImpl(repositoryImpl: LeaguesRepositoryImpl): LeaguesRepository
 
     @Singleton
     @Binds
-    abstract fun bindMatchesRepositoryImpl(repositoryImpl: MatchesRepositoryImpl): MatchesRepository
+    fun bindMatchesRepositoryImpl(repositoryImpl: MatchesRepositoryImpl): MatchesRepository
 
     @Singleton
     @Binds
-    abstract fun bindFavoriteLeaguesRepositoryImpl(favoritesRepositoryImpl: FavoriteLeaguesRepositoryImpl): FavoriteLeaguesRepository
+    fun bindFavoriteLeaguesRepositoryImpl(favoritesRepositoryImpl: FavoriteLeaguesRepositoryImpl): FavoriteLeaguesRepository
 
     @Singleton
     @Binds
-    abstract fun bindTeamsRepositoryImpl(repositoryImpl: TeamsRepositoryImpl): TeamsRepository
+    fun bindTeamsRepositoryImpl(repositoryImpl: TeamsRepositoryImpl): TeamsRepository
 
     @Singleton
     @Binds
-    abstract fun bindUsersRepositoryImpl(repositoryImpl: UsersRepositoryImpl): UsersRepository
+    fun bindUsersRepositoryImpl(repositoryImpl: UsersRepositoryImpl): UsersRepository
 
     @Singleton
     @Binds
-    abstract fun bindChatsRepositoryImpl(repositoryImpl: ChatsRepositoryImpl): ChatsRepository
+    fun bindChatsRepositoryImpl(repositoryImpl: ChatsRepositoryImpl): ChatsRepository
 
     @Singleton
     @Binds
-    abstract fun provideNotificationsRepositoryImpl(repository: NotificationRepositoryImpl): NotificationRepository
+    fun provideNotificationsRepositoryImpl(repository: NotificationRepositoryImpl): NotificationRepository
 
 }

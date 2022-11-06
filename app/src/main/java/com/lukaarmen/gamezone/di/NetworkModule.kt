@@ -1,8 +1,8 @@
 package com.lukaarmen.gamezone.di
 
 import android.content.Context
-import com.lukaarmen.data.remote.services.*
-import com.lukaarmen.gamezone.common.extentions.isNetworkConnection
+import com.lukaarmen.data.remote.service.*
+import com.lukaarmen.gamezone.common.extension.isNetworkConnection
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +19,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NetworkModule {
+object NetworkModule {
 
     @Singleton
     @Provides

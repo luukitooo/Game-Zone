@@ -46,4 +46,26 @@
     <string name="about_us_description">About us text</string>
     <string name="message">Message</string>
     <string name="watch">Watch</string>
+    <string name="invalid_email_address">Invalid E-mail address...</string>
+    <string name="username_updated">Username updated</string>
+    <string name="please_enter_new_username">Please enter new username</string>
+    <string name="create_one">Create one</string>
+    <string name="lines_are_empty">Lines are empty...</string>
+    <string name="invalid_user">Invalid user...</string>
+    <string name="cant_sign_in_with_google">Can\'t sign in with google...</string>
+    <string name="check_your_email">Please check your email</string>
+    <string name="cant_send_confirmation_email">Can\'t send confirmation email, please try again</string>
+    <string name="check_entered_information">Please check entered information...</string>
+    <string name="account_already_exists">Account already exists...</string>
+    <string name="confirm_sign_out">Do you want to sign Out?</string>
+    <string name="yes">Yes</string>
+    <string name="contact_us">Contact us</string>
+    <string name="return_confirmation">Do you want to return an item?</string>
+    <string name="undo">Undo</string>
+    <string name="reload">Reload</string>
+    <string name="live_is_not_available">Live is not available</string>
+    <string name="shared_match_with_you">Shared match with you</string>
+    <string name="save_confirmation">You really want to save this league?</string>
+    <string name="already_saved">League is already saved...</string>
+    <string name="something_went_wrong">Something went wrong...</string>
 </resources>

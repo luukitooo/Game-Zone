@@ -4,9 +4,10 @@ import android.util.Patterns
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
-import com.lukaarmen.gamezone.common.extentions.areLinesEmpty
-import com.lukaarmen.gamezone.common.extentions.doInBackground
+import com.lukaarmen.gamezone.common.extension.areLinesEmpty
+import com.lukaarmen.gamezone.common.extension.doInBackground
 import com.lukaarmen.gamezone.databinding.FragmentRegistrationBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,7 +48,7 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(
                 )
             }
         else
-            Snackbar.make(root, "Please check entered information...", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(root, getString(R.string.check_entered_information), Snackbar.LENGTH_LONG).show()
     }
 
     private fun handleRegistrationResponse(isSuccessful: Boolean) {
@@ -63,7 +64,7 @@ class RegistrationFragment : BaseFragment<FragmentRegistrationBinding>(
                 )
             }
         } else {
-            Snackbar.make(binding.root, "Account already exists...", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(binding.root, getString(R.string.account_already_exists), Snackbar.LENGTH_LONG).show()
         }
     }
 

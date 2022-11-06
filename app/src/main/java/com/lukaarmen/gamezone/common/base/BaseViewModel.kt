@@ -2,7 +2,7 @@ package com.lukaarmen.gamezone.common.base
 
 import androidx.lifecycle.ViewModel
 import com.lukaarmen.domain.common.Resource
-import com.lukaarmen.gamezone.common.utils.ViewState
+import com.lukaarmen.gamezone.common.util.ViewState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

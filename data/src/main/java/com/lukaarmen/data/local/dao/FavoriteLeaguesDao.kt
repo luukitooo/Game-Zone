@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.lukaarmen.data.local.model.FavoriteLeagueEntity
+import com.lukaarmen.data.local.entity.FavoriteLeagueEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

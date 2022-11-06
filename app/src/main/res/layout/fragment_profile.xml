@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background"
-    tools:context=".ui.profile.profilefragment.ProfileFragment">
+    tools:context=".ui.profile.ProfileFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnBack"
@@ -56,17 +56,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop" />
-
-                <ProgressBar
-                    android:id="@+id/imageProgressbar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:indeterminateDrawable="@drawable/progressbar_bg"
-                    app:layout_constraintBottom_toBottomOf="@+id/ivUser"
-                    app:layout_constraintEnd_toEndOf="@+id/ivUser"
-                    app:layout_constraintStart_toStartOf="@+id/ivUser"
-                    app:layout_constraintTop_toTopOf="@+id/ivUser" />
 
             </FrameLayout>
 

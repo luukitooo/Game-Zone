@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/app_background"
     android:padding="24dp"
-    tools:context=".ui.profile.profilefragment.AboutUsFragment">
+    tools:context=".ui.profile.AboutUsFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnBack"

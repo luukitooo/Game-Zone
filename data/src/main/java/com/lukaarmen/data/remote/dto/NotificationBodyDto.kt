@@ -1,5 +1,7 @@
 package com.lukaarmen.data.remote.dto
 
+import com.google.gson.annotations.SerializedName
+
 data class NotificationBodyDto(
     val to: String?,
     val data: DataDto?
@@ -7,6 +9,7 @@ data class NotificationBodyDto(
     data class DataDto(
         val title: String?,
         val message: String?,
-        val sender_image: String?
+        @SerializedName("sender_image")
+        val senderImage: String?
     )
 }

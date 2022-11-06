@@ -1,6 +1,6 @@
 package com.lukaarmen.gamezone.di
 
-import com.lukaarmen.data.remote.services.NotificationService
+import com.lukaarmen.data.remote.service.NotificationService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NotificationsModule {
+object NotificationsModule {
 
     @Provides
     @Singleton

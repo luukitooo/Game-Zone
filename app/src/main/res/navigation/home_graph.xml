@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.lukaarmen.gamezone.ui.tabs.home.homefragment.HomeFragment"
+        android:name="com.lukaarmen.gamezone.ui.tabs.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -15,11 +15,11 @@
             app:destination="@id/liveMatchesListFragment" />
         <action
             android:id="@+id/action_homeFragment_to_liveMatchDetailsFragment"
-            app:destination="@id/liveMatchDetailsFragment" />
+            app:destination="@id/matchDetailsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/liveMatchDetailsFragment"
-        android:name="com.lukaarmen.gamezone.ui.tabs.home.livematchdetails.LiveMatchDetailsFragment"
+        android:id="@+id/matchDetailsFragment"
+        android:name="com.lukaarmen.gamezone.ui.tabs.home.live_matches_list.match_details.MatchDetailsFragment"
         android:label="fragment_live_match_details"
         tools:layout="@layout/fragment_live_match_details" >
         <argument
@@ -31,12 +31,12 @@
     </fragment>
     <fragment
         android:id="@+id/liveMatchesListFragment"
-        android:name="com.lukaarmen.gamezone.ui.tabs.home.livematcheslist.LiveMatchesListFragment"
+        android:name="com.lukaarmen.gamezone.ui.tabs.home.live_matches_list.LiveMatchesListFragment"
         android:label="fragment_live_matches_list"
         tools:layout="@layout/fragment_live_matches_list" >
         <action
             android:id="@+id/action_liveMatchesListFragment_to_liveMatchDetailsFragment"
-            app:destination="@id/liveMatchDetailsFragment" />
+            app:destination="@id/matchDetailsFragment" />
         <argument
             android:name="gameType"
             app:argType="string"
@@ -45,7 +45,7 @@
     <dialog
         tools:layout="@layout/bottom_sheed_share"
         android:id="@+id/shareBottomSheet"
-        android:name="com.lukaarmen.gamezone.ui.tabs.home.livematchdetails.share.ShareBottomSheet"
+        android:name="com.lukaarmen.gamezone.ui.tabs.home.live_matches_list.match_details.share.ShareBottomSheet"
         android:label="ShareBottomSheet" >
         <argument
             android:name="matchId"

@@ -1,6 +1,6 @@
 package com.lukaarmen.data.remote.dto
 
-import com.lukaarmen.domain.models.firebase.UserDomain
+import com.lukaarmen.domain.model.UserDomain
 
 data class UserDto(
     var uid: String? = null,

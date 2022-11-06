@@ -7,7 +7,7 @@
     android:background="@color/app_background"
     android:paddingHorizontal="24dp"
     android:paddingTop="24dp"
-    tools:context=".ui.tabs.leagues.leaguesfragment.LeaguesFragment">
+    tools:context=".ui.tabs.leagues.LeaguesFragment">
 
     <ProgressBar
         android:id="@+id/progressBar"

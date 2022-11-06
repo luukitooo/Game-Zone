@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/app_background"
     android:paddingTop="24dp"
-    tools:context=".ui.tabs.favorites.favoritesfragment.FavoritesFragmentFragment">
+    tools:context=".ui.tabs.favorites.FavoritesFragmentFragment">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTitle"
@@ -45,5 +45,33 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_end="0dp" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layoutError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        android:layout_marginBottom="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_error" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/nothing_was_found"
+            android:textColor="@color/app_grey_light"
+            app:fontFamily="@font/sk_modernist_regular" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

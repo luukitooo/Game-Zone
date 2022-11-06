@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/favoritesFragmentFragment"
-        android:name="com.lukaarmen.gamezone.ui.tabs.favorites.favoritesfragment.FavoritesFragmentFragment"
+        android:name="com.lukaarmen.gamezone.ui.tabs.favorites.FavoritesFragmentFragment"
         android:label="fragment_favorites"
         tools:layout="@layout/fragment_favorites">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/matchesFragment2"
-        android:name="com.lukaarmen.gamezone.ui.tabs.leagues.matchesfragment.MatchesFragment"
+        android:name="com.lukaarmen.gamezone.ui.tabs.leagues.matches.MatchesFragment"
         android:label="fragment_matches"
         tools:layout="@layout/fragment_matches">
         <argument
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/liveMatchDetailsFragment3"
-        android:name="com.lukaarmen.gamezone.ui.tabs.home.livematchdetails.LiveMatchDetailsFragment"
+        android:name="com.lukaarmen.gamezone.ui.tabs.home.live_matches_list.match_details.MatchDetailsFragment"
         android:label="fragment_live_match_details"
         tools:layout="@layout/fragment_live_match_details" >
         <argument
@@ -43,7 +43,7 @@
     </fragment>
     <dialog
         android:id="@+id/shareBottomSheet"
-        android:name="com.lukaarmen.gamezone.ui.tabs.home.livematchdetails.share.ShareBottomSheet"
+        android:name="com.lukaarmen.gamezone.ui.tabs.home.live_matches_list.match_details.share.ShareBottomSheet"
         android:label="ShareBottomSheet" >
         <argument
             android:name="matchId"

@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/chat_graph"
-    app:startDestination="@id/chatFragmentFragment">
+    app:startDestination="@id/usersFragment">
 
     <fragment
-        android:id="@+id/chatFragmentFragment"
-        android:name="com.lukaarmen.gamezone.ui.tabs.chat.chatfragment.ChatFragmentFragment"
+        android:id="@+id/usersFragment"
+        android:name="com.lukaarmen.gamezone.ui.tabs.chat.users.UsersFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" >
         <action

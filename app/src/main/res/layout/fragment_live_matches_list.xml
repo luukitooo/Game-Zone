@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background"
-    android:padding="24dp"
-    tools:context=".ui.tabs.home.livematcheslist.LiveMatchesListFragment">
+    android:paddingHorizontal="24dp"
+    android:paddingTop="24dp"
+    tools:context=".ui.tabs.home.live_matches_list.LiveMatchesListFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnBack"
@@ -84,5 +85,12 @@
         app:layout_constraintEnd_toEndOf="@+id/livesRecycler"
         app:layout_constraintStart_toStartOf="@+id/livesRecycler"
         app:layout_constraintTop_toTopOf="@+id/livesRecycler" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

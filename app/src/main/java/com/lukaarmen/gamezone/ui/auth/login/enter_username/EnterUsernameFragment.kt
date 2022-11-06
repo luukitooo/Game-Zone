@@ -4,8 +4,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
+import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
-import com.lukaarmen.gamezone.common.extentions.doInBackground
+import com.lukaarmen.gamezone.common.extension.doInBackground
 import com.lukaarmen.gamezone.databinding.FragmentEnterUsernameBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,14 +40,14 @@ class EnterUsernameFragment :
                 viewModel.updateUsername(
                     newUsername = newUsername
                 )
-                Snackbar.make(binding.root, "Username updated", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, getString(R.string.username_updated), Snackbar.LENGTH_SHORT).show()
             }.invokeOnCompletion {
                 navigation(args.username)
             }
 
         }
         else
-            Snackbar.make(binding.root, "Please enter new username", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, getString(R.string.please_enter_new_username), Snackbar.LENGTH_SHORT).show()
     }
 
     private fun navigation(userName: String?){

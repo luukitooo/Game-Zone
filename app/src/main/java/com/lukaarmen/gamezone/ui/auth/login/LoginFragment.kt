@@ -1,20 +1,17 @@
 package com.lukaarmen.gamezone.ui.auth.login
 
 import android.content.Intent
-import android.util.Log.e
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.common.api.ApiException
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
+import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
-import com.lukaarmen.gamezone.common.extentions.areLinesEmpty
-import com.lukaarmen.gamezone.common.extentions.doInBackground
-import com.lukaarmen.gamezone.common.extentions.makeLink
+import com.lukaarmen.gamezone.common.extension.areLinesEmpty
+import com.lukaarmen.gamezone.common.extension.doInBackground
+import com.lukaarmen.gamezone.common.extension.makeLink
 import com.lukaarmen.gamezone.databinding.FragmentLoginBinding
 import com.lukaarmen.gamezone.model.User
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,7 +51,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
             signInWithGoogle()
         }
         tvCreateAccount.makeLink(
-            Pair("Create one", View.OnClickListener {
+            Pair(getString(R.string.create_one), View.OnClickListener {
                 findNavController().navigate(
                     LoginFragmentDirections.actionLoginFragmentToRegistrationFragment()
                 )
@@ -84,7 +81,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                 )
             }
         } else {
-            Snackbar.make(root, "Lines are empty...", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(root, getString(R.string.lines_are_empty), Snackbar.LENGTH_LONG).show()
         }
     }
 
@@ -94,7 +91,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                 LoginFragmentDirections.actionLoginFragmentToTabsFragment()
             )
         } else {
-            Snackbar.make(binding.root, "Invalid user...", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(binding.root, getString(R.string.invalid_user), Snackbar.LENGTH_LONG).show()
         }
     }
 
@@ -113,7 +110,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                 )
             }
         } else {
-            Snackbar.make(binding.root, "Can't sign in with google...", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(binding.root, getString(R.string.cant_sign_in_with_google), Snackbar.LENGTH_LONG).show()
         }
     }
 

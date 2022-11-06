@@ -1,6 +1,6 @@
 package com.lukaarmen.gamezone.model
 
-import com.lukaarmen.domain.models.firebase.UserDomain
+import com.lukaarmen.domain.model.UserDomain
 
 data class User(
     var uid: String? = null,

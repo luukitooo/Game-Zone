@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.bumptech.glide.Glide
 import com.google.firebase.messaging.FirebaseMessagingService

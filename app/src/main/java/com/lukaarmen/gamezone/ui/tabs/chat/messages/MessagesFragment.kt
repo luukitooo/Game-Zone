@@ -11,10 +11,13 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.lukaarmen.gamezone.R
 import com.lukaarmen.gamezone.common.base.BaseFragment
-import com.lukaarmen.gamezone.common.extentions.doInBackground
-import com.lukaarmen.gamezone.common.extentions.hide
-import com.lukaarmen.gamezone.common.extentions.show
-import com.lukaarmen.gamezone.common.workers.*
+import com.lukaarmen.gamezone.common.extension.doInBackground
+import com.lukaarmen.gamezone.common.extension.hide
+import com.lukaarmen.gamezone.common.extension.show
+import com.lukaarmen.gamezone.common.service.worker.user_marking.RemoveUserMarkedWorker
+import com.lukaarmen.gamezone.common.service.worker.SendNotificationWorker
+import com.lukaarmen.gamezone.common.service.worker.SetCurrentChatUserIdWorker
+import com.lukaarmen.gamezone.common.service.worker.user_marking.SetUserMarkedWorker
 import com.lukaarmen.gamezone.databinding.FragmentMessagesBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job

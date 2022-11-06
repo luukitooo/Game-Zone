@@ -5,18 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.lukaarmen.gamezone.R
-import com.lukaarmen.gamezone.common.utils.GameTitles
-import com.lukaarmen.gamezone.common.utils.GameType
-import com.lukaarmen.gamezone.common.utils.MessageTypes
+import com.lukaarmen.gamezone.common.util.GameTitle
+import com.lukaarmen.gamezone.common.util.MessageType
 import com.lukaarmen.gamezone.databinding.ItemMessageLeftBinding
 import com.lukaarmen.gamezone.databinding.ItemMessageLiveLeftBinding
 import com.lukaarmen.gamezone.databinding.ItemMessageLiveRightBinding
 import com.lukaarmen.gamezone.databinding.ItemMessageRightBinding
 import com.lukaarmen.gamezone.model.Message
-import javax.inject.Inject
 
 class MessageAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(MessageItemCallback) {
 
@@ -73,12 +70,12 @@ class MessageAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(MessageItem
 
     override fun getItemViewType(position: Int): Int {
         val message = getItem(position)
-        if (message.type == MessageTypes.TEXT.type) {
+        if (message.type == MessageType.TEXT.type) {
             return when (message.senderId) {
                 FirebaseAuth.getInstance().currentUser!!.uid -> TEXT_RIGHT
                 else -> TEXT_LEFT
             }
-        } else if (message.type == MessageTypes.MATCH.type) {
+        } else if (message.type == MessageType.MATCH.type) {
             return when (message.senderId) {
                 FirebaseAuth.getInstance().currentUser!!.uid -> LIVE_RIGHT
                 else -> LIVE_LEFT
@@ -106,9 +103,9 @@ class MessageAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(MessageItem
             val message = getItem(adapterPosition)
             ivGame.setImageResource(
                 when (message.imageUrl) {
-                    GameTitles.CSGO.title -> R.drawable.img_csgo_bg
-                    GameTitles.DOTA_2.title -> R.drawable.img_dota2_bg
-                    GameTitles.OVERWATCH.title -> R.drawable.img_overwatch_bg
+                    GameTitle.CSGO.title -> R.drawable.img_csgo_bg
+                    GameTitle.DOTA_2.title -> R.drawable.img_dota2_bg
+                    GameTitle.OVERWATCH.title -> R.drawable.img_overwatch_bg
                     else -> R.drawable.imp_rainbow_six_bg
                 }
             )
@@ -124,9 +121,9 @@ class MessageAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(MessageItem
             val message = getItem(adapterPosition)
             ivGame.setImageResource(
                 when (message.imageUrl) {
-                    GameTitles.CSGO.title -> R.drawable.img_csgo_bg
-                    GameTitles.DOTA_2.title -> R.drawable.img_dota2_bg
-                    GameTitles.OVERWATCH.title -> R.drawable.img_overwatch_bg
+                    GameTitle.CSGO.title -> R.drawable.img_csgo_bg
+                    GameTitle.DOTA_2.title -> R.drawable.img_dota2_bg
+                    GameTitle.OVERWATCH.title -> R.drawable.img_overwatch_bg
                     else -> R.drawable.imp_rainbow_six_bg
                 }
             )

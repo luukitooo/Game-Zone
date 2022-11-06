@@ -2,8 +2,8 @@ package com.lukaarmen.gamezone.ui.auth.login.enter_username
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.lukaarmen.domain.usecases.users.GetUserByIdUseCase
-import com.lukaarmen.domain.usecases.users.UpdateUserUseCase
+import com.lukaarmen.domain.use_case.users.GetUserByIdUseCase
+import com.lukaarmen.domain.use_case.users.UpdateUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
