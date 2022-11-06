@@ -41,11 +41,20 @@ class EnterUsernameFragment :
                 )
                 Snackbar.make(binding.root, "Username updated", Snackbar.LENGTH_SHORT).show()
             }.invokeOnCompletion {
-                args.username?.let {findNavController().popBackStack()}
+                navigation(args.username)
             }
         }
         else
             Snackbar.make(binding.root, "Please enter new username", Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun navigation(userName: String?){
+        if(userName == null){
+            findNavController().navigate(EnterUsernameFragmentDirections.actionEnterUsernameFragmentToTabsFragment())
+        }else{
+            findNavController().popBackStack()
+        }
+
     }
 
 }
